@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -6,6 +6,24 @@
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="Widget.MyApp.Toolbar.Solid" parent="Widget.AppCompat.ActionBar">
+    <item name="background">@color/orange</item>
+    <item name="elevation" tools:ignore="NewApi">4dp</item>
+    <item name="homeAsUpIndicator">@drawable/abc_ic_ab_back_mtrl_am_alpha</item>
+    <item name="titleTextColor">@color/white</item>
+    <item name ="subtitleTextColor">@color/white</item>
+
+
+    <style name="Base.Theme.DesignDemo" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="homeAsUpIndicator">@drawable/abc_ic_ab_back_mtrl_am_alpha</item>
+        <item name="android:windowBackground">@color/orange</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="titleTextColor">@color/white</item>
+        <item name ="subtitleTextColor">@color/white</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/white</item>
     </style>
 
         <style name="Theme.NoTitle" parent="@android:style/Theme.NoTitleBar"></style>
