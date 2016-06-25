@@ -1,4 +1,4 @@
-package by.hmarka.alexey.incognito.ui.activity;
+package by.hmarka.alexey.incognito.ui.activities;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;

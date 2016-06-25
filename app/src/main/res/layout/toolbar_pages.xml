@@ -53,13 +53,13 @@
             -->
 
 
-        <ImageButton
-            android:id="@+id/btn_search"
-            android:layout_width="?attr/actionBarSize"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_gravity="end"
-            android:src="@drawable/ic_magnify_white_24dp"
-            style="@style/Widget.AppCompat.ActionButton" />
+        <!--<ImageButton-->
+            <!--android:id="@+id/btn_search"-->
+            <!--android:layout_width="?attr/actionBarSize"-->
+            <!--android:layout_height="?attr/actionBarSize"-->
+            <!--android:layout_gravity="end"-->
+            <!--android:src="@drawable/ic_magnify_white_24dp"-->
+            <!--style="@style/Widget.AppCompat.ActionButton" />-->
 
     </FrameLayout>
 </android.support.v7.widget.Toolbar>

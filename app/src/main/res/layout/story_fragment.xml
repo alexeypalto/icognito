@@ -61,8 +61,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/divider" />
+                    android:layout_height="1dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -76,7 +75,6 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:maxLines="4"
-                        android:textColor="@color/secondary_text"
                         tools:text="10 \nРейтинг" />
 
                     <TextView
@@ -86,7 +84,6 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:maxLines="4"
-                        android:textColor="@color/secondary_text"
                         tools:text="230 \nОтзывы" />
 
                 </LinearLayout>

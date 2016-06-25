@@ -1,10 +1,9 @@
-package by.hmarka.alexey.incognito.ui.activity;
+package by.hmarka.alexey.incognito.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
 
 import by.hmarka.alexey.incognito.R;
 

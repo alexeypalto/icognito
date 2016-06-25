@@ -14,7 +14,7 @@
     <item name="homeAsUpIndicator">@drawable/abc_ic_ab_back_mtrl_am_alpha</item>
     <item name="titleTextColor">@color/white</item>
     <item name ="subtitleTextColor">@color/white</item>
-
+    </style>
 
     <style name="Base.Theme.DesignDemo" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="homeAsUpIndicator">@drawable/abc_ic_ab_back_mtrl_am_alpha</item>

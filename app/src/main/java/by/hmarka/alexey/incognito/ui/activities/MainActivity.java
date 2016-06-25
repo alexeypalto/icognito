@@ -1,4 +1,4 @@
-package by.hmarka.alexey.incognito.ui.activity;
+package by.hmarka.alexey.incognito.ui.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
