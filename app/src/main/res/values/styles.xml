@@ -26,6 +26,17 @@
         <item name="colorControlNormal">@color/white</item>
     </style>
 
+
+    <style name="sharring_buttons">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginLeft">70dp</item>
+        <item name="android:layout_marginRight">70dp</item>
+        <item name="textColor">#FFFF</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
         <style name="Theme.NoTitle" parent="@android:style/Theme.NoTitleBar"></style>
         <style name="Theme.FullScreen" parent="@android:style/Theme.NoTitleBar.Fullscreen"></style>
 </resources>

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Incognito</string>
     <string name="company_name">Company Name\n 2016</string>
+    <string name="share_text">Поделиться</string>
 </resources>
