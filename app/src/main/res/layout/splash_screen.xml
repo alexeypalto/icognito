@@ -11,17 +11,14 @@
         android:layout_height="90dp"
         android:src="@drawable/ic_logo"
         android:layout_width="wrap_content"
-        android:gravity="center_horizontal"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerInParent="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Company Name\n 2016"
-        android:textAlignment="center"
+        android:text="@string/company_name"
+        android:gravity="center"
         android:maxLines="2"
         android:id="@+id/textView"
         android:layout_alignParentBottom="true"
