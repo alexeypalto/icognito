@@ -29,17 +29,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findViews();
-        setupViewPager(viewPager);
         setUi();
-        setupTabLayout();
     }
 
     private void findViews() {
         tabLayout = (TabLayout) findViewById(R.id.mainTabLayout);
         viewPager = (ViewPager) findViewById(R.id.mainViewPager);
+        setupViewPager();
     }
 
-    private void setupViewPager(ViewPager viewPager) {
+    private void setupViewPager() {
         adapter = new CustomPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new HomeFragment(), "home");
         adapter.addFragment(new NewsFragment(), "news");
@@ -47,10 +46,12 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new FavoritesFragment(), "favorite");
         adapter.addFragment(new SettingsFragment(), "settings");
         viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+        setupTabLayout();
     }
 
     private void setUi() {
-        tabLayout.setupWithViewPager(viewPager);
+
         viewPager.setOffscreenPageLimit(5);
     }
 
