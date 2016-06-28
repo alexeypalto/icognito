@@ -16,15 +16,6 @@
     <item name ="subtitleTextColor">@color/white</item>
     </style>
 
-    <style name="Base.Theme.DesignDemo" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="homeAsUpIndicator">@drawable/abc_ic_ab_back_mtrl_am_alpha</item>
-        <item name="android:windowBackground">@color/orange</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="titleTextColor">@color/white</item>
-        <item name ="subtitleTextColor">@color/white</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorControlNormal">@color/white</item>
-    </style>
 
 
     <style name="sharring_buttons">
@@ -33,10 +24,8 @@
         <item name="android:layout_marginTop">20dp</item>
         <item name="android:layout_marginLeft">70dp</item>
         <item name="android:layout_marginRight">70dp</item>
-        <item name="textColor">#FFFF</item>
+        <item name="android:textColor">#FFFF</item>
         <item name="android:textSize">17sp</item>
     </style>
 
-        <style name="Theme.NoTitle" parent="@android:style/Theme.NoTitleBar"></style>
-        <style name="Theme.FullScreen" parent="@android:style/Theme.NoTitleBar.Fullscreen"></style>
 </resources>
