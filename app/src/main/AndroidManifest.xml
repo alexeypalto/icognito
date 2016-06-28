@@ -14,7 +14,9 @@
 
     </activity>
 
-        <activity android:name=".ui.activities.Page">
+
+        <activity android:name=".ui.activities.Page"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.MainActivity"
