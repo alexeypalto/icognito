@@ -2,4 +2,5 @@
     <string name="app_name">Incognito</string>
     <string name="company_name">Company Name\n 2016</string>
     <string name="share_text">Поделиться</string>
+    <string name="facebook_app_id">1795687320651334</string>
 </resources>
