@@ -20,7 +20,7 @@
     </activity>
 
         <activity android:name=".ui.activities.Page"
-            android:theme="@style/Base.Theme.DesignDemo">
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.MainActivity"

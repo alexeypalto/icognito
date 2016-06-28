@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#8CFFFFFF">
-    <!--android:background="#59FFFFFF"-->
+    android:background="#59FFFFFF">
 
     <TextView
         android:id="@+id/share_text"
@@ -25,21 +24,21 @@
         android:background="@color/white" />
 
 
-    <Button
+    <ImageButton
         android:id="@+id/share_button_facebook"
         style="@style/sharring_buttons"
-        android:text="Facebook"
+        android:src="@drawable/facebook_icon"
         android:layout_below="@+id/line"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/share_button_vk"
         style="@style/sharring_buttons"
-        android:text="Вконтакте"
+        android:src="@drawable/vk_icon"
         android:layout_below="@+id/share_button_facebook"/>
-    <Button
+    <ImageButton
         android:id="@+id/share_button_twitter"
         style="@style/sharring_buttons"
-        android:text="Twitter"
+        android:src="@drawable/twitter_icon"
         android:layout_below="@+id/share_button_vk"/>
     <Button
         android:id="@+id/share_button_whatsapp"
