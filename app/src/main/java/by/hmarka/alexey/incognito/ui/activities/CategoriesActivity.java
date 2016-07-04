@@ -30,5 +30,4 @@ public class CategoriesActivity extends AppCompatActivity {
         mAdapter = new MyAdapter(myDataset);
         mRecyclerView.setAdapter(mAdapter);
     }
-    ...
 }
