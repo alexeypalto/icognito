@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findViews();
-        setUi();
     }
 
     private void findViews() {
@@ -47,12 +46,8 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new SettingsFragment(), "settings");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-        setupTabLayout();
-    }
-
-    private void setUi() {
-
         viewPager.setOffscreenPageLimit(5);
+        setupTabLayout();
     }
 
     private void setupTabLayout() {

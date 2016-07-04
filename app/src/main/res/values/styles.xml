@@ -4,12 +4,21 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/white</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/orange</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
 
+    <style name="tabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabSelectedTextColor">@android:color/white</item>
+        <item name="tabIndicatorColor">@android:color/white</item>
+        <item name="tabTextAppearance">@style/customTabText</item>
+    </style>
 
+    <style name="customTabText">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#a3a3a3</item>
+    </style>
 
     <style name="sharring_buttons">
         <item name="android:layout_width">match_parent</item>
