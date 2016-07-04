@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import by.hmarka.alexey.incognito.R;
 import by.hmarka.alexey.incognito.ui.adapters.CustomPagerAdapter;
+import by.hmarka.alexey.incognito.ui.adapters.HomeFragmentPagerAdapter;
 
 /**
  * Created by lashket on 28.6.16.
@@ -19,7 +20,7 @@ public class HomeFragment extends Fragment {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private CustomPagerAdapter adapter;
+    private HomeFragmentPagerAdapter adapter;
 
     @Nullable
     @Override
@@ -32,13 +33,13 @@ public class HomeFragment extends Fragment {
     private void findViews(View v) {
         tabLayout = (TabLayout) v.findViewById(R.id.tabs);
         viewPager = (ViewPager) v.findViewById(R.id.viewpager);
-        adapter = new CustomPagerAdapter(getActivity().getSupportFragmentManager());
+        adapter = new HomeFragmentPagerAdapter(getActivity().getSupportFragmentManager());
         adapter.addFragment(new NewPostsFragment(), "Новое");
         adapter.addFragment(new PopularPostsFragment(), "Популярное");
         viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
         viewPager.setOffscreenPageLimit(2);
-        tabLayout.getTabAt(0).setText("Новое");
-        tabLayout.getTabAt(1).setText("Популярное");
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.getTabAt(0).setIcon(R.drawable.novoe_active);
+        tabLayout.getTabAt(1).setIcon(R.drawable.popular_active);
     }
 }

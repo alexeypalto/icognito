@@ -51,12 +51,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupTabLayout() {
-        tabLayout.getTabAt(0).setCustomView(R.layout.tab_home_layout);
-        tabLayout.getTabAt(1).setCustomView(R.layout.tab_cat_layout);
+        tabLayout.getTabAt(0).setIcon(R.drawable.selector_tab_home);
+        tabLayout.getTabAt(1).setIcon(R.drawable.selector_tab_categories);
         tabLayout.getTabAt(2).setCustomView(R.layout.tab_add);
-        tabLayout.getTabAt(3).setCustomView(R.layout.tab_favorite_layout);
-        tabLayout.getTabAt(4).setCustomView(R.layout.tab_settings_layout);
-        tabLayout.getTabAt(0).getCustomView().setSelected(true);
+        tabLayout.getTabAt(3).setIcon(R.drawable.selector_tab_favorite);
+        tabLayout.getTabAt(4).setIcon(R.drawable.selector_tab_settings);
+//        tabLayout.getTabAt(0).getCustomView().setSelected(true);
     }
 
 }
