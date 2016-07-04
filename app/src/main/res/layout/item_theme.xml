@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@color/md_blue_500">
+    <TextView
+        android:id="@+id/theme_name"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:minWidth="120dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:gravity="center"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:textColor="@android:color/white"
+        android:background="@drawable/empty_button"
+        android:textSize="20sp"/>
+    <TextView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:text="123"
+        android:background="@drawable/circle_cont_posts"/>
+</RelativeLayout>

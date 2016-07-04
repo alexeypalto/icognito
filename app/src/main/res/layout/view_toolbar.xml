@@ -10,7 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="@color/primary"
+        android:background="@color/orange"
         android:minHeight="?actionBarSize"
         android:transitionName="toolbar"
         auto:popupTheme="@style/ThemeOverlay.AppCompat.Light"
