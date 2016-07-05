@@ -55,6 +55,7 @@ public class NewsFragment extends Fragment {
 
     private void setToolbarWithBackButton() {
         try {
+            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
             ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Тема");
         } catch (NullPointerException e) {
