@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import by.hmarka.alexey.incognito.IncognitoApplication;
 import by.hmarka.alexey.incognito.R;
+import by.hmarka.alexey.incognito.events.ShowPostsInCategoriesFragmentEvent;
 
 /**
  * Created by lashket on 4.7.16.
@@ -30,12 +32,17 @@ public class ThemesListAdapter extends RecyclerView.Adapter<ThemesListAdapter.Th
         return 10;
     }
 
-    public class ThemesListViewHolder extends RecyclerView.ViewHolder {
+    public class ThemesListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public ThemesListViewHolder(View v) {
             super(v);
+            v.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View v) {
+            IncognitoApplication.bus.post(new ShowPostsInCategoriesFragmentEvent());
+        }
     }
 
 }
