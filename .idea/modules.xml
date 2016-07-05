@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Incognito.iml" filepath="$PROJECT_DIR$/Incognito.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/icognito.iml" filepath="$PROJECT_DIR$/icognito.iml" />
     </modules>
   </component>
 </project>
