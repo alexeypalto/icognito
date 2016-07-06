@@ -39,15 +39,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager() {
         adapter = new CustomPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new HomeFragment(), "home");
-        adapter.addFragment(new NewsFragment(), "news");
-        adapter.addFragment(new AddFragment(), "add");
-        adapter.addFragment(new FavoritesFragment(), "favorite");
-        adapter.addFragment(new SettingsFragment(), "settings");
+        adapter.addFragment(new HomeFragment(), getString(R.string.fragment_home));
+        adapter.addFragment(new NewsFragment(), getString(R.string.fragment_news));
+        adapter.addFragment(new AddFragment(), getString(R.string.fragment_add));
+        adapter.addFragment(new FavoritesFragment(), getString(R.string.fragment_favorite));
+        adapter.addFragment(new SettingsFragment(), getString(R.string.fragment_settings));
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setOffscreenPageLimit(5);
-        viewPager.setPageMargin(5);
         setupTabLayout();
     }
 

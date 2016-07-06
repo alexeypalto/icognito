@@ -29,13 +29,13 @@ public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
         return fragmentList.size();
     }
 
-    public void addFragment(Fragment fragment, String title) {
+    public void addFragment(Fragment fragment) {
         fragmentList.add(fragment);
-        fragmentTitleList.add(title);
+
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return fragmentTitleList.get(position);
+        return null;
     }
 }

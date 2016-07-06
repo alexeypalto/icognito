@@ -6,4 +6,9 @@
     <string name="favorite">Избранное</string>
     <string name="viewPager_new">Новое</string>
     <string name="viewPager_popular">Популярное</string>
+    <string name="fragment_home">home</string>
+    <string name="fragment_news">news</string>
+    <string name="fragment_add">add</string>
+    <string name="fragment_favorite">favorite</string>
+    <string name="fragment_settings">settings</string>
 </resources>

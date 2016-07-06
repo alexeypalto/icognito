@@ -31,20 +31,21 @@ public class HomeFragment extends Fragment {
     }
 
     private void setupTabLayout () {
-        tabLayout.getTabAt(0).setIcon(R.drawable.selector_novoe);
-        tabLayout.getTabAt(1).setIcon(R.drawable.selector_popular);
+            tabLayout.getTabAt(0).setIcon(R.drawable.selector_novoe);
+            tabLayout.getTabAt(1).setIcon(R.drawable.selector_popular);
+            tabLayout.getTabAt(0).setText(R.string.viewPager_new);
+            tabLayout.getTabAt(1).setText(R.string.viewPager_popular);
     }
 
     private void findViews(View v) {
         tabLayout = (TabLayout) v.findViewById(R.id.tabs);
         viewPager = (ViewPager) v.findViewById(R.id.viewpager);
         adapter = new HomeFragmentPagerAdapter(getActivity().getSupportFragmentManager());
-        adapter.addFragment(new NewPostsFragment(),getString(R.string.viewPager_new) );
-        adapter.addFragment(new PopularPostsFragment(), getString(R.string.viewPager_popular));
+        adapter.addFragment(new NewPostsFragment() );
+        adapter.addFragment(new PopularPostsFragment());
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager);
-        viewPager.setPageMargin(5);
         setupTabLayout();
     }
 }

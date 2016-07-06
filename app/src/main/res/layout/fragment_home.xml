@@ -10,7 +10,7 @@
         style="@style/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        custom:tabGravity="center"
+        custom:tabGravity="fill"
         app:tabMode="fixed"
         android:background="@color/orange"/>
     <android.support.v4.view.ViewPager
