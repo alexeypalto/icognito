@@ -23,6 +23,7 @@ import by.hmarka.alexey.incognito.ui.adapters.SettingsAdapter;
 public class SettingsFragment extends Fragment {
 
     private ArrayList<Setting> settingsList = new ArrayList<Setting>();
+
     private SettingsAdapter settingsAdapter;
     private Toolbar toolbar;
 
@@ -38,8 +39,8 @@ public class SettingsFragment extends Fragment {
         }
 
         fillSettingsList();
-        settingsAdapter = new SettingsAdapter(this.getContext(), settingsList);
 
+        settingsAdapter = new SettingsAdapter(this.getContext(), settingsList);
         ListView lvMain = (ListView) view.findViewById(R.id.settingsList);
         lvMain.setAdapter(settingsAdapter);
 
@@ -49,13 +50,19 @@ public class SettingsFragment extends Fragment {
     private void fillSettingsList() {
         settingsList.add(new Setting(R.drawable.settings_share, "Расскажи друзьям о приложении"));
 
+        settingsList.add(new Setting(0, ""));
+
         settingsList.add(new Setting(R.drawable.settings_notifications, "Уведомления"));
         settingsList.add(new Setting(R.drawable.settings_shop, "Магазин"));
         settingsList.add(new Setting(R.drawable.settings_nastroyki, "Настройки"));
 
+        settingsList.add(new Setting(0, ""));
+
         settingsList.add(new Setting(R.drawable.settings_guide, "Правила"));
         settingsList.add(new Setting(R.drawable.settings_confidenc, "Конфиденциальность"));
         settingsList.add(new Setting(R.drawable.settings_help, "Помощь"));
+
+        settingsList.add(new Setting(0, ""));
 
         settingsList.add(new Setting(R.drawable.settings_about, "О нас"));
     }

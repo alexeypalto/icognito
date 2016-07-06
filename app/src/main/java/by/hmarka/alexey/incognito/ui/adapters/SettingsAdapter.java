@@ -47,16 +47,19 @@ public class SettingsAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         View view = convertView;
-        if (view == null) {
-            view = lInflater.inflate(R.layout.fragment_setting, parent, false);
-        }
-
         final Setting setting = getSetting(position);
 
-        ((TextView) view.findViewById(R.id.setting_name)).setText(setting.getName());
-        ((ImageView) view.findViewById(R.id.setting_icon)).setImageResource(setting.getImage());
+        if (view == null) {
+            if (!setting.getName().equals("")) {
+                view = lInflater.inflate(R.layout.fragment_setting, parent, false);
+
+                ((TextView) view.findViewById(R.id.setting_name)).setText(setting.getName());
+                ((ImageView) view.findViewById(R.id.setting_icon)).setImageResource(setting.getImage());
+            }
+            else
+                view = lInflater.inflate(R.layout.fragment_setting_indent, parent, false);
+        }
 
         return view;
     }
