@@ -4,4 +4,6 @@
     <string name="share_text">Поделиться</string>
     <string name="facebook_app_id">1795687320651334</string>
     <string name="favorite">Избранное</string>
+    <string name="viewPager_new">Новое</string>
+    <string name="viewPager_popular">Популярное</string>
 </resources>

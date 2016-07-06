@@ -18,23 +18,25 @@
             android:id="@+id/count_rate"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:textSize="20sp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:textSize="18sp"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
             android:text="23552"/>
 
         <ImageButton
+            android:layout_alignBottom="@+id/count_rate"
             android:layout_marginLeft="5dp"
             android:background="@color/white"
             android:src="@drawable/ic_comment"
             android:id="@+id/count_comment_button"
             android:layout_toRightOf="@id/count_rate"
             android:text="17"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
 
 
         <TextView
+            android:layout_alignBottom="@+id/count_rate"
             android:layout_marginLeft="5dp"
             android:background="@color/white"
             android:textColor="@color/lightGrey"
@@ -42,24 +44,26 @@
             android:id="@+id/count_comment_text"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="113"/>
 
 
         <ImageButton
+            android:layout_alignBottom="@+id/count_rate"
             android:src="@drawable/ic_share"
             android:background="@color/white"
             android:layout_marginLeft="5dp"
             android:id="@+id/count_answer_button"
             android:layout_toRightOf="@+id/count_comment_text"
             android:text="112"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
 
 
         <TextView
+            android:layout_alignBottom="@+id/count_rate"
             android:layout_marginLeft="5dp"
             android:textColor="@color/lightGrey"
             android:layout_toRightOf="@+id/count_answer_button"
