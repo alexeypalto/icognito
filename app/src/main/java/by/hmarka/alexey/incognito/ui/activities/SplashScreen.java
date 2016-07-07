@@ -29,7 +29,8 @@ public class SplashScreen extends BaseAppCompatActivity{
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.splash_screen);
-        getLocation(Constants.REQUEST_CODE_SPLASH_ACTIVITY_GET_LOCATION);
+     //   getLocation(Constants.REQUEST_CODE_SPLASH_ACTIVITY_GET_LOCATION);
+        sendRequest();
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
