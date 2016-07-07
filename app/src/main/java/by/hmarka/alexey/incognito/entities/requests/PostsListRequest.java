@@ -3,13 +3,15 @@ package by.hmarka.alexey.incognito.entities.requests;
 public class PostsListRequest {
 
     private String imei;
-    private double location_lat;
-    private double location_long;
+    private String location_lat;
+    private String location_long;
     private int radius;
     private String sorting;
     private int page;
     private int postOnPage;
     private int lastPostId;
+    private String language;
+    private String access_type;
 
     public String getImei() {
         return imei;
@@ -19,19 +21,19 @@ public class PostsListRequest {
         this.imei = imei;
     }
 
-    public double getLocation_lat() {
+    public String getLocation_lat() {
         return location_lat;
     }
 
-    public void setLocation_lat(double location_lat) {
+    public void setLocation_lat(String location_lat) {
         this.location_lat = location_lat;
     }
 
-    public double getLocation_long() {
+    public String getLocation_long() {
         return location_long;
     }
 
-    public void setLocation_long(double location_long) {
+    public void setLocation_long(String location_long) {
         this.location_long = location_long;
     }
 
@@ -73,5 +75,21 @@ public class PostsListRequest {
 
     public void setLastPostId(int lastPostId) {
         this.lastPostId = lastPostId;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getAccess_type() {
+        return access_type;
+    }
+
+    public void setAccess_type(String access_type) {
+        this.access_type = access_type;
     }
 }
