@@ -6,9 +6,13 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.squareup.otto.Subscribe;
+
 import by.hmarka.alexey.incognito.R;
 import by.hmarka.alexey.incognito.entities.requests.RegisterDeviceRequest;
+import by.hmarka.alexey.incognito.events.LocationReadyEvent;
 import by.hmarka.alexey.incognito.rest.RestClient;
+import by.hmarka.alexey.incognito.utils.Constants;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -17,7 +21,7 @@ import retrofit2.Response;
 /**
  * Created by Alexey on 22.06.2016.
  */
-public class SplashScreen extends AppCompatActivity {
+public class SplashScreen extends BaseAppCompatActivity{
 
     private final int SPLASH_DISPLAY_LENGTH = 500;
 
@@ -25,6 +29,7 @@ public class SplashScreen extends AppCompatActivity {
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.splash_screen);
+        getLocation(Constants.REQUEST_CODE_SPLASH_ACTIVITY_GET_LOCATION);
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -33,6 +38,9 @@ public class SplashScreen extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
 
+    }
+
+    private void sendRequest() {
         Call<ResponseBody> call = RestClient.getServiceInstance().registerDevice(getDeviceRegisterRequest());
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -64,6 +72,17 @@ public class SplashScreen extends AppCompatActivity {
         registerDeviceRequest.setLocation_long("32");
         registerDeviceRequest.setAccess_type("mobile");
         return registerDeviceRequest;
+    }
+
+    @Subscribe
+    public void onLocationReady(LocationReadyEvent event) {
+        for (Integer code : event.getRequestCodes()) {
+            switch (code) {
+                case Constants.REQUEST_CODE_SPLASH_ACTIVITY_GET_LOCATION:
+                    sendRequest();
+                    break;
+            }
+        }
     }
 
 }
