@@ -10,8 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import by.hmarka.alexey.incognito.R;
+import by.hmarka.alexey.incognito.entities.requests.PostsListRequest;
+import by.hmarka.alexey.incognito.rest.RestClient;
 import by.hmarka.alexey.incognito.ui.adapters.CustomPagerAdapter;
 import by.hmarka.alexey.incognito.ui.adapters.HomeFragmentPagerAdapter;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by lashket on 28.6.16.
@@ -48,4 +54,21 @@ public class HomeFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
         setupTabLayout();
     }
+
+    private void getPostsList() {
+        PostsListRequest postsListRequest = new PostsListRequest();
+        Call<ResponseBody> call = RestClient.getServiceInstance().getPostsList(postsListRequest);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+
 }

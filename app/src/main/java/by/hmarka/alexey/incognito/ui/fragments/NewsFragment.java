@@ -30,6 +30,7 @@ import by.hmarka.alexey.incognito.ui.adapters.ThemesListAdapter;
 public class NewsFragment extends Fragment {
 
     private Toolbar toolbar;
+    private Menu menu;
     private RecyclerView recyclerView;
     private RecyclerView recyclerViewPosts;
 
@@ -49,12 +50,26 @@ public class NewsFragment extends Fragment {
     }
 
     private void setToolbarWithoutButton() {
+        if (menu != null) {
+            try {
+                menu.findItem(R.id.action_search).setVisible(true);
+            } catch (NullPointerException e) {
+
+            }
+        }
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Тема");
     }
 
     private void setToolbarWithBackButton() {
         try {
+            if (menu != null) {
+                try {
+                    menu.findItem(R.id.action_search).setVisible(false);
+                } catch (NullPointerException e) {
+
+                }
+            }
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
             ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Тема");
@@ -71,6 +86,7 @@ public class NewsFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        this.menu = menu;
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.categories_menu, menu);
         final MenuItem item = menu.findItem(R.id.action_search);
