@@ -4,4 +4,7 @@
     <string name="share_text">Поделиться</string>
     <string name="facebook_app_id">1795687320651334</string>
     <string name="favorite">Избранное</string>
+
+    <string name="gcm_defaultSenderId">773239498254</string>
+
 </resources>
