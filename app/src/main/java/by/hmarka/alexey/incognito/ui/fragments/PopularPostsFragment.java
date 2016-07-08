@@ -1,10 +1,13 @@
 package by.hmarka.alexey.incognito.ui.fragments;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,7 @@ import by.hmarka.alexey.incognito.ui.adapters.PostsAdapter;
 public class PopularPostsFragment extends Fragment {
 
     private RecyclerView recyclerView;
+    private Fragment comments;
 
     @Nullable
     @Override
@@ -27,6 +31,15 @@ public class PopularPostsFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(new PostsAdapter());
+
+        comments = new HomeFragment();
+        comments.getFragmentManager().beginTransaction();
+
+
+
         return view;
     }
+
+
+
 }

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#4DFFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_alignParentBottom="true"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:id="@+id/comment_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/arrow_down"
+                    android:layout_centerHorizontal="true"/>
+
+                <TextView
+                    android:id="@+id/post_share_count"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:textColor="@color/lightGrey"
+                    android:textSize="16sp"
+                    android:text="10"
+                    android:layout_marginRight="20dp"
+                    android:layout_alignParentRight="true" />
+
+                <ImageView
+                    android:id="@+id/post_share"
+                    android:layout_gravity="bottom|right"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/selector_post_share"
+                    android:layout_alignBottom="@+id/post_favorite"
+                    android:layout_toLeftOf="@+id/post_share_count" />
+
+                <TextView
+                    android:id="@+id/post_comments_count"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:textColor="@color/lightGrey"
+                    android:textSize="16sp"
+                    android:text="10"
+                    android:layout_marginRight="20dp"
+                    android:layout_toLeftOf="@+id/post_share" />
+
+                <ImageView
+                    android:id="@+id/post_comments"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/comment"
+                    android:layout_alignBottom="@+id/post_date"
+                    android:layout_toLeftOf="@+id/post_comments_count" />
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_below="@+id/comment_bar"
+                android:id="@+id/recyclerView"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/comment_bottop_panel"
+                />
+
+            <RelativeLayout
+                android:id="@+id/comment_bottop_panel"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                >
+
+                <ImageView
+                    android:id="@+id/smile_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/smile"
+                    android:layout_marginLeft="10dp"/>
+
+                <EditText
+                    android:id="@+id/comment_editor"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:maxLines="1"
+                    android:layout_toLeftOf="@+id/send_button"
+                    android:layout_toRightOf="@+id/smile_button"
+                    android:layout_marginRight="40dp"
+                    android:layout_toEndOf="@+id/smile_button" />
+
+                <ImageView
+                    android:id="@+id/send_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/send"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

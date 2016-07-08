@@ -11,4 +11,5 @@
     <string name="fragment_add">add</string>
     <string name="fragment_favorite">favorite</string>
     <string name="fragment_settings">settings</string>
+    <string name="gcm_defaultSenderId">773239498254</string>
 </resources>
