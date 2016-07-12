@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.squareup.otto.Subscribe;
 
+import by.hmarka.alexey.incognito.IncognitoApplication;
 import by.hmarka.alexey.incognito.R;
 import by.hmarka.alexey.incognito.entities.requests.RegisterDeviceRequest;
 import by.hmarka.alexey.incognito.events.LocationReadyEvent;
@@ -29,8 +30,7 @@ public class SplashScreen extends BaseAppCompatActivity{
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.splash_screen);
-     //   getLocation(Constants.REQUEST_CODE_SPLASH_ACTIVITY_GET_LOCATION);
-        sendRequest();
+     //   sendRequest();
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -39,6 +39,19 @@ public class SplashScreen extends BaseAppCompatActivity{
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        IncognitoApplication.bus.register(this);
+        getLocation(Constants.REQUEST_CODE_SPLASH_ACTIVITY_GET_LOCATION);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        IncognitoApplication.bus.unregister(this);
     }
 
     private void sendRequest() {

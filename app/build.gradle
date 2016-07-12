@@ -37,6 +37,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    compile 'com.afollestad.material-dialogs:core:0.8.5.9'
     compile('com.mikepenz:materialdrawer:5.2.5@aar') {
         transitive = true
     }
