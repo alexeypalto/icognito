@@ -36,8 +36,8 @@ public class HomeFragment extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private HomeFragmentPagerAdapter adapter;
-    private List<Post> posts = new ArrayList<>();
     private NewPostsFragment postsFragment = new NewPostsFragment();
+    private PopularPostsFragment popularPostsFragment = new PopularPostsFragment();
 
     @Nullable
     @Override
@@ -58,10 +58,11 @@ public class HomeFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setIcon(R.drawable.novoe_active);
         tabLayout.getTabAt(1).setIcon(R.drawable.popular_active);
-        getPostsList();
+        getNewPostsList();
+        getPopularPostsList();
     }
 
-    private void getPostsList() {
+    private void getNewPostsList() {
         PostsListRequest postsListRequest = new PostsListRequest();
         postsListRequest.setImei("12345");
         postsListRequest.setRadius("100000000");
@@ -81,8 +82,42 @@ public class HomeFragment extends Fragment {
                     try {
                         responseString = response.body().string();
                         PostsWrapper postsWrapper = new Gson().fromJson(responseString, PostsWrapper.class);
-                        posts = postsWrapper.getPosts();
+                        List<Post> posts = postsWrapper.getPosts();
                         postsFragment.addList((ArrayList<Post>) posts);
+                    } catch (IOException e) {
+                        // TODO handling error
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+    private void getPopularPostsList() {
+        PostsListRequest postsListRequest = new PostsListRequest();
+        postsListRequest.setImei("12345");
+        postsListRequest.setRadius("100000000");
+        postsListRequest.setAccess_type("mobile");
+        postsListRequest.setLanguage("ru_RU");
+        postsListRequest.setLocation_lat("34");
+        postsListRequest.setLocation_long("52");
+        postsListRequest.setSorting("like");
+        postsListRequest.setLastPostId("10");
+        postsListRequest.setPostOnPage("10");
+        Call<ResponseBody> call = RestClient.getServiceInstance().getPostsList(postsListRequest);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    String responseString = "";
+                    try {
+                        responseString = response.body().string();
+                        PostsWrapper postsWrapper = new Gson().fromJson(responseString, PostsWrapper.class);
+                        List<Post> posts = postsWrapper.getPosts();
+                        popularPostsFragment.addList((ArrayList<Post>) posts);
                     } catch (IOException e) {
                         // TODO handling error
                     }
