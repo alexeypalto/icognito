@@ -17,11 +17,13 @@ import by.hmarka.alexey.incognito.R;
 public class PostActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
+    private String postId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
+        postId = getIntent().getStringExtra("POSTID");
         findViews();
     }
 
@@ -52,8 +54,9 @@ public class PostActivity extends AppCompatActivity {
         return true;
     }
 
-    public static void show(Context context) {
+    public static void show(Context context, String postId) {
         Intent intent = new Intent(context, PostActivity.class);
+        intent.putExtra("POSTID", postId);
         context.startActivity(intent);
     }
 
