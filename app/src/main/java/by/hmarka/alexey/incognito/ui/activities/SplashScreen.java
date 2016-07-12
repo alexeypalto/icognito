@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 import android.view.View;
 
 import com.squareup.otto.Subscribe;
@@ -14,6 +15,7 @@ import by.hmarka.alexey.incognito.entities.requests.RegisterDeviceRequest;
 import by.hmarka.alexey.incognito.events.LocationReadyEvent;
 import by.hmarka.alexey.incognito.rest.RestClient;
 import by.hmarka.alexey.incognito.utils.Constants;
+import by.hmarka.alexey.incognito.utils.SharedPreferenceHelper;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,6 +33,9 @@ public class SplashScreen extends BaseAppCompatActivity{
         super.onCreate(icicle);
         setContentView(R.layout.splash_screen);
      //   sendRequest();
+        SharedPreferenceHelper.setRadius("100000000");
+        TelephonyManager tm =(TelephonyManager)getSystemService(TELEPHONY_SERVICE);
+        SharedPreferenceHelper.setImei(String.valueOf(tm.getDeviceId()));
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
