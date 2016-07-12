@@ -1,5 +1,6 @@
 package by.hmarka.alexey.incognito.ui.fragments;
 
+import android.content.Intent;
 import android.media.audiofx.BassBoost;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,12 +10,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import by.hmarka.alexey.incognito.R;
 import by.hmarka.alexey.incognito.entities.Setting;
+import by.hmarka.alexey.incognito.ui.activities.MainActivity;
+import by.hmarka.alexey.incognito.ui.activities.Notify;
 import by.hmarka.alexey.incognito.ui.adapters.SettingsAdapter;
 
 /**
@@ -44,7 +49,20 @@ public class SettingsFragment extends Fragment {
         ListView lvMain = (ListView) view.findViewById(R.id.settingsList);
         lvMain.setAdapter(settingsAdapter);
 
+        lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Setting item = (Setting)settingsAdapter.getItem(position);
+
+                Intent t =  new Intent(getContext(),item.classToStart);
+                startActivity(t);
+            }
+        });
+
         return view;
+
+
     }
 
     private void fillSettingsList() {
@@ -52,7 +70,7 @@ public class SettingsFragment extends Fragment {
 
         settingsList.add(new Setting(0, ""));
 
-        settingsList.add(new Setting(R.drawable.settings_notifications, "Уведомления"));
+        settingsList.add(new Setting(R.drawable.settings_notifications, "Уведомления", Notify.class));
         settingsList.add(new Setting(R.drawable.settings_shop, "Магазин"));
         settingsList.add(new Setting(R.drawable.settings_nastroyki, "Настройки"));
 
@@ -66,5 +84,12 @@ public class SettingsFragment extends Fragment {
 
         settingsList.add(new Setting(R.drawable.settings_about, "О нас"));
     }
+
+    private void findViews() {
+
+
+    }
+
+
 
 }

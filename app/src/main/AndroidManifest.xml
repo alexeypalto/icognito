@@ -33,6 +33,9 @@
         <activity
             android:name=".ui.activities.PostActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.Notify"
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"

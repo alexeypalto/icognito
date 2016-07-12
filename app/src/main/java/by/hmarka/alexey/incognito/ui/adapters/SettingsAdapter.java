@@ -53,15 +53,18 @@ public class SettingsAdapter extends BaseAdapter {
         if (view == null) {
             if (!setting.getName().equals("")) {
                 view = lInflater.inflate(R.layout.fragment_setting, parent, false);
-
-                ((TextView) view.findViewById(R.id.setting_name)).setText(setting.getName());
-                ((ImageView) view.findViewById(R.id.setting_icon)).setImageResource(setting.getImage());
             }
             else
                 view = lInflater.inflate(R.layout.fragment_setting_indent, parent, false);
         }
 
-        return view;
+        if (!setting.getName().equals(""))
+        {
+            ((TextView) view.findViewById(R.id.setting_name)).setText(setting.getName());
+            ((ImageView) view.findViewById(R.id.setting_icon)).setImageResource(setting.getImage());
+        }
+
+            return view;
     }
 
     Setting getSetting(int position) {
