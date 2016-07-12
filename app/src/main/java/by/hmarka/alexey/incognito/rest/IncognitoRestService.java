@@ -1,6 +1,7 @@
 package by.hmarka.alexey.incognito.rest;
 
 import by.hmarka.alexey.incognito.entities.requests.AddPostRequest;
+import by.hmarka.alexey.incognito.entities.requests.AddPostToFavoriteRequest;
 import by.hmarka.alexey.incognito.entities.requests.GetFullPostRequest;
 import by.hmarka.alexey.incognito.entities.requests.PostsListRequest;
 import by.hmarka.alexey.incognito.entities.requests.RegisterDeviceRequest;
@@ -36,5 +37,8 @@ public interface IncognitoRestService {
 
     @POST("addNewPost.xml")
     Call<ResponseBody> addNewPost(@Body AddPostRequest addPostRequest);
+
+    @POST("addFavorite.xml")
+    Call<ResponseBody> addPostToFavorite(@Body AddPostToFavoriteRequest addPostToFavoriteRequest);
 
 }
