@@ -34,7 +34,7 @@ public class FavoritesFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(new PostsAdapter());
+       // recyclerView.setAdapter(new PostsAdapter());
         return view;
     }
 }

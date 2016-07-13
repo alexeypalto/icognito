@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="250dp"
-    android:layout_marginTop="10dp">
+    android:layout_marginTop="10dp"
+    android:orientation="vertical">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -14,129 +14,136 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/content_photo"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="15dp"
-                android:layout_gravity="top|left"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:src="@drawable/photo"
-                tools:visibility="visible"/>
+                <ImageView
+                    android:id="@+id/content_photo"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="top|left"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/photo"
+                    tools:visibility="visible" />
 
-            <ImageView
-                android:layout_marginTop="5dp"
-                android:id="@+id/content_video"
-                android:layout_marginLeft="15dp"
-                android:layout_gravity="top|left"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:src="@drawable/video"
-                android:visibility="gone"
-                tools:visibility="invisible"/>
+                <ImageView
+                    android:id="@+id/content_video"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="top|left"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/video"
+                    android:visibility="gone"
+                    tools:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/photo_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/content_photo"
+                    android:text="10"
+                    android:textColor="@color/lightGrey"
+                    android:textSize="15sp"
+                    tools:visibility="visible" />
+
+
+                <TextView
+                    android:id="@+id/ratingCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/rectangle_background_gray"
+                    android:text="1020"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
 
             <TextView
-                android:layout_marginTop="5dp"
-                android:id="@+id/photo_count"
-                android:layout_toRightOf="@+id/content_photo"
+                android:lines="11"
+                android:ellipsize="end"
+                android:id="@+id/postText"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/lightGrey"
-                android:textSize="15sp"
-                android:text="10"
-                tools:visibility="visible"/>
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/raiting_minus_gray"
-                android:layout_centerVertical="true"
-                android:text="1020"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:layout_centerHorizontal="true"/>
-
-        </RelativeLayout>
+                android:layout_below="@+id/header"
+                android:layout_marginTop="10dp"
+                android:text="News" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="bottom"
                 android:layout_alignParentBottom="true"
-                >
+                android:gravity="bottom">
+
                 <TextView
                     android:id="@+id/post_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3 д."
-                    android:layout_marginLeft="15dp"
-                    android:textColor="@color/lightGrey"
-                    android:textSize="15sp"
+                    android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:layout_alignParentLeft="true"/>
+                    android:layout_marginLeft="15dp"
+                    android:text="3 д."
+                    android:textColor="@color/lightGrey"
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:id="@+id/post_favorite"
-                    android:layout_marginBottom="5dp"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginRight="15dp"
                     android:foregroundGravity="left"
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/selector_tab_favorite"/>
+                    android:src="@drawable/selector_tab_favorite" />
 
                 <TextView
                     android:id="@+id/post_share_count"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:textColor="@color/lightGrey"
-                    android:textSize="15sp"
-                    android:text="10"
                     android:layout_marginRight="20dp"
-                    android:layout_toLeftOf="@+id/post_favorite" />
+                    android:layout_toLeftOf="@+id/post_favorite"
+                    android:text="10"
+                    android:textColor="@color/lightGrey"
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:id="@+id/post_share"
-                    android:layout_gravity="bottom|right"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:src="@drawable/selector_post_share"
                     android:layout_alignBottom="@+id/post_favorite"
-                    android:layout_toLeftOf="@+id/post_share_count" />
+                    android:layout_gravity="bottom|right"
+                    android:layout_toLeftOf="@+id/post_share_count"
+                    android:src="@drawable/selector_post_share" />
 
                 <TextView
                     android:id="@+id/post_comments_count"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:textColor="@color/lightGrey"
-                    android:textSize="15sp"
-                    android:text="10"
                     android:layout_marginRight="20dp"
-                    android:layout_toLeftOf="@+id/post_share" />
+                    android:layout_toLeftOf="@+id/post_share"
+                    android:text="10"
+                    android:textColor="@color/lightGrey"
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:id="@+id/post_comments"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:src="@drawable/comment"
                     android:layout_alignBottom="@+id/post_date"
-                    android:layout_toLeftOf="@+id/post_comments_count" />
+                    android:layout_toLeftOf="@+id/post_comments_count"
+                    android:src="@drawable/comment" />
             </RelativeLayout>
         </RelativeLayout>
-
-
-
-        <TextView
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="News"/>
 
     </android.support.v7.widget.CardView>
 </LinearLayout>

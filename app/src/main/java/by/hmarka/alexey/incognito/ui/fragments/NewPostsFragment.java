@@ -12,7 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import java.util.ArrayList;
+
 import by.hmarka.alexey.incognito.R;
+import by.hmarka.alexey.incognito.entities.Post;
 import by.hmarka.alexey.incognito.ui.adapters.PostsAdapter;
 
 /**
@@ -22,6 +25,7 @@ public class NewPostsFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private Toolbar toolbar;
+    private ArrayList<Post> posts;
 
     @Nullable
     @Override
@@ -35,7 +39,17 @@ public class NewPostsFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(new PostsAdapter());
+        if (this.posts != null) {
+            addList(posts);
+        }
         return view;
+    }
+
+    public void addList(ArrayList<Post> posts) {
+        if (recyclerView == null) {
+            this.posts = posts;
+            return;
+        }
+        recyclerView.setAdapter(new PostsAdapter(posts, getContext()));
     }
 }

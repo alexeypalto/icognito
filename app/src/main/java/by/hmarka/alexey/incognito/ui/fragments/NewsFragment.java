@@ -111,7 +111,7 @@ public class NewsFragment extends Fragment {
         recyclerViewPosts.setVisibility(View.VISIBLE);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerViewPosts.setLayoutManager(linearLayoutManager);
-        recyclerViewPosts.setAdapter(new PostsAdapter());
+     //   recyclerViewPosts.setAdapter(new PostsAdapter());
         setToolbarWithBackButton();
     }
 
