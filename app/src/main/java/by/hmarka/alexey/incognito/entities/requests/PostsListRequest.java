@@ -5,11 +5,11 @@ public class PostsListRequest {
     private String imei;
     private String location_lat;
     private String location_long;
-    private int radius;
+    private String radius;
     private String sorting;
-    private int page;
-    private int postOnPage;
-    private int lastPostId;
+    private String page;
+    private String postOnPage;
+    private String lastPostId;
     private String language;
     private String access_type;
 
@@ -37,11 +37,11 @@ public class PostsListRequest {
         this.location_long = location_long;
     }
 
-    public int getRadius() {
+    public String getRadius() {
         return radius;
     }
 
-    public void setRadius(int radius) {
+    public void setRadius(String radius) {
         this.radius = radius;
     }
 
@@ -53,27 +53,27 @@ public class PostsListRequest {
         this.sorting = sorting;
     }
 
-    public int getPage() {
+    public String getPage() {
         return page;
     }
 
-    public void setPage(int page) {
+    public void setPage(String page) {
         this.page = page;
     }
 
-    public int getPostOnPage() {
+    public String getPostOnPage() {
         return postOnPage;
     }
 
-    public void setPostOnPage(int postOnPage) {
+    public void setPostOnPage(String postOnPage) {
         this.postOnPage = postOnPage;
     }
 
-    public int getLastPostId() {
+    public String getLastPostId() {
         return lastPostId;
     }
 
-    public void setLastPostId(int lastPostId) {
+    public void setLastPostId(String lastPostId) {
         this.lastPostId = lastPostId;
     }
 

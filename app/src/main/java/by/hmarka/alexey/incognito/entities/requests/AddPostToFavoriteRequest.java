@@ -1,9 +1,9 @@
 package by.hmarka.alexey.incognito.entities.requests;
 
 /**
- * Created by lashket on 7.7.16.
+ * Created by lashket on 12.7.16.
  */
-public class GetFullPostRequest {
+public class AddPostToFavoriteRequest {
 
     private String imei;
     private String location_lat;
@@ -11,14 +11,6 @@ public class GetFullPostRequest {
     private String language;
     private String access_type;
     private String postId;
-
-    public String getPostId() {
-        return postId;
-    }
-
-    public void setPostId(String postId) {
-        this.postId = postId;
-    }
 
     public String getImei() {
         return imei;
@@ -58,5 +50,13 @@ public class GetFullPostRequest {
 
     public void setAccess_type(String access_type) {
         this.access_type = access_type;
+    }
+
+    public String getPostId() {
+        return postId;
+    }
+
+    public void setPostId(String postId) {
+        this.postId = postId;
     }
 }
