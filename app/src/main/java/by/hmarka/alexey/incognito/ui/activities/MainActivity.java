@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
@@ -12,7 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -65,7 +66,12 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new SettingsFragment(), "settings");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-        Button but = new Button(this);
+
+        viewPager.setOffscreenPageLimit(4);
+        setupTabLayout();
+
+        ImageButton but = new ImageButton(this);
+        but.setImageResource(R.drawable.selector_tab_add);
         but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,9 +79,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         tabLayout.addCentralTab(but);
-        tabLayout.getCentralTab().setBackgroundResource(R.drawable.selector_tab_home);
-        viewPager.setOffscreenPageLimit(4);
-        setupTabLayout();
+
     }
 
     private void setupTabLayout() {

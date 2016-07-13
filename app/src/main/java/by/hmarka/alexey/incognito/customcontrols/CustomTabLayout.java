@@ -34,14 +34,19 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+
+import by.hmarka.alexey.incognito.R;
 
 import static android.support.v4.view.ViewPager.SCROLL_STATE_DRAGGING;
 import static android.support.v4.view.ViewPager.SCROLL_STATE_IDLE;
@@ -73,6 +78,9 @@ public class CustomTabLayout extends FrameLayout {
     private final int mRequestedTabMaxWidth;
     private float mTabTextSize;
     private float mTabTextMultiLineSize;
+
+    private View mCentralButton;
+    private final int mCentralColor;
 
     private int mTabTextAppearance;
     private ColorStateList mTabTextColors;
@@ -109,7 +117,7 @@ public class CustomTabLayout extends FrameLayout {
         // Add the TabStrip
         mTabStrip = new SlidingTabStrip(context);
         super.addView(mTabStrip, 0, new LayoutParams(
-                LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+                LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
         TypedArray a = context.obtainStyledAttributes(attrs, android.support.design.R.styleable.TabLayout,
                 defStyleAttr, android.support.design.R.style.Widget_Design_TabLayout);
@@ -117,6 +125,7 @@ public class CustomTabLayout extends FrameLayout {
         mTabStrip.setSelectedIndicatorHeight(
                 a.getDimensionPixelSize(android.support.design.R.styleable.TabLayout_tabIndicatorHeight, 0));
         mTabStrip.setSelectedIndicatorColor(a.getColor(android.support.design.R.styleable.TabLayout_tabIndicatorColor, 0));
+        mCentralColor = a.getColor(android.support.design.R.styleable.TabLayout_tabIndicatorColor, 0);
 
         mTabPaddingStart = mTabPaddingTop = mTabPaddingEnd = mTabPaddingBottom = a
                 .getDimensionPixelSize(android.support.design.R.styleable.TabLayout_tabPadding, 0);
@@ -441,14 +450,15 @@ public class CustomTabLayout extends FrameLayout {
         }
     }
 
-    Button mCentralButton;
-    public void addCentralTab(Button button){
+    public void addCentralTab(View button){
         mCentralButton = button;
+        ViewCompat.setPaddingRelative(button, mTabPaddingStart,mTabPaddingTop, mTabPaddingEnd, mTabPaddingBottom);
+        button.setMinimumWidth(getTabMinWidth());
+        button.setBackgroundColor(mCentralColor);
         button.setLayoutParams(createLayoutParamsForTabs());
         mTabStrip.addCenterView(button, createLayoutParamsForTabs());
-
     }
-    public Button getCentralTab(){
+    public View getCentralTab(){
         return  mCentralButton;
     }
 
@@ -1248,19 +1258,22 @@ public class CustomTabLayout extends FrameLayout {
         }
     }
 
-    private class SlidingTabStrip extends LinearLayout {
+    private class SlidingTabStrip extends RelativeLayout {
         private int mSelectedIndicatorHeight;
         private final Paint mSelectedIndicatorPaint;
 
-        LinearLayout mLeft;
-        LinearLayout mRight;
-        LinearLayout mCenter;
+        LinearLayout mLeftContainer;
+        LinearLayout mRightContainer;
+        LinearLayout mCenterContainer;
+
         private int mSelectedPosition = -1;
         private float mSelectionOffset;
 
         private int mIndicatorLeft = -1;
         private int mIndicatorRight = -1;
 
+        int mTabCount=0;
+        int mCentralPosition=0;
         //private ValueAnimatorCompat mIndicatorAnimator;
 
         SlidingTabStrip(Context context) {
@@ -1268,31 +1281,31 @@ public class CustomTabLayout extends FrameLayout {
             setWillNotDraw(false);
             mSelectedIndicatorPaint = new Paint();
 
-            mLeft = new LinearLayout(context);
-            mCenter = new LinearLayout(context);
-            mRight = new LinearLayout(context);
+            mLeftContainer = new LinearLayout(context);
+            mCenterContainer = new LinearLayout(context);
+            mRightContainer = new LinearLayout(context);
 
-            LinearLayout.LayoutParams l_param =  new LinearLayout.LayoutParams(
-                    0, LinearLayout.LayoutParams.MATCH_PARENT, 1);
-            LinearLayout.LayoutParams c_param =  new LinearLayout.LayoutParams(
-                    LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
-            LinearLayout.LayoutParams r_param =  new LinearLayout.LayoutParams(
-                    0, LinearLayout.LayoutParams.MATCH_PARENT, 1);
-            super.addView(mLeft,l_param);
-            super.addView(mCenter, c_param );
-            super.addView(mRight, r_param );
+            mCenterContainer.setId(R.id.custon_tab_center_container);
+            RelativeLayout.LayoutParams c_param =  new RelativeLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.MATCH_PARENT);
+            c_param.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+            super.addView(mCenterContainer, c_param );
+
+            RelativeLayout.LayoutParams l_param =  new RelativeLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
+            l_param.addRule(RelativeLayout.LEFT_OF, R.id.custon_tab_center_container);
+            l_param.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+
+            RelativeLayout.LayoutParams r_param =  new RelativeLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
+            r_param.addRule(RelativeLayout.RIGHT_OF, R.id.custon_tab_center_container);
+            r_param.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+
+            super.addView(mLeftContainer,l_param);
+            super.addView(mRightContainer, r_param );
         }
 
-//        @Override
-//        public void addView(View child, ViewGroup.LayoutParams params) {
-//            if(mLeft.getChildCount()>mRight.getChildCount())
-//                mRight.addView(child,params);
-//            else
-//                mLeft.addView(child,params);
-//        }
 
-        int mTabCount=0;
-        int mCentralPosition=0;
         public void setTabCount(int tabCount){
             mTabCount = tabCount;
             mCentralPosition = mTabCount/2;
@@ -1300,38 +1313,38 @@ public class CustomTabLayout extends FrameLayout {
 
         public void addTabView(View child, ViewGroup.LayoutParams params)
         {
-            if(mLeft.getChildCount() < mCentralPosition){
-                mLeft.addView(child,params);
+            if(mLeftContainer.getChildCount() < mCentralPosition){
+                mLeftContainer.addView(child,params);
             }else{
-                mRight.addView(child,params);
+                mRightContainer.addView(child,params);
             }
         }
         public void addCenterView(View child, ViewGroup.LayoutParams params)
         {
-            mCenter.addView(child,params);
+            mCenterContainer.addView(child,params);
         }
 
         public int getTabChildCount(){
-            return mLeft.getChildCount() + mRight.getChildCount();
+            return mLeftContainer.getChildCount() + mRightContainer.getChildCount();
             //return super.getChildCount();
         }
 
         public View getTabChildAt(int position){
             //return super.getChildAt(position);
-            if(position <= mLeft.getChildCount()-1) {
-                return mLeft.getChildAt(position);
+            if(position <= mLeftContainer.getChildCount()-1) {
+                return mLeftContainer.getChildAt(position);
             }else{
-                return mRight.getChildAt(position - mLeft.getChildCount());
+                return mRightContainer.getChildAt(position - mLeftContainer.getChildCount());
             }
 
 
         }
         public void removeTabViewAt(int position){
             //super.removeViewAt(position);
-            if(position <= mLeft.getChildCount()-1) {
-                mLeft.removeViewAt(position);
+            if(position <= mLeftContainer.getChildCount()-1) {
+                mLeftContainer.removeViewAt(position);
             }else{
-                mRight.removeViewAt(position - mLeft.getChildCount());
+                mRightContainer.removeViewAt(position - mLeftContainer.getChildCount());
             }
         }
 
@@ -1458,15 +1471,15 @@ public class CustomTabLayout extends FrameLayout {
 
                 if(mSelectedPosition >= mCentralPosition)
                 {
-                    left += mRight.getLeft();
-                    right += mRight.getLeft();
+                    left += mRightContainer.getLeft();
+                    right += mRightContainer.getLeft();
                 }
                 if (mSelectionOffset > 0f && mSelectedPosition < getTabChildCount() - 1) {
                     // Draw the selection partway between the tabs
                     int layoutOffset =0;
                     if(mSelectedPosition+1>=mCentralPosition)
                     {
-                        layoutOffset = mRight.getLeft();
+                        layoutOffset = mRightContainer.getLeft();
                     }
                     View nextTitle = getTabChildAt(mSelectedPosition + 1);
                     left = (int) (mSelectionOffset * (nextTitle.getLeft()+layoutOffset) +
@@ -1508,7 +1521,7 @@ public class CustomTabLayout extends FrameLayout {
             int targetLayoutOffset = 0;
             if(position >= mCentralPosition)
             {
-                targetLayoutOffset = mRight.getLeft();
+                targetLayoutOffset = mRightContainer.getLeft();
             }
 
             final int targetLeft = targetView.getLeft() + targetLayoutOffset;
