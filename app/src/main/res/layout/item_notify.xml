@@ -1,8 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="10dp">
-</LinearLayout>
+    android:layout_height="80dp"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/shape_share_buttons">
+
+    <ImageView
+        android:id="@+id/notify_pic"
+        android:layout_marginLeft="10dp"
+        android:layout_centerVertical="true"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/like_notifications"
+        android:background="@drawable/shape_button_circle"/>
+    
+    <TextView
+        android:id="@+id/notify_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/notify_pic"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="50dp"
+        android:text="Eto opisanie yvedomleniya"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:maxLines="1"
+        android:lines="1"
+        />
+
+    <TextView
+        android:id="@+id/notify_preview"
+        android:layout_below="@+id/notify_description"
+        android:layout_toRightOf="@+id/notify_pic"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="50dp"
+        android:textSize="17sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Eto preview nashego posta a sd lk as a s d a sdas dad"
+        android:maxLines="1"
+        android:lines="1"/>
+
+    <TextView
+        android:id="@+id/notify_time"
+        android:text="3hrs"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentRight="true"
+        android:textSize="19sp"
+        android:textColor="@color/orange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:lines="1"/>
+</RelativeLayout>
