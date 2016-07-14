@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import by.hmarka.alexey.incognito.R;
-import by.hmarka.alexey.incognito.ui.adapters.PostsAdapter;
 
 /**
  * Created by lashket on 28.6.16.
@@ -29,7 +28,7 @@ public class FavoritesFragment extends Fragment {
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Избранное");
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_favorite);
         }
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());

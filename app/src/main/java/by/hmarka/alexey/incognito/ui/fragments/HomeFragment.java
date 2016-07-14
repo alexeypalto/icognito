@@ -20,9 +20,7 @@ import by.hmarka.alexey.incognito.entities.Post;
 import by.hmarka.alexey.incognito.entities.PostsWrapper;
 import by.hmarka.alexey.incognito.entities.requests.PostsListRequest;
 import by.hmarka.alexey.incognito.rest.RestClient;
-import by.hmarka.alexey.incognito.ui.adapters.CustomPagerAdapter;
 import by.hmarka.alexey.incognito.ui.adapters.HomeFragmentPagerAdapter;
-import by.hmarka.alexey.incognito.utils.SharedPreferenceHelper;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -51,13 +49,13 @@ public class HomeFragment extends Fragment {
         tabLayout = (TabLayout) v.findViewById(R.id.tabs);
         viewPager = (ViewPager) v.findViewById(R.id.viewpager);
         adapter = new HomeFragmentPagerAdapter(getActivity().getSupportFragmentManager());
-        adapter.addFragment(postsFragment, "Новое");
-        adapter.addFragment(new PopularPostsFragment(), "Популярное");
+        adapter.addFragment(postsFragment, getString(R.string.tab_new));
+        adapter.addFragment(new PopularPostsFragment(), getString(R.string.tab_popular));
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).setIcon(R.drawable.novoe_active);
-        tabLayout.getTabAt(1).setIcon(R.drawable.popular_active);
+        tabLayout.getTabAt(0).setIcon(R.drawable.selector_novoe).setText(R.string.tab_title_new);
+        tabLayout.getTabAt(1).setIcon(R.drawable.selector_popular).setText(R.string.tab_title_popular);
         getNewPostsList();
         getPopularPostsList();
     }
