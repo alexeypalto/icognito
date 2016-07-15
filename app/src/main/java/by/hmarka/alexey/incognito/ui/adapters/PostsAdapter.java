@@ -39,6 +39,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
     @Override
     public void onBindViewHolder(PostsViewHolder holder, int position) {
         holder.postText.setText(posts.get(position).getPost_text());
+        holder.postTime.setText(posts.get(position).getPost_timestamp());
     }
 
     @Override
@@ -53,11 +54,13 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
 
         private Context context;
         private TextView postText;
+        private TextView postTime;
 
         public PostsViewHolder(View v) {
             super(v);
             context = v.getContext();
             postText = (TextView) v.findViewById(R.id.postText);
+            postTime = (TextView) v.findViewById(R.id.post_date);
             v.setOnClickListener(this);
         }
 
