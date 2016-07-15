@@ -22,6 +22,7 @@ import by.hmarka.alexey.incognito.entities.requests.PostsListRequest;
 import by.hmarka.alexey.incognito.rest.RestClient;
 import by.hmarka.alexey.incognito.ui.adapters.CustomPagerAdapter;
 import by.hmarka.alexey.incognito.ui.adapters.HomeFragmentPagerAdapter;
+import by.hmarka.alexey.incognito.utils.Helpers;
 import by.hmarka.alexey.incognito.utils.SharedPreferenceHelper;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -35,6 +36,7 @@ public class HomeFragment extends Fragment {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private Helpers helpers = new Helpers();
     private HomeFragmentPagerAdapter adapter;
     private NewPostsFragment postsFragment = new NewPostsFragment();
     private PopularPostsFragment popularPostsFragment = new PopularPostsFragment();
@@ -51,8 +53,8 @@ public class HomeFragment extends Fragment {
         tabLayout = (TabLayout) v.findViewById(R.id.tabs);
         viewPager = (ViewPager) v.findViewById(R.id.viewpager);
         adapter = new HomeFragmentPagerAdapter(getActivity().getSupportFragmentManager());
-        adapter.addFragment(postsFragment, "Новое");
-        adapter.addFragment(new PopularPostsFragment(), "Популярное");
+        adapter.addFragment(postsFragment);
+        adapter.addFragment(new PopularPostsFragment());
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager);
@@ -63,17 +65,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void getNewPostsList() {
-        PostsListRequest postsListRequest = new PostsListRequest();
-        postsListRequest.setImei("12345");
-        postsListRequest.setRadius("100000000");
-        postsListRequest.setAccess_type("mobile");
-        postsListRequest.setLanguage("ru_RU");
-        postsListRequest.setLocation_lat("34");
-        postsListRequest.setLocation_long("52");
-        postsListRequest.setSorting("date");
-        postsListRequest.setLastPostId("10");
-        postsListRequest.setPostOnPage("10");
-        Call<ResponseBody> call = RestClient.getServiceInstance().getPostsList(postsListRequest);
+        Call<ResponseBody> call = RestClient.getServiceInstance().getPostsList(helpers.getNewPostsListRequest());
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -97,17 +89,7 @@ public class HomeFragment extends Fragment {
         });
     }
     private void getPopularPostsList() {
-        PostsListRequest postsListRequest = new PostsListRequest();
-        postsListRequest.setImei("12345");
-        postsListRequest.setRadius("100000000");
-        postsListRequest.setAccess_type("mobile");
-        postsListRequest.setLanguage("ru_RU");
-        postsListRequest.setLocation_lat("34");
-        postsListRequest.setLocation_long("52");
-        postsListRequest.setSorting("like");
-        postsListRequest.setLastPostId("10");
-        postsListRequest.setPostOnPage("10");
-        Call<ResponseBody> call = RestClient.getServiceInstance().getPostsList(postsListRequest);
+        Call<ResponseBody> call = RestClient.getServiceInstance().getPostsList(helpers.getPopularPostsRequest());
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

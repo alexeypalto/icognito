@@ -15,6 +15,7 @@ import by.hmarka.alexey.incognito.entities.requests.RegisterDeviceRequest;
 import by.hmarka.alexey.incognito.events.LocationReadyEvent;
 import by.hmarka.alexey.incognito.rest.RestClient;
 import by.hmarka.alexey.incognito.utils.Constants;
+import by.hmarka.alexey.incognito.utils.Helpers;
 import by.hmarka.alexey.incognito.utils.SharedPreferenceHelper;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -26,6 +27,7 @@ import retrofit2.Response;
  */
 public class SplashScreen extends BaseAppCompatActivity{
 
+    private Helpers helpers = new Helpers();
     private final int SPLASH_DISPLAY_LENGTH = 500;
 
     @Override
@@ -60,7 +62,7 @@ public class SplashScreen extends BaseAppCompatActivity{
     }
 
     private void sendRequest() {
-        Call<ResponseBody> call = RestClient.getServiceInstance().registerDevice(getDeviceRegisterRequest());
+        Call<ResponseBody> call = RestClient.getServiceInstance().registerDevice(helpers.getRegisterDiveRequest());
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -81,16 +83,6 @@ public class SplashScreen extends BaseAppCompatActivity{
 
             }
         });
-    }
-
-    private RegisterDeviceRequest getDeviceRegisterRequest() {
-        RegisterDeviceRequest registerDeviceRequest = new RegisterDeviceRequest();
-        registerDeviceRequest.setImei("12345");
-        registerDeviceRequest.setLanguage("ru_RU");
-        registerDeviceRequest.setLocation_lat("2");
-        registerDeviceRequest.setLocation_long("32");
-        registerDeviceRequest.setAccess_type("mobile");
-        return registerDeviceRequest;
     }
 
     @Subscribe
