@@ -45,4 +45,11 @@ public class PopularPostsFragment extends Fragment {
         recyclerView.setAdapter(new PostsAdapter(posts, getContext()));
     }
 
+    @Override
+    public boolean getUserVisibleHint() {
+        if (isVisible() && recyclerView != null && posts != null) {
+            recyclerView.setAdapter(new PostsAdapter(posts, getContext()));
+        }
+        return super.getUserVisibleHint();
+    }
 }
