@@ -16,11 +16,11 @@ public class Notify {
         this.time = time;
     }
 
-    public String getDescription() {
+    public String getTitle() {
         return title;
     }
 
-    public void setDescription(String name) {
+    public void setTitle(String name) {
         this.title = name;
     }
 
