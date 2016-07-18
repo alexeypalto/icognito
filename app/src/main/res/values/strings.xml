@@ -11,9 +11,23 @@
     <string name="fragment_add">add</string>
     <string name="fragment_favorite">favorite</string>
     <string name="fragment_settings">settings</string>
+    <string name="title_favorite">Избранное</string>
+    <string name="tab_new">Новое</string>
+    <string name="tab_popular">Популярное</string>
+    <string name="tab_title_new">New</string>
+    <string name="tab_title_popular">Popular</string>
     <string name="gcm_defaultSenderId">773239498254</string>
     <string name="social_networks">Мы в соц. сетях</string>
     <string name="incognito_ru">Incognito.ru</string>
     <string name="help_incognito_com">Help@incognito.com</string>
     <string name="rate_us">Оцени нас</string>
+
+
+
+    <string name="description">Earth</string>
+
+    <string name="preview">Земля</string>
+
+    <string name="pic_type">синяя</string>
+
 </resources>

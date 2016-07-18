@@ -39,7 +39,7 @@
             android:name=".ui.activities.PostActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activities.Notify"
+            android:name=".ui.activities.NotifyActivity"
             android:screenOrientation="portrait" />
 
         <receiver

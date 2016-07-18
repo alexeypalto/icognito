@@ -1,7 +1,6 @@
 package by.hmarka.alexey.incognito.ui.fragments;
 
 import android.content.Intent;
-import android.media.audiofx.BassBoost;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,14 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import by.hmarka.alexey.incognito.R;
 import by.hmarka.alexey.incognito.entities.Setting;
-import by.hmarka.alexey.incognito.ui.activities.MainActivity;
-import by.hmarka.alexey.incognito.ui.activities.Notify;
+import by.hmarka.alexey.incognito.ui.activities.NotifyActivity;
 import by.hmarka.alexey.incognito.ui.adapters.SettingsAdapter;
 
 /**
@@ -70,7 +67,7 @@ public class SettingsFragment extends Fragment {
 
         settingsList.add(new Setting(0, ""));
 
-        settingsList.add(new Setting(R.drawable.settings_notifications, "Уведомления", Notify.class));
+        settingsList.add(new Setting(R.drawable.settings_notifications, "Уведомления", NotifyActivity.class));
         settingsList.add(new Setting(R.drawable.settings_shop, "Магазин"));
         settingsList.add(new Setting(R.drawable.settings_nastroyki, "Настройки"));
 
