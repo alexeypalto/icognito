@@ -1,5 +1,9 @@
 package by.hmarka.alexey.incognito.utils;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
+
 import by.hmarka.alexey.incognito.entities.requests.PostsListRequest;
 import by.hmarka.alexey.incognito.entities.requests.RegisterDeviceRequest;
 import by.hmarka.alexey.incognito.entities.requests.ThreadsListRequest;
@@ -55,6 +59,13 @@ public class Helpers {
         threadsListRequest.setLocation_lat("34");
         threadsListRequest.setLocation_long("52");
         return threadsListRequest;
+    }
+
+    public float convertDpToPixel(float dp, Context context) {
+        Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        float px = dp * ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+        return px;
     }
 
 }

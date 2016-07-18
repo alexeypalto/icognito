@@ -6,7 +6,7 @@ package by.hmarka.alexey.incognito.entities;
 public class Thread {
 
     private String threadId;
-    private String threadImage;
+    private String threadPicture;
     private String threadName;
 
     public String getThreadId() {
@@ -18,11 +18,11 @@ public class Thread {
     }
 
     public String getThreadImage() {
-        return threadImage;
+        return threadPicture;
     }
 
     public void setThreadImage(String threadImage) {
-        this.threadImage = threadImage;
+        this.threadPicture = threadImage;
     }
 
     public String getThreadName() {
