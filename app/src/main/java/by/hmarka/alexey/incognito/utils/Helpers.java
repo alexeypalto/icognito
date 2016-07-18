@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 
+import by.hmarka.alexey.incognito.entities.requests.AddPostToFavoriteRequest;
 import by.hmarka.alexey.incognito.entities.requests.GetFullPostRequest;
 import by.hmarka.alexey.incognito.entities.requests.PostsListRequest;
 import by.hmarka.alexey.incognito.entities.requests.RegisterDeviceRequest;
@@ -71,6 +72,17 @@ public class Helpers {
         getFullPostRequest.setLocation_long("52");
         getFullPostRequest.setImei("12345");
         return getFullPostRequest;
+    }
+
+    public AddPostToFavoriteRequest getAddPostToFavoriteRequest(String postId) {
+        AddPostToFavoriteRequest addPostToFavoriteRequest = new AddPostToFavoriteRequest();
+        addPostToFavoriteRequest.setAccess_type("mobile");
+        addPostToFavoriteRequest.setImei("12345");
+        addPostToFavoriteRequest.setLanguage("ru_RU");
+        addPostToFavoriteRequest.setLocation_lat("34");
+        addPostToFavoriteRequest.setLocation_long("52");
+        addPostToFavoriteRequest.setPostId(postId);
+        return addPostToFavoriteRequest;
     }
 
     public float convertDpToPixel(float dp, Context context) {

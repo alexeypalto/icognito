@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -37,8 +38,28 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
     }
 
     @Override
-    public void onBindViewHolder(PostsViewHolder holder, int position) {
-        holder.postText.setText(posts.get(position).getPost_text());
+    public void onBindViewHolder(final PostsViewHolder holder, final int position) {
+        final Post post;
+        post = posts.get(position);
+        holder.postText.setText(post.getPost_text());
+        holder.likeCount.setText(post.getLike_count());
+        holder.shareCount.setText(post.getLike_count());
+        if (post.getIsFavorite().equals(1)) {
+            holder.addToFavorites.setImageResource(R.drawable.favorite_bot);
+        }
+        holder.addToFavorites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (post.getIsFavorite().equals(1)) {
+                    holder.addToFavorites.setImageResource(R.drawable.favorit);
+                    posts.get(position).setIsFavorite("0");
+                }
+                if (post.getIsFavorite().equals(0)) {
+                    holder.addToFavorites.setImageResource(R.drawable.favorite_bot);
+                    posts.get(position).setIsFavorite("1");
+                }
+            }
+        });
     }
 
     @Override
@@ -53,11 +74,18 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
 
         private Context context;
         private TextView postText;
+        private TextView commentsCount;
+        private TextView shareCount;
+        private TextView likeCount;
+        private ImageView addToFavorites;
 
         public PostsViewHolder(View v) {
             super(v);
             context = v.getContext();
             postText = (TextView) v.findViewById(R.id.postText);
+            commentsCount = (TextView) v.findViewById(R.id.post_comments_count);
+            shareCount  = (TextView) v.findViewById(R.id.post_share_count);
+            likeCount  = (TextView) v.findViewById(R.id.ratingCount);
             v.setOnClickListener(this);
         }
 
