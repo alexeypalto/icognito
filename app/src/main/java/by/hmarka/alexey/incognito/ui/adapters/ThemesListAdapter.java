@@ -75,7 +75,7 @@ public class ThemesListAdapter extends RecyclerView.Adapter<ThemesListAdapter.Th
 
         @Override
         public void onClick(View v) {
-            IncognitoApplication.bus.post(new ShowPostsInCategoriesFragmentEvent());
+            IncognitoApplication.bus.post(new ShowPostsInCategoriesFragmentEvent(threads.get(getAdapterPosition()).getThreadId()));
         }
     }
 

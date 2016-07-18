@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 
+import by.hmarka.alexey.incognito.entities.requests.GetFullPostRequest;
 import by.hmarka.alexey.incognito.entities.requests.PostsListRequest;
 import by.hmarka.alexey.incognito.entities.requests.RegisterDeviceRequest;
 import by.hmarka.alexey.incognito.entities.requests.ThreadsListRequest;
@@ -59,6 +60,17 @@ public class Helpers {
         threadsListRequest.setLocation_lat("34");
         threadsListRequest.setLocation_long("52");
         return threadsListRequest;
+    }
+
+    public GetFullPostRequest getPostRequest(String postId) {
+        GetFullPostRequest getFullPostRequest = new GetFullPostRequest();
+        getFullPostRequest.setLanguage("ru_RU");
+        getFullPostRequest.setAccess_type("mobile");
+        getFullPostRequest.setPostId(postId);
+        getFullPostRequest.setLocation_lat("34");
+        getFullPostRequest.setLocation_long("52");
+        getFullPostRequest.setImei("12345");
+        return getFullPostRequest;
     }
 
     public float convertDpToPixel(float dp, Context context) {

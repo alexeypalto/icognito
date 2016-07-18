@@ -8,6 +8,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import com.google.gson.Gson;
+
+import java.io.IOException;
+
+import by.hmarka.alexey.incognito.entities.Post;
+import by.hmarka.alexey.incognito.rest.RestClient;
+import by.hmarka.alexey.incognito.utils.Helpers;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import by.hmarka.alexey.incognito.R;
 
@@ -18,6 +31,13 @@ public class PostActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private String postId;
+    private TextView  postText;
+    private TextView countLike;
+    private TextView countShare;
+    private TextView commentCount;
+    private Post post;
+
+    private Helpers helpers = new Helpers();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,11 +45,22 @@ public class PostActivity extends AppCompatActivity {
         setContentView(R.layout.activity_post);
         postId = getIntent().getStringExtra("POSTID");
         findViews();
+        request();
     }
 
     private void findViews() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        postText = (TextView) findViewById(R.id.postText);
+        countLike = (TextView) findViewById(R.id.postLikeCount);
+        countShare = (TextView) findViewById(R.id.postShareCount);
+        commentCount = (TextView) findViewById(R.id.postCountComments);
         toolbarSettings(toolbar);
+    }
+
+    private void setUi() {
+        postText.setText(post.getPost_text());
+        countLike.setText(post.getLike_count());
+        commentCount.setText(post.getComment_count());
     }
 
     private void toolbarSettings(Toolbar toolbar) {
@@ -58,6 +89,30 @@ public class PostActivity extends AppCompatActivity {
         Intent intent = new Intent(context, PostActivity.class);
         intent.putExtra("POSTID", postId);
         context.startActivity(intent);
+    }
+
+    private void request() {
+        Call<ResponseBody> call = RestClient.getServiceInstance().getFullPost(helpers.getPostRequest(postId));
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    String responseString = "";
+                    try {
+                        responseString = response.body().string();
+                        post = new Gson().fromJson(responseString, Post.class);
+                        setUi();
+                    } catch (IOException e) {
+
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
 
 }
