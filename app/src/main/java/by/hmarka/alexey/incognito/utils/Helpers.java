@@ -2,6 +2,7 @@ package by.hmarka.alexey.incognito.utils;
 
 import by.hmarka.alexey.incognito.entities.requests.PostsListRequest;
 import by.hmarka.alexey.incognito.entities.requests.RegisterDeviceRequest;
+import by.hmarka.alexey.incognito.entities.requests.ThreadsListRequest;
 
 /**
  * Created by lashket on 12.7.16.
@@ -44,6 +45,16 @@ public class Helpers {
         postsListRequest.setLastPostId("10");
         postsListRequest.setPostOnPage("10");
         return postsListRequest;
+    }
+
+    public ThreadsListRequest getThreadListRequest() {
+        ThreadsListRequest threadsListRequest = new ThreadsListRequest();
+        threadsListRequest.setImei("12345");
+        threadsListRequest.setAccess_type("mobile");
+        threadsListRequest.setLanguage("ru_RU");
+        threadsListRequest.setLocation_lat("34");
+        threadsListRequest.setLocation_long("52");
+        return threadsListRequest;
     }
 
 }

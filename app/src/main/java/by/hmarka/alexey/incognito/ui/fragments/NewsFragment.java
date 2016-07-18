@@ -16,13 +16,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import by.hmarka.alexey.incognito.entities.Thread;
+import by.hmarka.alexey.incognito.entities.ThreadsWrapper;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import by.hmarka.alexey.incognito.IncognitoApplication;
 import by.hmarka.alexey.incognito.R;
 import by.hmarka.alexey.incognito.events.ShowPostsInCategoriesFragmentEvent;
+import by.hmarka.alexey.incognito.rest.RestClient;
 import by.hmarka.alexey.incognito.ui.adapters.PostsAdapter;
 import by.hmarka.alexey.incognito.ui.adapters.ThemesListAdapter;
+import by.hmarka.alexey.incognito.utils.Helpers;
 
 /**
  * Created by lashket on 28.6.16.
@@ -33,6 +46,7 @@ public class NewsFragment extends Fragment {
     private Menu menu;
     private RecyclerView recyclerView;
     private RecyclerView recyclerViewPosts;
+    private Helpers helpers = new Helpers();
 
     @Nullable
     @Override
@@ -45,7 +59,8 @@ public class NewsFragment extends Fragment {
         recyclerViewPosts = (RecyclerView) view.findViewById(R.id.recyclerViewPosts);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(new ThemesListAdapter());
+        getListOfThreads();
+       // recyclerView.setAdapter(new ThemesListAdapter());
         return view;
     }
 
@@ -126,4 +141,30 @@ public class NewsFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void getListOfThreads() {
+
+        Call<ResponseBody> call = RestClient.getServiceInstance().getThreadList(helpers.getThreadListRequest());
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    String responseString = "";
+                    try {
+                        responseString = response.body().string();
+                        ThreadsWrapper threadsWrapper = new Gson().fromJson(responseString, ThreadsWrapper.class);
+                        recyclerView.setAdapter(new ThemesListAdapter(getContext(), (ArrayList<Thread>) threadsWrapper.getThreads()));
+                    } catch (IOException e) {
+
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+
 }

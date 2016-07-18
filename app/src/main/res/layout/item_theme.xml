@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:background="@color/md_blue_500">
+    android:layout_height="100dp">
+    <ImageView
+        android:id="@+id/threadImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     <TextView
-        android:id="@+id/theme_name"
+        android:id="@+id/threadName"
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:minWidth="120dp"
@@ -19,6 +22,7 @@
         android:background="@drawable/empty_button"
         android:textSize="20sp"/>
     <TextView
+        android:id="@+id/threadCount"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_centerVertical="true"
