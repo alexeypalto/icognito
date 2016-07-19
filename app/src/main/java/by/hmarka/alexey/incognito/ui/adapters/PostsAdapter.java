@@ -12,7 +12,13 @@ import java.util.ArrayList;
 
 import by.hmarka.alexey.incognito.R;
 import by.hmarka.alexey.incognito.entities.Post;
+import by.hmarka.alexey.incognito.rest.RestClient;
 import by.hmarka.alexey.incognito.ui.activities.PostActivity;
+import by.hmarka.alexey.incognito.utils.Helpers;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by lashket on 4.7.16.
@@ -21,6 +27,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
 
     private ArrayList<Post> posts;
     private Context context;
+    private Helpers helpers = new Helpers();
 
     public PostsAdapter(ArrayList<Post> posts, Context context) {
         if (posts != null) {
@@ -50,13 +57,29 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         holder.addToFavorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (post.getIsFavorite().equals(1)) {
+                if (post.getIsFavorite().equals("1")) {
                     holder.addToFavorites.setImageResource(R.drawable.favorit);
                     posts.get(position).setIsFavorite("0");
+                    return;
                 }
-                if (post.getIsFavorite().equals(0)) {
-                    holder.addToFavorites.setImageResource(R.drawable.favorite_bot);
+                if (post.getIsFavorite().equals("0")) {
+                    holder.addToFavorites.setImageResource(R.drawable.favorit_active);
                     posts.get(position).setIsFavorite("1");
+                    Call<ResponseBody> call = RestClient.getServiceInstance().addPostToFavorite(helpers.getAddPostToFavoriteRequest(posts.get(position).getPost_id()));
+                    call.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (!response.isSuccessful()) {
+                                holder.addToFavorites.setImageResource(R.drawable.favorit);
+                                posts.get(position).setIsFavorite("0");
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                        }
+                    });
                 }
             }
         });
@@ -86,6 +109,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
             commentsCount = (TextView) v.findViewById(R.id.post_comments_count);
             shareCount  = (TextView) v.findViewById(R.id.post_share_count);
             likeCount  = (TextView) v.findViewById(R.id.ratingCount);
+            addToFavorites = (ImageView) v.findViewById(R.id.post_favorite);
             v.setOnClickListener(this);
         }
 
