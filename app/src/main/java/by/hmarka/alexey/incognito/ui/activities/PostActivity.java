@@ -36,6 +36,7 @@ public class PostActivity extends AppCompatActivity {
     private TextView countShare;
     private TextView commentCount;
     private Post post;
+    private Menu menu;
 
     private Helpers helpers = new Helpers();
 
@@ -61,6 +62,9 @@ public class PostActivity extends AppCompatActivity {
         postText.setText(post.getPost_text());
         countLike.setText(post.getLike_count());
         commentCount.setText(post.getComment_count());
+        if (post.getIsFavorite().equals("1")) {
+            menu.findItem(R.id.add_post_to_favorites).setIcon(R.drawable.favorit_active);
+        }
     }
 
     private void toolbarSettings(Toolbar toolbar) {
@@ -83,6 +87,12 @@ public class PostActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.full_post_menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        this.menu = menu;
+        return super.onPrepareOptionsMenu(menu);
     }
 
     public static void show(Context context, String postId) {

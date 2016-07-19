@@ -51,8 +51,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         holder.postText.setText(post.getPost_text());
         holder.likeCount.setText(post.getLike_count());
         holder.shareCount.setText(post.getLike_count());
-        if (post.getIsFavorite().equals(1)) {
-            holder.addToFavorites.setImageResource(R.drawable.favorite_bot);
+        if (post.getIsFavorite().equals("1")) {
+            holder.addToFavorites.setImageResource(R.drawable.favorit_active);
         }
         holder.addToFavorites.setOnClickListener(new View.OnClickListener() {
             @Override

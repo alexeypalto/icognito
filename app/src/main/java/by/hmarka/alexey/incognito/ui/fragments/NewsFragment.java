@@ -21,7 +21,10 @@ import com.squareup.otto.Subscribe;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
+import by.hmarka.alexey.incognito.entities.Post;
+import by.hmarka.alexey.incognito.entities.PostsWrapper;
 import by.hmarka.alexey.incognito.entities.Thread;
 import by.hmarka.alexey.incognito.entities.ThreadsWrapper;
 import okhttp3.ResponseBody;
@@ -126,8 +129,34 @@ public class NewsFragment extends Fragment {
         recyclerViewPosts.setVisibility(View.VISIBLE);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerViewPosts.setLayoutManager(linearLayoutManager);
-     //   recyclerViewPosts.setAdapter(new PostsAdapter());
+        //recyclerViewPosts.setAdapter(new PostsAdapter());
         setToolbarWithBackButton();
+        sendRequestByTheme(event.getCategoryId());
+    }
+
+    private void sendRequestByTheme(String themeId) {
+        Call<ResponseBody> call = RestClient.getServiceInstance().getPostsList(helpers.getNewPostsListRequest());
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    String responseString = "";
+                    try {
+                        responseString = response.body().string();
+                        PostsWrapper postsWrapper = new Gson().fromJson(responseString, PostsWrapper.class);
+                        List<Post> posts = postsWrapper.getPosts();
+                        recyclerViewPosts.setAdapter(new PostsAdapter((ArrayList<Post>) posts, getContext()));
+                    } catch (IOException e) {
+                        // TODO handling error
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override
