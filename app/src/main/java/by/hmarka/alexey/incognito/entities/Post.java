@@ -12,6 +12,15 @@ public class Post {
     private String like_count;
     private String comment_count;
     private String favorite_count;
+    private String isFavorite;
+
+    public String getIsFavorite() {
+        return isFavorite;
+    }
+
+    public void setIsFavorite(String isFavorite) {
+        this.isFavorite = isFavorite;
+    }
 
     public String getPost_id() {
         return post_id;

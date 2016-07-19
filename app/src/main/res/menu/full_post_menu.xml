@@ -5,7 +5,7 @@
     tools:context=".CityActivity">
 
     <item
-        android:id="@+id/serch_picking_location"
+        android:id="@+id/add_post_to_favorites"
         android:orderInCategory="100"
         android:icon="@drawable/favorite_bot"
         android:title="favorite"
