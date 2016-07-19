@@ -54,9 +54,20 @@ public class SettingsFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Setting item = (Setting)settingsAdapter.getItem(position);
-
-                Intent t =  new Intent(getContext(),item.classToStart);
-                startActivity(t);
+                switch (position) {
+                    case 0:
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 7:
+                        break;
+                }
             }
         });
 
