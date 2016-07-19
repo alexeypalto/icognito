@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="custon_tab_center_container" type="id"/>
+    <item name="undo_button" type="id">undo</item>
 </resources>
