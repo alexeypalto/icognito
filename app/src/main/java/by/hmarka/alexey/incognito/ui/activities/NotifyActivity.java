@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
@@ -35,10 +36,10 @@ public class NotifyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notify);
 
-        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Уведомления");*/
+        getSupportActionBar().setTitle("Уведомления");
 
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewNotify);
@@ -49,21 +50,6 @@ public class NotifyActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
         setUpItemTouchHelper();
-
-
-
-        /*recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                Notify notify = notifyList.get(position);
-                Toast.makeText(getApplicationContext(), notify.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
-        }));*/
 
         prepareNotifyData();
     }
@@ -116,7 +102,6 @@ public class NotifyActivity extends AppCompatActivity {
 
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
-            // we want to cache these and not allocate anything repeatedly in the onChildDraw method
             Drawable background;
             Drawable xMark;
             int xMarkMargin;
@@ -130,7 +115,6 @@ public class NotifyActivity extends AppCompatActivity {
                 initiated = true;
             }
 
-            // not important, we don't want drag & drop
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 return false;
@@ -162,9 +146,7 @@ public class NotifyActivity extends AppCompatActivity {
             public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 View itemView = viewHolder.itemView;
 
-                // not sure why, but this method get's called for viewholder that are already swiped away
                 if (viewHolder.getAdapterPosition() == -1) {
-                    // not interested in those
                     return;
                 }
 
@@ -176,7 +158,7 @@ public class NotifyActivity extends AppCompatActivity {
                 background.setBounds(itemView.getRight() + (int) dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
                 background.draw(c);
 
-                // draw x mark
+                // draw picture under the button mark
                 int itemHeight = itemView.getBottom() - itemView.getTop();
                 int intrinsicWidth = xMark.getIntrinsicWidth();
                 int intrinsicHeight = xMark.getIntrinsicWidth();
@@ -196,54 +178,4 @@ public class NotifyActivity extends AppCompatActivity {
         ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         mItemTouchHelper.attachToRecyclerView(recyclerView);
     }
-
-
-   /* public interface ClickListener {
-        void onClick(View view, int position);
-
-        void onLongClick(View view, int position);
-    }
-
-    public static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
-
-        private GestureDetector gestureDetector;
-        private NotifyActivity.ClickListener clickListener;
-
-        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final NotifyActivity.ClickListener clickListener) {
-            this.clickListener = clickListener;
-            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-                @Override
-                public boolean onSingleTapUp(MotionEvent e) {
-                    return true;
-                }
-
-                @Override
-                public void onLongPress(MotionEvent e) {
-                    View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
-                    if (child != null && clickListener != null) {
-                        clickListener.onLongClick(child, recyclerView.getChildPosition(child));
-                    }
-                }
-            });
-        }
-
-        @Override
-        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-
-            View child = rv.findChildViewUnder(e.getX(), e.getY());
-            if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
-                clickListener.onClick(child, rv.getChildPosition(child));
-            }
-            return false;
-        }
-
-        @Override
-        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-        }
-
-        @Override
-        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-        }
-    }*/
 }
