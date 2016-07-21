@@ -67,14 +67,13 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        MyViewHolder viewHolder = (MyViewHolder)holder;
 
         final Notify notify = notifyList.get(position);
-
-        /*holder.description.setText(notify.getTitle());
+        holder.description.setText(notify.getTitle());
         holder.preview.setText(notify.getPreview());
         holder.type.setText(notify.getType());
-        holder.time.setText(notify.getTime());*/
+        holder.time.setText(notify.getTime());
+
 
         if (itemsPendingRemoval.contains(notify)) {
             // we need to show the "undo" state of the row
@@ -98,7 +97,7 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.MyViewHold
         // we need to show the "normal" state
         holder.itemView.setBackgroundColor(Color.WHITE);
         holder.description.setVisibility(View.VISIBLE);
-        holder.description.setText("notify");
+        holder.description.setText(notify.getTitle());
         holder.undoButton.setVisibility(View.GONE);
         holder.undoButton.setOnClickListener(null);
     }
