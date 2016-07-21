@@ -16,6 +16,8 @@ import java.util.ArrayList;
 
 import by.hmarka.alexey.incognito.R;
 import by.hmarka.alexey.incognito.entities.Setting;
+import by.hmarka.alexey.incognito.ui.activities.AboutActivity;
+import by.hmarka.alexey.incognito.ui.activities.HelpActivity;
 import by.hmarka.alexey.incognito.ui.activities.NotifyActivity;
 import by.hmarka.alexey.incognito.ui.adapters.SettingsAdapter;
 
@@ -74,11 +76,11 @@ public class SettingsFragment extends Fragment {
 
         settingsList.add(new Setting(R.drawable.settings_guide, "Правила"));
         settingsList.add(new Setting(R.drawable.settings_confidenc, "Конфиденциальность"));
-        settingsList.add(new Setting(R.drawable.settings_help, "Помощь"));
+        settingsList.add(new Setting(R.drawable.settings_help, "Помощь", HelpActivity.class));
 
         settingsList.add(new Setting(0, ""));
 
-        settingsList.add(new Setting(R.drawable.settings_about, "О нас"));
+        settingsList.add(new Setting(R.drawable.settings_about, "О нас", AboutActivity.class));
     }
 
     private void findViews() {

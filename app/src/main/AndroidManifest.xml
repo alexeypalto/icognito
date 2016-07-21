@@ -41,6 +41,12 @@
         <activity
             android:name=".ui.activities.NotifyActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.HelpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.AboutActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".ui.activities.AddPostActivity"
             android:screenOrientation="portrait"/>
 
