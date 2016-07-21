@@ -76,7 +76,16 @@ public class SplashScreen extends BaseAppCompatActivity{
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                {
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Intent mainIntent = new Intent(SplashScreen.this, MainActivity.class);
+//                            SplashScreen.this.startActivity(mainIntent);
+//                            SplashScreen.this.finish();
+//                        }
+//                    }, SPLASH_DISPLAY_LENGTH);
+                }
             }
         });
     }

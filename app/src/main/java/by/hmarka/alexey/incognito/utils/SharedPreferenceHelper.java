@@ -3,6 +3,7 @@ package by.hmarka.alexey.incognito.utils;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import by.hmarka.alexey.incognito.BuildConfig;
 import by.hmarka.alexey.incognito.IncognitoApplication;
 
 /**
@@ -14,7 +15,8 @@ public class SharedPreferenceHelper {
     private static final String KEY_IMEI = "IMEI";
     private static final String KEY_LAT = "LAT";
     private static final String KEY_LNG = "LNG";
-    private static final String KEY_ACCESS_TYPE = "LNG";
+    private static final String KEY_ACCESS_TYPE = "ACCESSTYPE";
+    private static final String KEY_MAX_POST_LENGHT = "POSTLENGHT";
 
     private static SharedPreferences prefs;
 
@@ -77,6 +79,18 @@ public class SharedPreferenceHelper {
     public static String getAccessType() {
         prefs = PreferenceManager.getDefaultSharedPreferences(IncognitoApplication.getInstance());
         return prefs.getString(KEY_ACCESS_TYPE, "");
+    }
+
+    public static void setMaxPostLenght(int maxLenght) {
+        prefs = PreferenceManager.getDefaultSharedPreferences(IncognitoApplication.getInstance());
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(KEY_ACCESS_TYPE, maxLenght);
+        editor.commit();
+    }
+
+    public static int getMaxPostLenght() {
+        prefs = PreferenceManager.getDefaultSharedPreferences(IncognitoApplication.getInstance());
+        return prefs.getInt(KEY_MAX_POST_LENGHT, 500);
     }
 
 }
