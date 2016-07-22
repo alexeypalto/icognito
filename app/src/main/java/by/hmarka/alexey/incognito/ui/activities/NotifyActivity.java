@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -41,7 +42,6 @@ public class NotifyActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Уведомления");
 
-
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewNotify);
 
         mAdapter = new NotifyAdapter(notifyList);
@@ -52,6 +52,16 @@ public class NotifyActivity extends AppCompatActivity {
         setUpItemTouchHelper();
 
         prepareNotifyData();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void prepareNotifyData() {

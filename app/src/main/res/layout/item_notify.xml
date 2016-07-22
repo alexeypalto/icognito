@@ -12,16 +12,17 @@
         android:layout_centerVertical="true"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:text="Type"
+        android:text="type"
         android:textSize="20sp"/>
-    <!--<ImageView
-        android:id="@+id/notify_pic"
+
+    <ImageView
+        android:id="@+id/notify_pic_pic"
         android:layout_marginLeft="10dp"
         android:layout_centerVertical="true"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/like_notifications"
-        android:background="@drawable/shape_button_circle"/>-->
+        android:background="@drawable/circle_cont_posts"/>
     
     <TextView
         android:id="@+id/notify_description"
