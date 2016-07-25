@@ -23,6 +23,7 @@ android:background="@android:color/white">
             android:paddingLeft="10dp"
             android:paddingBottom="5dp"
             android:inputType="textMultiLine"
+            android:minLines="5"
             android:ems="10"
             android:background="@android:color/transparent"
             android:textSize="16sp"
@@ -31,10 +32,23 @@ android:background="@android:color/white">
         android:id="@+id/image_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <ImageView
-        android:id="@+id/img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+         <!--<GridView-->
+             <!--android:id="@+id/grid_image_container"-->
+             <!--android:layout_width="match_parent"-->
+             <!--android:layout_height="match_parent"-->
+             <!--android:numColumns="2">-->
+
+         <!--</GridView>-->
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+         <!--<ImageView-->
+             <!--android:id="@+id/img2"-->
+             <!--android:layout_width="wrap_content"-->
+             <!--android:layout_height="wrap_content"-->
+             <!--android:src="@drawable/ic_logo"/>-->
     </RelativeLayout>
     </LinearLayout>
 </ScrollView>

@@ -35,6 +35,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -67,6 +68,8 @@ public class AddFragment extends Fragment {
 
     EditText editText;
     ImageButton sendButton;
+    ViewGroup imageContainer;
+    GridView gridView;
     ImageView preview;
     int mMaxLenght = 500;
 
@@ -99,6 +102,7 @@ public class AddFragment extends Fragment {
 
         findViews(view);
         setupListners();
+        setMaxLenghtFilter();
         return view;
     }
 
@@ -106,7 +110,8 @@ public class AddFragment extends Fragment {
         editText = (EditText)view.findViewById(R.id.editText);
         sendButton = (ImageButton)view.findViewById(R.id.send_button);
         preview = (ImageView)view.findViewById(R.id.img);
-
+        imageContainer = (ViewGroup)view.findViewById(R.id.image_container);
+        //gridView = (GridView)view.findViewById(R.id.grid_image_container);
     }
 
     private void setupListners(){
