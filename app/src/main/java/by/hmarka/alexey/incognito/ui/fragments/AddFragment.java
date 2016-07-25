@@ -2,11 +2,14 @@ package by.hmarka.alexey.incognito.ui.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
+import android.database.DataSetObserver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -16,6 +19,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -33,11 +37,16 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.SimpleAdapter;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 import by.hmarka.alexey.incognito.BuildConfig;
 import by.hmarka.alexey.incognito.IncognitoApplication;
@@ -171,31 +180,53 @@ public class AddFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_fragment_menu_item:
-                getPhoto();
+                addMedia();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void getPhoto(){
+    private void addMedia(){
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-        dialogBuilder.setPositiveButton("camera", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dispatchTakePictureIntent();
-            }
-        });
-        dialogBuilder.setNeutralButton("Galery", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dispatchTSelectPictureIntent();
-            }
+
+        List<HashMap<String,String>> aList = new ArrayList<HashMap<String,String>>();
+
+        HashMap<String, String> hm = new HashMap<String,String>();
+        hm.put("txt", getResources().getString(R.string.take_picture));
+        hm.put("icon", Integer.toString(R.drawable.camera_popup) );
+        aList.add(hm);
+        HashMap<String, String> hm2 = new HashMap<String,String>();
+        hm2.put("txt",getResources().getString(R.string.select_photo));
+        hm2.put("icon", Integer.toString(R.drawable.choose_photo_popup) );
+        aList.add(hm2);
+        //video link
+//        HashMap<String, String> hm3 = new HashMap<String,String>();
+//        hm3.put("txt", getResources().getString(R.string.link_to_video));
+//        hm3.put("icon", Integer.toString(R.drawable.link_popup) );
+//        aList.add(hm3);
+
+        String[] from = { "txt","icon" };
+        int[] to = { R.id.txt,R.id.icon};
+
+        ListAdapter adapter= new SimpleAdapter(getContext(),aList,R.layout.item_image_source_dialog,from,to);
+        dialogBuilder.setAdapter(adapter,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        switch (i){
+                            case 0:
+                                dispatchTakePictureIntent();
+                                break;
+                            case 1:
+                                dispatchTSelectPictureIntent();
+                                break;
+                            case 2:
+                                break;
+                        }
+                    }
         });
         dialogBuilder.show();
-
-        //dispatchTakePictureIntent();
-        //dispatchTSelectPictureIntent();
     }
 
     static final int REQUEST_IMAGE_CAPTURE = 1;

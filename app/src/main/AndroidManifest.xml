@@ -31,7 +31,8 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activities.SplashScreen">
+        <activity android:name=".ui.activities.SplashScreen" >
+            <!--android:theme="@style/Theme.Splash"-->
             <meta-data
                 android:name="com.facebook.sdk.ApplicationId"
                 android:value="@string/facebook_app_id" />
