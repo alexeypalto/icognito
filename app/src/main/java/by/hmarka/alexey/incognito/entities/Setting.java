@@ -1,7 +1,6 @@
 package by.hmarka.alexey.incognito.entities;
 
-import android.app.Activity;
-import android.view.View;
+import android.app.Fragment;
 
 /**
  * Created by vitalyorlov on 06.07.16.
@@ -28,5 +27,12 @@ public class Setting {
         this.image = image;
     }
 
+    public Setting (int image, String name, Fragment intent){
+        this(image, name);
+        fragmentToStart= intent;
+    }
+
     public Class<?> classToStart;
+
+    public Fragment fragmentToStart;
 }
