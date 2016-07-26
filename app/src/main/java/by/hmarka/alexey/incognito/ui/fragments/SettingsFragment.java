@@ -63,12 +63,12 @@ public class SettingsFragment extends Fragment {
                         break;
                     case 3:
                         AlertDialog.Builder shop = new AlertDialog.Builder(getActivity());
-                        shop.setMessage(R.string.dialog_rules);
+                        shop.setView(R.layout.fragment_shop);
                         shop.show();
                         break;
                     case 6:
                         AlertDialog.Builder rules = new AlertDialog.Builder(getActivity());
-                        rules.setMessage(R.string.dialog_rules);
+                        rules.setView(R.layout.fragment_rules);
                         rules.show();
                         break;
                     case 7:

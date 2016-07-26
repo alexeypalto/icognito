@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="30dp"
     android:orientation="vertical"
     android:padding="5dp"
     android:background="@null">
@@ -10,9 +10,9 @@
     <TextView
         android:id="@+id/lblListHeader"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="30dp"
         android:layout_gravity="center"
-        android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+        android:paddingLeft="20dp"
         android:textSize="20sp"
         android:textColor="@color/orange" />
 
