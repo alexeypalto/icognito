@@ -26,6 +26,13 @@
     <string name="select_photo">Выбрать фото</string>
     <string name="link_to_video">Ссылка на видео</string>
 
+    <string name="hours_short"> ч.</string>
+    <string name="days_short"> д.</string>
+    <string name="month_short"> м.</string>
+
+
+
+
     <string name="description">Earth</string>
 
     <string name="preview">Земля</string>
