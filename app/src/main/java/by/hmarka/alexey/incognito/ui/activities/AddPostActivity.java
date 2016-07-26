@@ -4,7 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.ActionMenuItemView;
+import android.support.v7.view.menu.MenuView;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,7 +60,6 @@ public class AddPostActivity extends AppCompatActivity implements AddFragment.Ad
 
     @Override
     public void setTitle(String title) {
-        //getSupportActionBar().setTitle(title);
         titleView.setText(title);
     }
     @Override
@@ -70,6 +73,7 @@ public class AddPostActivity extends AppCompatActivity implements AddFragment.Ad
 
                 if(response.isSuccessful()) {
                     Toast.makeText(getBaseContext(), "ok", Toast.LENGTH_SHORT).show();
+                    onBackPressed();
                 }
                 else{
                     Toast.makeText(getBaseContext(), "error", Toast.LENGTH_SHORT).show();

@@ -1,5 +1,6 @@
 package by.hmarka.alexey.incognito.ui.fragments;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -12,9 +13,11 @@ import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -23,21 +26,26 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.SimpleAdapter;
 
@@ -46,8 +54,11 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.zip.Inflater;
 
 import by.hmarka.alexey.incognito.BuildConfig;
 import by.hmarka.alexey.incognito.IncognitoApplication;
@@ -69,9 +80,9 @@ public class AddFragment extends Fragment {
     EditText editText;
     ImageButton sendButton;
     ViewGroup imageContainer;
-    GridView gridView;
-    ImageView preview;
     int mMaxLenght = 500;
+
+    HashMap<String,Bitmap> imagesCollection = new HashMap<>() ;
 
     @Override
     public void onAttach(Context context) {
@@ -109,9 +120,7 @@ public class AddFragment extends Fragment {
     private void findViews(View view){
         editText = (EditText)view.findViewById(R.id.editText);
         sendButton = (ImageButton)view.findViewById(R.id.send_button);
-        preview = (ImageView)view.findViewById(R.id.img);
         imageContainer = (ViewGroup)view.findViewById(R.id.image_container);
-        //gridView = (GridView)view.findViewById(R.id.grid_image_container);
     }
 
     private void setupListners(){
@@ -138,6 +147,7 @@ public class AddFragment extends Fragment {
                   parent.sendPost(editText.getText().toString());
             }
         });
+
     }
 
     @Override
@@ -178,6 +188,10 @@ public class AddFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.add_post_menu, menu);
+//        MenuItem item = menu.findItem(R.id.add_fragment_menu_item);
+//        if(item != null){
+//            item.setTitle(String.valueOf( imagesCollection.values().size()));
+//        }
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -185,13 +199,13 @@ public class AddFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_fragment_menu_item:
-                addMedia();
+                addMediaDialog();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void addMedia(){
+    private void addMediaDialog(){
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
 
@@ -283,7 +297,8 @@ public class AddFragment extends Fragment {
                 case REQUEST_IMAGE_CAPTURE :
                     Bundle extras = data.getExtras();
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
-                    preview.setImageBitmap(imageBitmap);
+                    imagesCollection.put(mCurrentPhotoPath,imageBitmap);
+                    updateMedia();
                     break;
                 case REQUEST_IMAGE_SELECT:
                     Uri selectedImage = data.getData();
@@ -294,9 +309,84 @@ public class AddFragment extends Fragment {
                     String picturePath = c.getString(columnIndex);
                     c.close();
                     Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-                    preview.setImageBitmap(thumbnail );
+                    imagesCollection.put(picturePath,thumbnail );
+                    updateMedia();
                     break;
             }
         }
     }
+
+    private void updateMedia() {
+        updatePreview();
+        getActivity().invalidateOptionsMenu();
+    }
+
+    private void updatePreview() {
+        imageContainer.removeAllViews();
+        List<Map.Entry<String,Bitmap>> imageList =  new ArrayList<>(imagesCollection.entrySet());
+        //List<Bitmap> imageList = new ArrayList<>(imagesCollection.values());
+
+
+        Context context = getContext();
+
+        int countCouple = imageList.size()/2;
+        int ex = imageList.size()%2;
+
+        for(int i = 0;i<countCouple; i++){
+            Map.Entry set1 = imageList.get(i*2);
+            View imageView1 = getImagePreview(context, set1.getKey(),(Bitmap) set1.getValue());
+
+            Map.Entry  set2 = imageList.get(i*2+1);
+            View imageView2 = getImagePreview(context, set2.getKey(),(Bitmap) set2.getValue());
+
+            LinearLayout container = new LinearLayout(context);
+            container.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            container.setOrientation(LinearLayout.HORIZONTAL);
+            container.setGravity(Gravity.CENTER_HORIZONTAL);
+            container.addView(imageView1);
+            container.addView(imageView2);
+
+            imageContainer.addView(container);
+        }
+
+        if(ex>0)
+        {
+            Map.Entry set1 = imageList.get(countCouple*2);
+            View imageView1 = getImagePreview(context, set1.getKey(),(Bitmap) set1.getValue());
+
+            LinearLayout container = new LinearLayout(context);
+            container.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            container.setOrientation(LinearLayout.HORIZONTAL);
+            container.addView(imageView1);
+
+            imageContainer.addView(container);
+        }
+    }
+
+    private View getImagePreview(Context context,Object key, Bitmap binmap){
+        View container;
+        LinearLayout.LayoutParams params;
+        ImageView imageView;
+        LayoutInflater inflater = getLayoutInflater(null);
+
+        params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.weight =1;
+
+        container = inflater.inflate(R.layout.view_image_container,null,false);
+        container.setLayoutParams(params);
+
+        imageView = (ImageView)container.findViewById(R.id.content_img);
+        imageView.setImageBitmap(binmap);
+
+        container.setTag(key);
+        container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imagesCollection.remove(view.getTag());
+                updateMedia();
+            }
+        });
+        return container;
+    }
+
 }
