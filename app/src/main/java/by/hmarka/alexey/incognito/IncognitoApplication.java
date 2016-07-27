@@ -6,7 +6,7 @@ import android.support.multidex.MultiDex;
 
 import com.squareup.otto.Bus;
 
-public class  IncognitoApplication extends Application {
+public class  IncognitoApplication extends android.support.multidex.MultiDexApplication{
 
     public static Bus bus = new Bus();
 
@@ -22,9 +22,5 @@ public class  IncognitoApplication extends Application {
         instance = this;
     }
 
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
-    }
 
 }
