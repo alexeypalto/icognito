@@ -79,6 +79,13 @@ public class PostActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
+            case R.id.add_post_to_favorites:
+                if (post.getIsFavorite().equals("1")) {
+                    removePostFromFavorites(postId);
+                } else {
+                    addPostToFavorites(postId);
+                }
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -115,6 +122,42 @@ public class PostActivity extends AppCompatActivity {
                     } catch (IOException e) {
 
                     }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+    private void addPostToFavorites(String postId) {
+        Call<ResponseBody> call = RestClient.getServiceInstance().addPostToFavorite(helpers.getAddPostToFavoriteRequest(postId));
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    menu.findItem(R.id.add_post_to_favorites).setIcon(R.drawable.favorit_active);
+                    post.setIsFavorite("1");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+    private void removePostFromFavorites(String postId) {
+        Call<ResponseBody> call = RestClient.getServiceInstance().addPostToFavorite(helpers.getRemovePostToFavoriteRequest(postId));
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    menu.findItem(R.id.add_post_to_favorites).setIcon(R.drawable.favorite_bot);
+                    post.setIsFavorite("-1");
                 }
             }
 
