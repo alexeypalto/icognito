@@ -8,16 +8,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.StringTokenizer;
 
+import by.hmarka.alexey.incognito.IncognitoApplication;
 import by.hmarka.alexey.incognito.R;
 import by.hmarka.alexey.incognito.entities.Post;
+import by.hmarka.alexey.incognito.events.ShowCommentsInFavoriteFragment;
+import by.hmarka.alexey.incognito.rest.RestClient;
 import by.hmarka.alexey.incognito.ui.activities.PostActivity;
+import by.hmarka.alexey.incognito.utils.Helpers;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by lashket on 4.7.16.
@@ -26,6 +29,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
 
     private ArrayList<Post> posts;
     private Context context;
+    private Helpers helpers = new Helpers();
 
     public PostsAdapter(ArrayList<Post> posts, Context context) {
         if (posts != null) {
@@ -43,43 +47,51 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
     }
 
     @Override
-    public void onBindViewHolder(PostsViewHolder holder, int position) {
-
-        holder.postText.setText(posts.get(position).getPost_text());
-        holder.mediaCountText.setText(posts.get(position).getPost_image_link());
-        holder.ratingCountText.setText(posts.get(position).getLike_count());
-        holder.commentsCountText.setText(posts.get(position).getComment_count());
-        holder.shareCountText.setText("?");
-
-        Calendar rightNow = Calendar.getInstance();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
-        long dt = 0;
-        Date date = null;
-        try {
-            date = simpleDateFormat.parse(posts.get(position).getPost_timestamp());
-            dt = rightNow.getTime().getTime() - date.getTime();
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-            //throw new IllegalAccessException("Error in parsing date");
+    public void onBindViewHolder(final PostsViewHolder holder, final int position) {
+        final Post post;
+        post = posts.get(position);
+        holder.postText.setText(post.getPost_text());
+        holder.likeCount.setText(post.getLike_count());
+        holder.shareCount.setText(post.getLike_count());
+        holder.commentsCount.setText(post.getComment_count());
+        if (post.getIsFavorite().equals(1)) {
+            holder.addToFavorites.setImageResource(R.drawable.favorite_bot);
         }
+        holder.addToFavorites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (post.getIsFavorite().equals("1")) {
+                    holder.addToFavorites.setImageResource(R.drawable.favorit);
+                    posts.get(position).setIsFavorite("0");
+                    return;
+                }
+                if (post.getIsFavorite().equals("0")) {
+                    holder.addToFavorites.setImageResource(R.drawable.favorit_active);
+                    posts.get(position).setIsFavorite("1");
+                    Call<ResponseBody> call = RestClient.getServiceInstance().addPostToFavorite(helpers.getAddPostToFavoriteRequest(posts.get(position).getPost_id()));
+                    call.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (!response.isSuccessful()) {
+                                holder.addToFavorites.setImageResource(R.drawable.favorit);
+                                posts.get(position).setIsFavorite("0");
+                            }
+                        }
 
-        StringBuilder builder = new StringBuilder();
-        long dTime = dt /(60 * 60 * 1000);
-        if(dTime<=24) {
-            builder.append(String.valueOf( dTime));
-            builder.append(context.getString(R.string.hours_short));
-        }else {
-            if (dTime <= 30 * 24) {
-                builder.append(String.valueOf(dTime / 24));
-                builder.append(context.getString(R.string.days_short));
-            } else {
-                builder.append(String.valueOf(dTime / (24 *30)));
-                builder.append(context.getString(R.string.month_short));
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                        }
+                    });
+                }
             }
-        }
-        holder.postDateText.setText(builder.toString());
-        holder.favoritImage.setSelected(false);
+        });
+        holder.commentsCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+             //   IncognitoApplication.bus.post(new ShowCommentsInFavoriteFragment(post.getPost_id()));
+            }
+        });
     }
 
     @Override
@@ -94,29 +106,19 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
 
         private Context context;
         private TextView postText;
-        private TextView mediaCountText;
-        private TextView ratingCountText;
-        private TextView postDateText;
-        private TextView commentsCountText;
-        private TextView shareCountText ;
-        private ImageView favoritImage ;
-        private ViewGroup headerLayout;
-
-        //private GestureDetector mGestureDetector;
+        private TextView commentsCount;
+        private TextView shareCount;
+        private TextView likeCount;
+        private ImageView addToFavorites;
 
         public PostsViewHolder(View v) {
             super(v);
             context = v.getContext();
-            headerLayout = (ViewGroup) v.findViewById(R.id.header);
             postText = (TextView) v.findViewById(R.id.postText);
-            mediaCountText = (TextView) v.findViewById(R.id.photo_count);
-            ratingCountText = (TextView) v.findViewById(R.id.ratingCount);
-            postDateText = (TextView) v.findViewById(R.id.post_date);
-            commentsCountText = (TextView) v.findViewById(R.id.post_comments_count);
-            shareCountText = (TextView) v.findViewById(R.id.post_share_count);
-            favoritImage = (ImageView) v.findViewById(R.id.post_favorite);
-
-
+            commentsCount = (TextView) v.findViewById(R.id.post_comments_count);
+            shareCount  = (TextView) v.findViewById(R.id.post_share_count);
+            likeCount  = (TextView) v.findViewById(R.id.ratingCount);
+            addToFavorites = (ImageView) v.findViewById(R.id.post_favorite);
             v.setOnClickListener(this);
         }
 

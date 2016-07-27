@@ -27,6 +27,7 @@ import by.hmarka.alexey.incognito.entities.Post;
 import by.hmarka.alexey.incognito.entities.PostsWrapper;
 import by.hmarka.alexey.incognito.entities.Thread;
 import by.hmarka.alexey.incognito.entities.ThreadsWrapper;
+import by.hmarka.alexey.incognito.entities.requests.PostsListRequest;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -135,7 +136,9 @@ public class NewsFragment extends Fragment {
     }
 
     private void sendRequestByTheme(String themeId) {
-        Call<ResponseBody> call = RestClient.getServiceInstance().getPostsList(helpers.getNewPostsListRequest());
+        PostsListRequest postsListRequest = helpers.getNewPostsListRequest();
+        postsListRequest.setThemeId(themeId);
+        Call<ResponseBody> call = RestClient.getServiceInstance().getPostsList(postsListRequest);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

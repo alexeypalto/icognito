@@ -55,6 +55,11 @@ public class SettingsFragment extends Fragment {
 
                 switch (position) {
                     case 0:
+                        Intent sendIntent = new Intent();
+                        sendIntent.setAction(Intent.ACTION_SEND);
+                        sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+                        sendIntent.setType("text/plain");
+                        startActivity(sendIntent);
                         break;
                     case 2:
                         Setting item = (Setting)settingsAdapter.getItem(position);

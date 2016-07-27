@@ -22,10 +22,12 @@
             <RelativeLayout
                 android:id="@+id/comment_bar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:gravity="center_vertical"
+                android:layout_height="35dp">
 
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/arrow"
+                    android:layout_width="25dp"
                     android:layout_height="wrap_content"
                     android:src="@drawable/arrow_up"
                     android:layout_centerHorizontal="true"/>
@@ -38,10 +40,12 @@
                     android:textSize="16sp"
                     android:text="10"
                     android:layout_marginRight="20dp"
+                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true" />
 
                 <ImageView
                     android:id="@+id/post_share"
+                    android:layout_centerVertical="true"
                     android:layout_gravity="bottom|right"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
@@ -50,6 +54,7 @@
                     android:layout_toLeftOf="@+id/post_share_count" />
 
                 <TextView
+                    android:layout_centerVertical="true"
                     android:id="@+id/post_comments_count"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
@@ -60,6 +65,7 @@
                     android:layout_toLeftOf="@+id/post_share" />
 
                 <ImageView
+                    android:layout_centerVertical="true"
                     android:id="@+id/post_comments"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
@@ -88,12 +94,13 @@
                 <ImageView
                     android:layout_centerVertical="true"
                     android:id="@+id/smile_button"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:src="@drawable/smile"
                     android:layout_marginLeft="5dp"/>
 
                 <EditText
+                    android:layout_marginLeft="5dp"
                     android:id="@+id/comment_editor"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -105,9 +112,10 @@
                     android:layout_toEndOf="@+id/smile_button" />
 
                 <ImageView
+                    android:layout_centerVertical="true"
                     android:id="@+id/send_button"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:src="@drawable/send"
                     android:layout_marginRight="10dp"
                     android:layout_alignParentRight="true"
