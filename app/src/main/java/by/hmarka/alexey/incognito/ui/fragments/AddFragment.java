@@ -1,13 +1,16 @@
 package by.hmarka.alexey.incognito.ui.fragments;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.DataSetObserver;
@@ -24,9 +27,12 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
+import android.support.v4.view.WindowCompat;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -39,6 +45,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -60,8 +67,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.Inflater;
 
-import by.hmarka.alexey.incognito.BuildConfig;
-import by.hmarka.alexey.incognito.IncognitoApplication;
+
 import by.hmarka.alexey.incognito.R;
 import by.hmarka.alexey.incognito.utils.SharedPreferenceHelper;
 
@@ -102,7 +108,7 @@ public class AddFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        //setHasOptionsMenu(true);
+        setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
     }
 
@@ -209,6 +215,12 @@ public class AddFragment extends Fragment {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
 
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            //TODO takePictureButton.setDisabled
+            //takePictureButton.setEnabled(false);
+            ActivityCompat.requestPermissions(getActivity(), new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
+        }
+
         List<HashMap<String,String>> aList = new ArrayList<HashMap<String,String>>();
 
         HashMap<String, String> hm = new HashMap<String,String>();
@@ -248,6 +260,17 @@ public class AddFragment extends Fragment {
         dialogBuilder.show();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 0) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                    && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                //TODO takePictureButton.setEnabled
+                //takePictureButton.setEnabled(true);
+            }
+        }
+    }
+
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_IMAGE_SELECT = 2;
     private void dispatchTSelectPictureIntent() {
@@ -267,7 +290,8 @@ public class AddFragment extends Fragment {
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                Uri pathUri = Uri.fromFile(photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, pathUri);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
 
@@ -286,7 +310,7 @@ public class AddFragment extends Fragment {
         );
 
         // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+        mCurrentPhotoPath = /*"file:" +*/ image.getAbsolutePath();
         return image;
     }
 
@@ -295,9 +319,8 @@ public class AddFragment extends Fragment {
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_IMAGE_CAPTURE :
-                    Bundle extras = data.getExtras();
-                    Bitmap imageBitmap = (Bitmap) extras.get("data");
-                    imagesCollection.put(mCurrentPhotoPath,imageBitmap);
+                    Bitmap cThumbnail = getScaledPic(mCurrentPhotoPath);
+                    imagesCollection.put(mCurrentPhotoPath,cThumbnail);
                     updateMedia();
                     break;
                 case REQUEST_IMAGE_SELECT:
@@ -308,12 +331,37 @@ public class AddFragment extends Fragment {
                     int columnIndex = c.getColumnIndex(filePath[0]);
                     String picturePath = c.getString(columnIndex);
                     c.close();
-                    Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-                    imagesCollection.put(picturePath,thumbnail );
+                    Bitmap pThumbnail = getScaledPic(picturePath);
+                    imagesCollection.put(picturePath,pThumbnail);
                     updateMedia();
                     break;
             }
         }
+    }
+    private Bitmap getScaledPic(String photoPath) {
+        // Get the dimensions of the View
+        Point winSize = new Point();
+        getActivity().getWindowManager().getDefaultDisplay().getSize(winSize);
+        int targetW = winSize.x;
+        int targetH = winSize.y;
+
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(photoPath, bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(photoPath, bmOptions);
+        return bitmap;
     }
 
     private void updateMedia() {
