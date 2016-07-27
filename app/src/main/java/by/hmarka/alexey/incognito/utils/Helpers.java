@@ -5,7 +5,9 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 
 import by.hmarka.alexey.incognito.entities.requests.AddPostToFavoriteRequest;
+import by.hmarka.alexey.incognito.entities.requests.GetCommentListRequest;
 import by.hmarka.alexey.incognito.entities.requests.GetFullPostRequest;
+import by.hmarka.alexey.incognito.entities.requests.LeaveCommentRequest;
 import by.hmarka.alexey.incognito.entities.requests.PostsListRequest;
 import by.hmarka.alexey.incognito.entities.requests.RegisterDeviceRequest;
 import by.hmarka.alexey.incognito.entities.requests.ThreadsListRequest;
@@ -100,7 +102,29 @@ public class Helpers {
         return addPostToFavoriteRequest;
     }
 
+    public LeaveCommentRequest getLeaveReviewRequest(String postId, String commentText) {
+        LeaveCommentRequest leaveCommentRequest = new LeaveCommentRequest();
+        leaveCommentRequest.setAccess_type(SharedPreferenceHelper.getAccessType());
+        leaveCommentRequest.setImei(SharedPreferenceHelper.getImei());
+        leaveCommentRequest.setLocation_lat(SharedPreferenceHelper.getLocationLattitude());
+        leaveCommentRequest.setLocation_long(SharedPreferenceHelper.getLocationLongitude());
+        leaveCommentRequest.setLanguage(SharedPreferenceHelper.getLanguage());
+        leaveCommentRequest.setCommentText(commentText);
+        leaveCommentRequest.setPostId(postId);
+        return leaveCommentRequest;
+    }
 
+    public GetCommentListRequest getCommentsListRequest(String postId) {
+        GetCommentListRequest leaveCommentRequest = new GetCommentListRequest();
+        leaveCommentRequest.setAccess_type(SharedPreferenceHelper.getAccessType());
+        leaveCommentRequest.setImei(SharedPreferenceHelper.getImei());
+        leaveCommentRequest.setLocation_lat(SharedPreferenceHelper.getLocationLattitude());
+        leaveCommentRequest.setLocation_long(SharedPreferenceHelper.getLocationLongitude());
+        leaveCommentRequest.setLanguage(SharedPreferenceHelper.getLanguage());
+        leaveCommentRequest.setPostId(postId);
+        leaveCommentRequest.setPage("2");
+        return leaveCommentRequest;
+    }
 
     public float convertDpToPixel(float dp, Context context) {
         Resources resources = context.getResources();

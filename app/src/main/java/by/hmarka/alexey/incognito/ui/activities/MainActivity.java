@@ -13,11 +13,14 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,19 +28,32 @@ import android.widget.RelativeLayout;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 import by.hmarka.alexey.incognito.IncognitoApplication;
 import by.hmarka.alexey.incognito.R;
 import by.hmarka.alexey.incognito.customcontrols.CustomTabLayout;
+import by.hmarka.alexey.incognito.entities.Comment;
+import by.hmarka.alexey.incognito.entities.CommentsWrapper;
 import by.hmarka.alexey.incognito.events.ShowCommentsInFavoriteFragment;
+import by.hmarka.alexey.incognito.rest.RestClient;
 import by.hmarka.alexey.incognito.services.RegistrationIntentService;
+import by.hmarka.alexey.incognito.ui.adapters.CommentsAdapter;
 import by.hmarka.alexey.incognito.ui.adapters.CustomPagerAdapter;
 import by.hmarka.alexey.incognito.ui.fragments.FavoritesFragment;
 import by.hmarka.alexey.incognito.ui.fragments.HomeFragment;
 import by.hmarka.alexey.incognito.ui.fragments.NewsFragment;
 import by.hmarka.alexey.incognito.ui.fragments.SettingsFragment;
 import by.hmarka.alexey.incognito.utils.Constants;
+import by.hmarka.alexey.incognito.utils.Helpers;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Alexey on 22.06.2016.
@@ -52,8 +68,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RelativeLayout commentsLayout;
     private LinearLayout commentsList;
     private ImageView arrowUpComments;
-    private boolean isShowingFullList = false;
-
+    private boolean isShowingComments = false;
+    private EditText comment;
+    private ImageView sendCommentButton;
+    private String postCommentId;
+    private Helpers helpers = new Helpers();
+    private RecyclerView commentsRecyclerView;
+    private CommentsAdapter commentsAdapter;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
 
     @Override
@@ -70,10 +91,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //tabLayout = (TabLayout) findViewById(R.id.mainTabLayout);
         viewPager = (ViewPager) findViewById(R.id.mainViewPager);
         commentsLayout = (RelativeLayout) findViewById(R.id.comments_layout);
+        commentsLayout.setOnClickListener(this);
         commentsList = (LinearLayout) findViewById(R.id.comments_list_layout);
+        comment = (EditText) findViewById(R.id.comment_editor);
+        sendCommentButton = (ImageView) findViewById(R.id.send_button);
+        commentsRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         arrowUpComments = (ImageView) findViewById(R.id.arrow);
+        sendCommentButton.setOnClickListener(this);
         arrowUpComments.setOnClickListener(this);
         setupViewPager();
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        commentsRecyclerView.setLayoutManager(linearLayoutManager);
+
     }
 
     private void setupViewPager() {
@@ -106,15 +136,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.arrow:
-                if (!isShowingFullList) {
-                    commentsList.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                    isShowingFullList = true;
-                } else {
-                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 350);
-                    params.setMarginStart(0);
-                    commentsList.setLayoutParams(params);
-                    isShowingFullList = false;
-                }
+                commentsLayout.setVisibility(View.GONE);
+                commentsList.setVisibility(View.GONE);
+                isShowingComments = false;
+                break;
+            case R.id.send_button:
+                sendComment();
                 break;
         }
     }
@@ -206,6 +233,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         commentsList.setVisibility(View.VISIBLE);
                     }
                 });
+        postCommentId = event.getPostId();
+        getCommentsList();
+        isShowingComments = true;
+    }
+
+    private void getCommentsList() {
+        Call<ResponseBody> call = RestClient.getServiceInstance().getListComments(helpers.getCommentsListRequest(postCommentId));
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    String responseString = "";
+                    try {
+                        responseString = response.body().string();
+                        CommentsWrapper commentsWrapper = new CommentsWrapper();
+                        commentsWrapper = new Gson().fromJson(responseString, CommentsWrapper.class);
+                        commentsAdapter = new CommentsAdapter(MainActivity.this,(ArrayList<Comment>) commentsWrapper.getComments());
+                        commentsRecyclerView.setAdapter(commentsAdapter);
+                    } catch (IOException e) {
+
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override
@@ -267,9 +323,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        if (isShowingFullList) {
+        if (isShowingComments) {
             commentsLayout.setVisibility(View.GONE);
             commentsList.setVisibility(View.GONE);
         }
     }
+
+    private void sendComment() {
+        Call<ResponseBody> call = RestClient.getServiceInstance().sendComment(helpers.getLeaveReviewRequest(postCommentId, comment.getText().toString()));
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Comment commentResponse = new Comment();
+                    commentResponse.setComment_text(comment.getText().toString());
+                    commentsAdapter.add(commentResponse);
+                    comment.setText("");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+
 }
