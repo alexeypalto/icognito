@@ -60,8 +60,12 @@ public class SettingsAdapter extends BaseAdapter {
 
         if (!setting.getName().equals(""))
         {
-            ((TextView) view.findViewById(R.id.setting_name)).setText(setting.getName());
-            ((ImageView) view.findViewById(R.id.setting_icon)).setImageResource(setting.getImage());
+            try {
+                ((TextView) view.findViewById(R.id.setting_name)).setText(setting.getName());
+                ((ImageView) view.findViewById(R.id.setting_icon)).setImageResource(setting.getImage());
+            } catch (NullPointerException e) {
+
+            }
         }
 
             return view;
