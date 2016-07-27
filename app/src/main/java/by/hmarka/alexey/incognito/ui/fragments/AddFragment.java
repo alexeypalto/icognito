@@ -36,6 +36,7 @@ import android.support.v4.view.WindowCompat;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Gravity;
@@ -159,9 +160,9 @@ public class AddFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        int newMaxLenght;// = SharedPreferenceHelper.getMaxPostLenght();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        newMaxLenght = prefs.getInt(KEY_MAX_POST_LENGHT, 500);
+        int newMaxLenght = SharedPreferenceHelper.getMaxPostLenght();
+        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        //newMaxLenght = prefs.getInt(KEY_MAX_POST_LENGHT, 500);
 
         if( newMaxLenght!= mMaxLenght){
             mMaxLenght = newMaxLenght;
@@ -340,10 +341,11 @@ public class AddFragment extends Fragment {
     }
     private Bitmap getScaledPic(String photoPath) {
         // Get the dimensions of the View
-        Point winSize = new Point();
-        getActivity().getWindowManager().getDefaultDisplay().getSize(winSize);
-        int targetW = winSize.x;
-        int targetH = winSize.y;
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        int targetW = displayMetrics.heightPixels/2;
+        int targetH = displayMetrics.widthPixels/2;
 
         // Get the dimensions of the bitmap
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
@@ -359,7 +361,7 @@ public class AddFragment extends Fragment {
         bmOptions.inJustDecodeBounds = false;
         bmOptions.inSampleSize = scaleFactor;
         bmOptions.inPurgeable = true;
-
+        bmOptions.inScreenDensity = displayMetrics.densityDpi;
         Bitmap bitmap = BitmapFactory.decodeFile(photoPath, bmOptions);
         return bitmap;
     }
