@@ -69,7 +69,7 @@ public class FavoritesFragment extends Fragment {
     private void sendRequest() {
         PostsListRequest postsListRequest = helpers.getNewPostsListRequest();
         postsListRequest.setSorting("favorite");
-        Call<ResponseBody> call = RestClient.getServiceInstance().getPostsList(postsListRequest);
+        Call<ResponseBody> call = RestClient.getServiceInstance().getFavoritesList(postsListRequest);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

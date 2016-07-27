@@ -55,8 +55,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         holder.likeCount.setText(post.getLike_count());
         holder.shareCount.setText(post.getLike_count());
         holder.commentsCount.setText(post.getComment_count());
-        if (post.getIsFavorite().equals(1)) {
-            holder.addToFavorites.setImageResource(R.drawable.favorite_bot);
+        if (post.getIsFavorite().equals("1")) {
+            holder.addToFavorites.setImageResource(R.drawable.favorit_active);
         }
         holder.addToFavorites.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +105,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         holder.comments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             //   IncognitoApplication.bus.post(new ShowCommentsInFavoriteFragment(post.getPost_id()));
+               IncognitoApplication.bus.post(new ShowCommentsInFavoriteFragment(post.getPost_id()));
             }
         });
     }

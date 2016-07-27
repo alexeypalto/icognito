@@ -33,6 +33,9 @@ public interface IncognitoRestService {
     @POST("postList.xml")
     Call<ResponseBody> getPostsList(@Body PostsListRequest postsListRequest);
 
+    @POST("favorites.xml")
+    Call<ResponseBody> getFavoritesList(@Body PostsListRequest postsListRequest);
+
     @POST("fullPost.xml")
     Call<ResponseBody> getFullPost(@Body GetFullPostRequest getFullPostRequest);
 
