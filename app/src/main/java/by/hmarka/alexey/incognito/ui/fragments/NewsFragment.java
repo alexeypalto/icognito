@@ -16,13 +16,30 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import by.hmarka.alexey.incognito.entities.Post;
+import by.hmarka.alexey.incognito.entities.PostsWrapper;
+import by.hmarka.alexey.incognito.entities.Thread;
+import by.hmarka.alexey.incognito.entities.ThreadsWrapper;
+import by.hmarka.alexey.incognito.entities.requests.PostsListRequest;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import by.hmarka.alexey.incognito.IncognitoApplication;
 import by.hmarka.alexey.incognito.R;
 import by.hmarka.alexey.incognito.events.ShowPostsInCategoriesFragmentEvent;
+import by.hmarka.alexey.incognito.rest.RestClient;
 import by.hmarka.alexey.incognito.ui.adapters.PostsAdapter;
 import by.hmarka.alexey.incognito.ui.adapters.ThemesListAdapter;
+import by.hmarka.alexey.incognito.utils.Helpers;
 
 /**
  * Created by lashket on 28.6.16.
@@ -33,6 +50,7 @@ public class NewsFragment extends Fragment {
     private Menu menu;
     private RecyclerView recyclerView;
     private RecyclerView recyclerViewPosts;
+    private Helpers helpers = new Helpers();
 
     @Nullable
     @Override
@@ -45,7 +63,8 @@ public class NewsFragment extends Fragment {
         recyclerViewPosts = (RecyclerView) view.findViewById(R.id.recyclerViewPosts);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(new ThemesListAdapter());
+        getListOfThreads();
+       // recyclerView.setAdapter(new ThemesListAdapter());
         return view;
     }
 
@@ -111,8 +130,36 @@ public class NewsFragment extends Fragment {
         recyclerViewPosts.setVisibility(View.VISIBLE);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerViewPosts.setLayoutManager(linearLayoutManager);
-     //   recyclerViewPosts.setAdapter(new PostsAdapter());
+        //recyclerViewPosts.setAdapter(new PostsAdapter());
         setToolbarWithBackButton();
+        sendRequestByTheme(event.getCategoryId());
+    }
+
+    private void sendRequestByTheme(String themeId) {
+        PostsListRequest postsListRequest = helpers.getNewPostsListRequest();
+        postsListRequest.setThemeId(themeId);
+        Call<ResponseBody> call = RestClient.getServiceInstance().getPostsList(postsListRequest);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    String responseString = "";
+                    try {
+                        responseString = response.body().string();
+                        PostsWrapper postsWrapper = new Gson().fromJson(responseString, PostsWrapper.class);
+                        List<Post> posts = postsWrapper.getPosts();
+                        recyclerViewPosts.setAdapter(new PostsAdapter((ArrayList<Post>) posts, getContext()));
+                    } catch (IOException e) {
+                        // TODO handling error
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override
@@ -126,4 +173,30 @@ public class NewsFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void getListOfThreads() {
+
+        Call<ResponseBody> call = RestClient.getServiceInstance().getThreadList(helpers.getThreadListRequest());
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    String responseString = "";
+                    try {
+                        responseString = response.body().string();
+                        ThreadsWrapper threadsWrapper = new Gson().fromJson(responseString, ThreadsWrapper.class);
+                        recyclerView.setAdapter(new ThemesListAdapter(getContext(), (ArrayList<Thread>) threadsWrapper.getThreads()));
+                    } catch (IOException e) {
+
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+
 }

@@ -25,4 +25,5 @@
         <!--android:layout_alignParentBottom="true"-->
         <!--android:background="@android:color/black"-->
         <!--auto:tabIndicatorColor="@color/orange"/>-->
+    <include layout="@layout/fragment_comments" />
 </RelativeLayout>

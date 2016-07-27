@@ -29,7 +29,7 @@ public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
         return fragmentList.size();
     }
 
-    public void addFragment(Fragment fragment) {
+    public void addFragment(Fragment fragment, String новое) {
         fragmentList.add(fragment);
 
     }

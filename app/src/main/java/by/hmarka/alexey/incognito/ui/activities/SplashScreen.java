@@ -3,7 +3,6 @@ package by.hmarka.alexey.incognito.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.view.View;
 
@@ -15,8 +14,6 @@ import by.hmarka.alexey.incognito.entities.requests.RegisterDeviceRequest;
 import by.hmarka.alexey.incognito.events.LocationReadyEvent;
 import by.hmarka.alexey.incognito.rest.RestClient;
 import by.hmarka.alexey.incognito.utils.Constants;
-import by.hmarka.alexey.incognito.utils.Helpers;
-import by.hmarka.alexey.incognito.utils.SharedPreferenceHelper;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,14 +24,13 @@ import retrofit2.Response;
  */
 public class SplashScreen extends BaseAppCompatActivity{
 
-    private Helpers helpers = new Helpers();
     private final int SPLASH_DISPLAY_LENGTH = 500;
 
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.splash_screen);
-     //   sendRequest();
+        sendRequest();
      //   SharedPreferenceHelper.setRadius("100000000");
         TelephonyManager tm =(TelephonyManager)getSystemService(TELEPHONY_SERVICE);
      //   SharedPreferenceHelper.setImei(String.valueOf(tm.getDeviceId()));
@@ -52,7 +48,7 @@ public class SplashScreen extends BaseAppCompatActivity{
     public void onStart() {
         super.onStart();
         IncognitoApplication.bus.register(this);
-        getLocation(Constants.REQUEST_CODE_SPLASH_ACTIVITY_GET_LOCATION);
+        //getLocation(Constants.REQUEST_CODE_SPLASH_ACTIVITY_GET_LOCATION);
     }
 
     @Override
@@ -62,7 +58,7 @@ public class SplashScreen extends BaseAppCompatActivity{
     }
 
     private void sendRequest() {
-        Call<ResponseBody> call = RestClient.getServiceInstance().registerDevice(helpers.getRegisterDiveRequest());
+        Call<ResponseBody> call = RestClient.getServiceInstance().registerDevice(getDeviceRegisterRequest());
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -80,9 +76,28 @@ public class SplashScreen extends BaseAppCompatActivity{
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent mainIntent = new Intent(SplashScreen.this, MainActivity.class);
+                            SplashScreen.this.startActivity(mainIntent);
+                            SplashScreen.this.finish();
+                        }
+                    }, SPLASH_DISPLAY_LENGTH);
+                }
             }
         });
+    }
+
+    private RegisterDeviceRequest getDeviceRegisterRequest() {
+        RegisterDeviceRequest registerDeviceRequest = new RegisterDeviceRequest();
+        registerDeviceRequest.setImei("12345");
+        registerDeviceRequest.setLanguage("ru_RU");
+        registerDeviceRequest.setLocation_lat("2");
+        registerDeviceRequest.setLocation_long("32");
+        registerDeviceRequest.setAccess_type("mobile");
+        return registerDeviceRequest;
     }
 
     @Subscribe

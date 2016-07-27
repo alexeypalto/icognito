@@ -12,7 +12,15 @@ public class PostsListRequest {
     private String lastPostId;
     private String language;
     private String access_type;
+    private String themeId;
 
+    public String getThemeId() {
+        return themeId;
+    }
+
+    public void setThemeId(String themeId) {
+        this.themeId = themeId;
+    }
     public String getImei() {
         return imei;
     }

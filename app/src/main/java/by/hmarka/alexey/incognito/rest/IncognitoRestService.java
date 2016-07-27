@@ -5,6 +5,7 @@ import by.hmarka.alexey.incognito.entities.requests.AddPostToFavoriteRequest;
 import by.hmarka.alexey.incognito.entities.requests.GetFullPostRequest;
 import by.hmarka.alexey.incognito.entities.requests.PostsListRequest;
 import by.hmarka.alexey.incognito.entities.requests.RegisterDeviceRequest;
+import by.hmarka.alexey.incognito.entities.requests.ThreadsListRequest;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -40,5 +41,8 @@ public interface IncognitoRestService {
 
     @POST("addFavorite.xml")
     Call<ResponseBody> addPostToFavorite(@Body AddPostToFavoriteRequest addPostToFavoriteRequest);
+
+    @POST("threadList.xml")
+    Call<ResponseBody> getThreadList(@Body ThreadsListRequest threadsListRequest);
 
 }

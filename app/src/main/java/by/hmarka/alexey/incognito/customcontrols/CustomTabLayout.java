@@ -32,9 +32,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
-import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -44,7 +42,6 @@ import android.widget.Toast;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 
 import by.hmarka.alexey.incognito.R;
 
