@@ -1,25 +1,18 @@
 package by.hmarka.alexey.incognito.entities.requests;
 
 /**
- * Created by lashket on 12.7.16.
+ * Created by lashket on 27.7.16.
  */
-public class AddPostToFavoriteRequest {
+public class LeaveCommentRequest {
 
     private String imei;
     private String location_lat;
     private String location_long;
+    private String radius;
     private String language;
     private String access_type;
     private String postId;
-    private String add;
-
-    public String getAdd() {
-        return add;
-    }
-
-    public void setAdd(String add) {
-        this.add = add;
-    }
+    private String commentText;
 
     public String getImei() {
         return imei;
@@ -45,6 +38,14 @@ public class AddPostToFavoriteRequest {
         this.location_long = location_long;
     }
 
+    public String getRadius() {
+        return radius;
+    }
+
+    public void setRadius(String radius) {
+        this.radius = radius;
+    }
+
     public String getLanguage() {
         return language;
     }
@@ -67,5 +68,13 @@ public class AddPostToFavoriteRequest {
 
     public void setPostId(String postId) {
         this.postId = postId;
+    }
+
+    public String getCommentText() {
+        return commentText;
+    }
+
+    public void setCommentText(String commentText) {
+        this.commentText = commentText;
     }
 }

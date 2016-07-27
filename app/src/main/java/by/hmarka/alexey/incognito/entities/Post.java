@@ -1,5 +1,7 @@
 package by.hmarka.alexey.incognito.entities;
 
+import java.util.List;
+
 /**
  * Created by lashket on 25.6.16.
  */
@@ -13,6 +15,15 @@ public class Post {
     private String comment_count;
     private String favorite_count;
     private String isFavorite;
+    private List<Comment> comments;
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 
     public String getIsFavorite() {
         return isFavorite;

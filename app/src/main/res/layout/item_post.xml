@@ -15,11 +15,11 @@
             android:layout_height="match_parent">
 
             <RelativeLayout
-                android:layout_marginTop="5dp"
                 android:id="@+id/header"
-                android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical">
 
                 <ImageView
                     android:id="@+id/content_photo"
@@ -30,10 +30,10 @@
                     tools:visibility="visible" />
 
                 <TextView
-                    android:layout_marginLeft="5dp"
                     android:id="@+id/photo_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@+id/content_photo"
                     android:text="10"
                     android:textColor="@color/lightGrey"
@@ -48,6 +48,8 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:background="@drawable/rectangle_background_gray"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
                     android:text="1020"
                     android:textColor="@color/white"
                     android:textSize="16sp"
@@ -56,16 +58,16 @@
             </RelativeLayout>
 
             <TextView
-                android:lines="11"
-                android:ellipsize="end"
                 android:id="@+id/postText"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/header"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:lines="11"
                 android:text="News" />
 
             <RelativeLayout
@@ -86,21 +88,21 @@
                     android:textSize="15sp" />
 
                 <ImageView
-                    android:layout_centerVertical="true"
                     android:id="@+id/post_favorite"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginBottom="5dp"
                     android:layout_marginRight="15dp"
                     android:src="@drawable/favorit" />
 
                 <TextView
-                    android:layout_marginLeft="5dp"
-                    android:layout_centerVertical="true"
                     android:id="@+id/post_share_count"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
                     android:layout_marginRight="20dp"
                     android:layout_toLeftOf="@+id/post_favorite"
                     android:text="10"
@@ -108,34 +110,45 @@
                     android:textSize="15sp" />
 
                 <ImageView
-                    android:layout_centerVertical="true"
                     android:id="@+id/post_share"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_alignBottom="@+id/post_favorite"
+                    android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/post_share_count"
                     android:src="@drawable/selector_post_share" />
 
-                <TextView
-                    android:layout_marginLeft="5dp"
+                <LinearLayout
+                    android:id="@+id/comments_post_layout"
                     android:layout_centerVertical="true"
-                    android:id="@+id/post_comments_count"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/post_share"
-                    android:text="10"
-                    android:textColor="@color/lightGrey"
-                    android:textSize="15sp" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="?attr/selectableItemBackground">
 
-                <ImageView
-                    android:layout_centerVertical="true"
-                    android:id="@+id/post_comments"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_alignBottom="@+id/post_date"
-                    android:layout_toLeftOf="@+id/post_comments_count"
-                    android:src="@drawable/comment" />
+                    <ImageView
+                        android:id="@+id/post_comments"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_alignBottom="@+id/post_date"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/post_comments_count"
+                        android:src="@drawable/comment" />
+
+                    <TextView
+                        android:id="@+id/post_comments_count"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_toLeftOf="@+id/post_share"
+                        android:text="10"
+                        android:textColor="@color/lightGrey"
+                        android:textSize="15sp" />
+                </LinearLayout>
             </RelativeLayout>
         </RelativeLayout>
 

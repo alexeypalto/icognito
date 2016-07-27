@@ -2,7 +2,9 @@ package by.hmarka.alexey.incognito.rest;
 
 import by.hmarka.alexey.incognito.entities.requests.AddPostRequest;
 import by.hmarka.alexey.incognito.entities.requests.AddPostToFavoriteRequest;
+import by.hmarka.alexey.incognito.entities.requests.GetCommentListRequest;
 import by.hmarka.alexey.incognito.entities.requests.GetFullPostRequest;
+import by.hmarka.alexey.incognito.entities.requests.LeaveCommentRequest;
 import by.hmarka.alexey.incognito.entities.requests.PostsListRequest;
 import by.hmarka.alexey.incognito.entities.requests.RegisterDeviceRequest;
 import by.hmarka.alexey.incognito.entities.requests.ThreadsListRequest;
@@ -33,6 +35,9 @@ public interface IncognitoRestService {
     @POST("postList.xml")
     Call<ResponseBody> getPostsList(@Body PostsListRequest postsListRequest);
 
+    @POST("favorites.xml")
+    Call<ResponseBody> getFavoritesList(@Body PostsListRequest postsListRequest);
+
     @POST("fullPost.xml")
     Call<ResponseBody> getFullPost(@Body GetFullPostRequest getFullPostRequest);
 
@@ -44,5 +49,11 @@ public interface IncognitoRestService {
 
     @POST("threadList.xml")
     Call<ResponseBody> getThreadList(@Body ThreadsListRequest threadsListRequest);
+
+    @POST("addComment.xml")
+    Call<ResponseBody> sendComment(@Body LeaveCommentRequest leaveCommentRequest);
+
+    @POST("postCommentsList.xml")
+    Call<ResponseBody> getListComments(@Body GetCommentListRequest getCommentListRequest);
 
 }

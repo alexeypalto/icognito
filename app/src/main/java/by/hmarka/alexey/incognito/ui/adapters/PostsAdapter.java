@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -54,8 +55,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         holder.likeCount.setText(post.getLike_count());
         holder.shareCount.setText(post.getLike_count());
         holder.commentsCount.setText(post.getComment_count());
-        if (post.getIsFavorite().equals(1)) {
-            holder.addToFavorites.setImageResource(R.drawable.favorite_bot);
+        if (post.getIsFavorite().equals("1")) {
+            holder.addToFavorites.setImageResource(R.drawable.favorit_active);
         }
         holder.addToFavorites.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +64,21 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
                 if (post.getIsFavorite().equals("1")) {
                     holder.addToFavorites.setImageResource(R.drawable.favorit);
                     posts.get(position).setIsFavorite("0");
+                    Call<ResponseBody> call = RestClient.getServiceInstance().addPostToFavorite(helpers.getRemovePostToFavoriteRequest(posts.get(position).getPost_id()));
+                    call.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (!response.isSuccessful()) {
+                                holder.addToFavorites.setImageResource(R.drawable.favorit_active);
+                                posts.get(position).setIsFavorite("1");
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                        }
+                    });
                     return;
                 }
                 if (post.getIsFavorite().equals("0")) {
@@ -86,10 +102,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
                 }
             }
         });
-        holder.commentsCount.setOnClickListener(new View.OnClickListener() {
+        holder.comments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             //   IncognitoApplication.bus.post(new ShowCommentsInFavoriteFragment(post.getPost_id()));
+               IncognitoApplication.bus.post(new ShowCommentsInFavoriteFragment(post.getPost_id()));
             }
         });
     }
@@ -110,10 +126,12 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         private TextView shareCount;
         private TextView likeCount;
         private ImageView addToFavorites;
+        private LinearLayout comments;
 
         public PostsViewHolder(View v) {
             super(v);
             context = v.getContext();
+            comments = (LinearLayout) v.findViewById(R.id.comments_post_layout);
             postText = (TextView) v.findViewById(R.id.postText);
             commentsCount = (TextView) v.findViewById(R.id.post_comments_count);
             shareCount  = (TextView) v.findViewById(R.id.post_share_count);

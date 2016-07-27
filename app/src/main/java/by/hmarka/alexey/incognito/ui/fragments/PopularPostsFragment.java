@@ -1,7 +1,6 @@
 package by.hmarka.alexey.incognito.ui.fragments;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,9 +22,13 @@ public class PopularPostsFragment extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList<Post> posts;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_popular, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -38,7 +41,7 @@ public class PopularPostsFragment extends Fragment {
     }
 
     public void addList(ArrayList<Post> posts) {
-        if (recyclerView == null) {
+        if (this.recyclerView == null) {
             this.posts = posts;
             return;
         }

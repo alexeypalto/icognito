@@ -1,24 +1,25 @@
 package by.hmarka.alexey.incognito.entities.requests;
 
 /**
- * Created by lashket on 12.7.16.
+ * Created by lashket on 27.7.16.
  */
-public class AddPostToFavoriteRequest {
+public class GetCommentListRequest {
 
     private String imei;
     private String location_lat;
     private String location_long;
+    private String radius;
     private String language;
     private String access_type;
     private String postId;
-    private String add;
+    private String page;
 
-    public String getAdd() {
-        return add;
+    public String getPage() {
+        return page;
     }
 
-    public void setAdd(String add) {
-        this.add = add;
+    public void setPage(String page) {
+        this.page = page;
     }
 
     public String getImei() {
@@ -43,6 +44,14 @@ public class AddPostToFavoriteRequest {
 
     public void setLocation_long(String location_long) {
         this.location_long = location_long;
+    }
+
+    public String getRadius() {
+        return radius;
+    }
+
+    public void setRadius(String radius) {
+        this.radius = radius;
     }
 
     public String getLanguage() {
