@@ -265,4 +265,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return false;
     }
 
+    @Override
+    public void onBackPressed() {
+        if (isShowingFullList) {
+            commentsLayout.setVisibility(View.GONE);
+            commentsList.setVisibility(View.GONE);
+        }
+    }
 }

@@ -8,7 +8,7 @@ public class PostsListRequest {
     private String radius;
     private String sorting;
     private String page;
-    private String postOnPage;
+    private String postsOnPage;
     private String lastPostId;
     private String language;
     private String access_type;
@@ -69,12 +69,12 @@ public class PostsListRequest {
         this.page = page;
     }
 
-    public String getPostOnPage() {
-        return postOnPage;
+    public String getPostsOnPage() {
+        return postsOnPage;
     }
 
-    public void setPostOnPage(String postOnPage) {
-        this.postOnPage = postOnPage;
+    public void setPostOnPage(String postsOnPage) {
+        this.postsOnPage = postsOnPage;
     }
 
     public String getLastPostId() {

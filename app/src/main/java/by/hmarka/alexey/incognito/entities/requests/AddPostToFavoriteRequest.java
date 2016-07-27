@@ -11,6 +11,15 @@ public class AddPostToFavoriteRequest {
     private String language;
     private String access_type;
     private String postId;
+    private String add;
+
+    public String getAdd() {
+        return add;
+    }
+
+    public void setAdd(String add) {
+        this.add = add;
+    }
 
     public String getImei() {
         return imei;

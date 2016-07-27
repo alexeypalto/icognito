@@ -36,6 +36,7 @@ public class Helpers {
         postsListRequest.setSorting("date");
         postsListRequest.setLastPostId("10");
         postsListRequest.setPostOnPage("10");
+        postsListRequest.setPage("0");
         return postsListRequest;
     }
 
@@ -50,6 +51,7 @@ public class Helpers {
         postsListRequest.setSorting("like");
         postsListRequest.setLastPostId("10");
         postsListRequest.setPostOnPage("10");
+        postsListRequest.setPage("0");
         return postsListRequest;
     }
 
@@ -81,9 +83,24 @@ public class Helpers {
         addPostToFavoriteRequest.setLanguage("ru_RU");
         addPostToFavoriteRequest.setLocation_lat("34");
         addPostToFavoriteRequest.setLocation_long("52");
+        addPostToFavoriteRequest.setAdd("1");
         addPostToFavoriteRequest.setPostId(postId);
         return addPostToFavoriteRequest;
     }
+
+    public AddPostToFavoriteRequest getRemovePostToFavoriteRequest(String postId) {
+        AddPostToFavoriteRequest addPostToFavoriteRequest = new AddPostToFavoriteRequest();
+        addPostToFavoriteRequest.setAccess_type("mobile");
+        addPostToFavoriteRequest.setImei("12345");
+        addPostToFavoriteRequest.setLanguage("ru_RU");
+        addPostToFavoriteRequest.setLocation_lat("34");
+        addPostToFavoriteRequest.setLocation_long("52");
+        addPostToFavoriteRequest.setAdd("-1");
+        addPostToFavoriteRequest.setPostId(postId);
+        return addPostToFavoriteRequest;
+    }
+
+
 
     public float convertDpToPixel(float dp, Context context) {
         Resources resources = context.getResources();
