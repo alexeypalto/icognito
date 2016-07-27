@@ -9,7 +9,7 @@
     >
 
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="20dp"
         android:layout_height="match_parent"
         android:layout_margin="10dp"
         android:id="@+id/setting_icon" />

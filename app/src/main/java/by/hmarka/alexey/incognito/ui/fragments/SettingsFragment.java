@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -52,9 +53,43 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Setting item = (Setting)settingsAdapter.getItem(position);
-                Intent t =  new Intent(getContext(),item.classToStart);
-                startActivity(t);
+                switch (position) {
+                    case 0:
+                        Intent sendIntent = new Intent();
+                        sendIntent.setAction(Intent.ACTION_SEND);
+                        sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+                        sendIntent.setType("text/plain");
+                        startActivity(sendIntent);
+                        break;
+                    case 2:
+                        Setting item = (Setting)settingsAdapter.getItem(position);
+                        Intent t =  new Intent(getContext(),NotifyActivity.class);
+                        startActivity(t);
+                        break;
+                    case 3:
+                        AlertDialog.Builder shop = new AlertDialog.Builder(getActivity());
+                        shop.setView(R.layout.fragment_shop);
+                        shop.show();
+                        break;
+                    case 6:
+                        AlertDialog.Builder rules = new AlertDialog.Builder(getActivity());
+                        rules.setView(R.layout.fragment_rules);
+                        rules.show();
+                        break;
+                    case 7:
+                        break;
+                    case 8:
+                        Setting item3 = (Setting)settingsAdapter.getItem(position);
+                        Intent t3 =  new Intent(getContext(),HelpActivity.class);
+                        startActivity(t3);
+                        break;
+                    case 10:
+                        Setting item2 = (Setting)settingsAdapter.getItem(position);
+                        Intent t2 =  new Intent(getContext(),AboutActivity.class);
+                        startActivity(t2);
+                        break;
+                }
+
             }
         });
 
@@ -68,7 +103,7 @@ public class SettingsFragment extends Fragment {
 
         settingsList.add(new Setting(0, ""));
 
-        settingsList.add(new Setting(R.drawable.settings_notifications, "Уведомления", NotifyActivity.class));
+        settingsList.add(new Setting(R.drawable.settings_notifications, "Уведомления"));
         settingsList.add(new Setting(R.drawable.settings_shop, "Магазин"));
         settingsList.add(new Setting(R.drawable.settings_nastroyki, "Настройки"));
 
@@ -76,18 +111,10 @@ public class SettingsFragment extends Fragment {
 
         settingsList.add(new Setting(R.drawable.settings_guide, "Правила"));
         settingsList.add(new Setting(R.drawable.settings_confidenc, "Конфиденциальность"));
-        settingsList.add(new Setting(R.drawable.settings_help, "Помощь", HelpActivity.class));
+        settingsList.add(new Setting(R.drawable.settings_help, "Помощь"));
 
         settingsList.add(new Setting(0, ""));
 
-        settingsList.add(new Setting(R.drawable.settings_about, "О нас", AboutActivity.class));
+        settingsList.add(new Setting(R.drawable.settings_about, "О нас"));
     }
-
-    private void findViews() {
-
-
-    }
-
-
-
 }

@@ -1,7 +1,6 @@
 package by.hmarka.alexey.incognito.ui.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,9 +52,21 @@ public class SettingsAdapter extends BaseAdapter {
         if (view == null) {
             if (!setting.getName().equals("")) {
                 view = lInflater.inflate(R.layout.fragment_setting, parent, false);
-            }
-            else
+                view.setTag("1");
+            } else {
                 view = lInflater.inflate(R.layout.fragment_setting_indent, parent, false);
+                view.setTag("2");
+            }
+        }
+        else{
+            if(view.getTag().equals("2")&&!setting.getName().equals("")){
+                view = lInflater.inflate(R.layout.fragment_setting, parent, false);
+                view.setTag("1");
+            }
+            if(view.getTag().equals("1")&&setting.getName().equals("")){
+                view = lInflater.inflate(R.layout.fragment_setting_indent, parent, false);
+                view.setTag("2");
+            }
         }
 
         if (!setting.getName().equals(""))
