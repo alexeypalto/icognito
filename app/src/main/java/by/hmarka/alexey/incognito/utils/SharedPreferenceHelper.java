@@ -16,9 +16,22 @@ public class SharedPreferenceHelper {
     private static final String KEY_LAT = "LAT";
     private static final String KEY_LNG = "LNG";
     private static final String KEY_ACCESS_TYPE = "ACCESSTYPE";
+    private static final String KEY_LANGUAGE = "LANGUAGE";
     private static final String KEY_MAX_POST_LENGHT = "POSTLENGHT";
 
     private static SharedPreferences prefs;
+
+    public static void setLanguage(String language) {
+        prefs = PreferenceManager.getDefaultSharedPreferences(IncognitoApplication.getInstance());
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(KEY_LANGUAGE, language);
+        editor.commit();
+    }
+
+    public static String getLanguage() {
+        prefs = PreferenceManager.getDefaultSharedPreferences(IncognitoApplication.getInstance());
+        return prefs.getString(KEY_LANGUAGE, "");
+    }
 
     public static void setImei(String imei) {
         prefs = PreferenceManager.getDefaultSharedPreferences(IncognitoApplication.getInstance());

@@ -17,22 +17,22 @@ public class Helpers {
 
     public RegisterDeviceRequest getRegisterDiveRequest() {
         RegisterDeviceRequest registerDeviceRequest = new RegisterDeviceRequest();
-        registerDeviceRequest.setImei("12345");
-        registerDeviceRequest.setLanguage("ru_RU");
-        registerDeviceRequest.setLocation_lat("2");
-        registerDeviceRequest.setLocation_long("32");
-        registerDeviceRequest.setAccess_type("mobile");
+        registerDeviceRequest.setImei(SharedPreferenceHelper.getImei());
+        registerDeviceRequest.setLanguage(SharedPreferenceHelper.getLanguage());
+        registerDeviceRequest.setLocation_lat(SharedPreferenceHelper.getLocationLattitude());
+        registerDeviceRequest.setLocation_long(SharedPreferenceHelper.getLocationLongitude());
+        registerDeviceRequest.setAccess_type(SharedPreferenceHelper.getAccessType());
         return registerDeviceRequest;
     }
 
     public PostsListRequest getNewPostsListRequest() {
         PostsListRequest postsListRequest = new PostsListRequest();
-        postsListRequest.setImei("12345");
+        postsListRequest.setImei(SharedPreferenceHelper.getImei());
         postsListRequest.setRadius("100000000");
-        postsListRequest.setAccess_type("mobile");
-        postsListRequest.setLanguage("ru_RU");
-        postsListRequest.setLocation_lat("34");
-        postsListRequest.setLocation_long("52");
+        postsListRequest.setAccess_type(SharedPreferenceHelper.getAccessType());
+        postsListRequest.setLanguage(SharedPreferenceHelper.getLanguage());
+        postsListRequest.setLocation_lat(SharedPreferenceHelper.getLocationLattitude());
+        postsListRequest.setLocation_long(SharedPreferenceHelper.getLocationLongitude());
         postsListRequest.setSorting("date");
         postsListRequest.setLastPostId("10");
         postsListRequest.setPostOnPage("10");
@@ -42,12 +42,12 @@ public class Helpers {
 
     public PostsListRequest getPopularPostsRequest() {
         PostsListRequest postsListRequest = new PostsListRequest();
-        postsListRequest.setImei("12345");
+        postsListRequest.setImei(SharedPreferenceHelper.getImei());
         postsListRequest.setRadius("100000000");
-        postsListRequest.setAccess_type("mobile");
-        postsListRequest.setLanguage("ru_RU");
-        postsListRequest.setLocation_lat("34");
-        postsListRequest.setLocation_long("52");
+        postsListRequest.setAccess_type(SharedPreferenceHelper.getAccessType());
+        postsListRequest.setLanguage(SharedPreferenceHelper.getLanguage());
+        postsListRequest.setLocation_lat(SharedPreferenceHelper.getLocationLattitude());
+        postsListRequest.setLocation_long(SharedPreferenceHelper.getLocationLongitude());
         postsListRequest.setSorting("like");
         postsListRequest.setLastPostId("10");
         postsListRequest.setPostOnPage("10");
@@ -57,32 +57,32 @@ public class Helpers {
 
     public ThreadsListRequest getThreadListRequest() {
         ThreadsListRequest threadsListRequest = new ThreadsListRequest();
-        threadsListRequest.setImei("12345");
-        threadsListRequest.setAccess_type("mobile");
-        threadsListRequest.setLanguage("ru_RU");
-        threadsListRequest.setLocation_lat("34");
-        threadsListRequest.setLocation_long("52");
+        threadsListRequest.setImei(SharedPreferenceHelper.getImei());
+        threadsListRequest.setAccess_type(SharedPreferenceHelper.getAccessType());
+        threadsListRequest.setLanguage(SharedPreferenceHelper.getLanguage());
+        threadsListRequest.setLocation_lat(SharedPreferenceHelper.getLocationLattitude());
+        threadsListRequest.setLocation_long(SharedPreferenceHelper.getLocationLongitude());
         return threadsListRequest;
     }
 
     public GetFullPostRequest getPostRequest(String postId) {
         GetFullPostRequest getFullPostRequest = new GetFullPostRequest();
-        getFullPostRequest.setLanguage("ru_RU");
-        getFullPostRequest.setAccess_type("mobile");
+        getFullPostRequest.setLanguage(SharedPreferenceHelper.getLanguage());
+        getFullPostRequest.setAccess_type(SharedPreferenceHelper.getAccessType());
         getFullPostRequest.setPostId(postId);
-        getFullPostRequest.setLocation_lat("34");
-        getFullPostRequest.setLocation_long("52");
-        getFullPostRequest.setImei("12345");
+        getFullPostRequest.setLocation_lat(SharedPreferenceHelper.getLocationLattitude());
+        getFullPostRequest.setLocation_long(SharedPreferenceHelper.getLocationLongitude());
+        getFullPostRequest.setImei(SharedPreferenceHelper.getImei());
         return getFullPostRequest;
     }
 
     public AddPostToFavoriteRequest getAddPostToFavoriteRequest(String postId) {
         AddPostToFavoriteRequest addPostToFavoriteRequest = new AddPostToFavoriteRequest();
-        addPostToFavoriteRequest.setAccess_type("mobile");
-        addPostToFavoriteRequest.setImei("12345");
-        addPostToFavoriteRequest.setLanguage("ru_RU");
-        addPostToFavoriteRequest.setLocation_lat("34");
-        addPostToFavoriteRequest.setLocation_long("52");
+        addPostToFavoriteRequest.setAccess_type(SharedPreferenceHelper.getAccessType());
+        addPostToFavoriteRequest.setImei(SharedPreferenceHelper.getImei());
+        addPostToFavoriteRequest.setLanguage(SharedPreferenceHelper.getLanguage());
+        addPostToFavoriteRequest.setLocation_lat(SharedPreferenceHelper.getLocationLattitude());
+        addPostToFavoriteRequest.setLocation_long(SharedPreferenceHelper.getLocationLongitude());
         addPostToFavoriteRequest.setAdd("1");
         addPostToFavoriteRequest.setPostId(postId);
         return addPostToFavoriteRequest;
@@ -90,11 +90,11 @@ public class Helpers {
 
     public AddPostToFavoriteRequest getRemovePostToFavoriteRequest(String postId) {
         AddPostToFavoriteRequest addPostToFavoriteRequest = new AddPostToFavoriteRequest();
-        addPostToFavoriteRequest.setAccess_type("mobile");
-        addPostToFavoriteRequest.setImei("12345");
-        addPostToFavoriteRequest.setLanguage("ru_RU");
-        addPostToFavoriteRequest.setLocation_lat("34");
-        addPostToFavoriteRequest.setLocation_long("52");
+        addPostToFavoriteRequest.setAccess_type(SharedPreferenceHelper.getAccessType());
+        addPostToFavoriteRequest.setImei(SharedPreferenceHelper.getImei());
+        addPostToFavoriteRequest.setLanguage(SharedPreferenceHelper.getLanguage());
+        addPostToFavoriteRequest.setLocation_lat(SharedPreferenceHelper.getLocationLattitude());
+        addPostToFavoriteRequest.setLocation_long(SharedPreferenceHelper.getLocationLongitude());
         addPostToFavoriteRequest.setAdd("-1");
         addPostToFavoriteRequest.setPostId(postId);
         return addPostToFavoriteRequest;
