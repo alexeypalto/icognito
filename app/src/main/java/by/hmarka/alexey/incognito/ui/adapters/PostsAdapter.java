@@ -1,6 +1,7 @@
 package by.hmarka.alexey.incognito.ui.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -108,6 +109,16 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
                IncognitoApplication.bus.post(new ShowCommentsInFavoriteFragment(post.getPost_id()));
             }
         });
+        holder.share.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+                sendIntent.setType("text/plain");
+                context.startActivity(sendIntent);
+            }
+        });
     }
 
     @Override
@@ -127,6 +138,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         private TextView likeCount;
         private ImageView addToFavorites;
         private LinearLayout comments;
+        private ImageView share;
 
         public PostsViewHolder(View v) {
             super(v);
@@ -137,6 +149,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
             shareCount  = (TextView) v.findViewById(R.id.post_share_count);
             likeCount  = (TextView) v.findViewById(R.id.ratingCount);
             addToFavorites = (ImageView) v.findViewById(R.id.post_favorite);
+            share = (ImageView) v.findViewById(R.id.post_share);
             v.setOnClickListener(this);
         }
 

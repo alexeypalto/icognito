@@ -58,7 +58,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     private RelativeLayout commentsLayout;
     private LinearLayout commentsList;
     private ImageView arrowUpComments;
-    private ImageView iconComments;
+    private ImageView iconComments, iconShare;
     private boolean isShowingComments = false;
     private EditText comment;
     private ImageView sendCommentButton;
@@ -94,6 +94,8 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         commentCount = (TextView) findViewById(R.id.postCountComments);
         iconComments = (ImageView) findViewById(R.id.icon_comments);
         iconComments.setOnClickListener(this);
+        iconShare = (ImageView) findViewById(R.id.icon_share);
+        iconShare.setOnClickListener(this);
 
         toolbarSettings(toolbar);
 
@@ -228,8 +230,13 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.icon_comments:
                 IncognitoApplication.bus.post(new ShowCommentsInFavoriteFragment(post.getPost_id()));
-
                 break;
+            case R.id.icon_share:
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
             case R.id.arrow:
                 commentsLayout.setVisibility(View.GONE);
                 commentsList.setVisibility(View.GONE);
