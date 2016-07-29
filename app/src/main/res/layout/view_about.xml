@@ -2,12 +2,14 @@
 <ScrollView android:id="@+id/view_about"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:auto="http://schemas.android.com/apk/res-auto">
 
 <LinearLayout
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -38,11 +40,12 @@
         android:gravity="center"
         android:padding="15dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="160dp"
         android:textSize="16sp"
         android:textColor="@color/black"
         android:text="About text about\n texAbout text about textAbout text about textAbout text about textAbout text about textAbout text about textAbout text about textAbout text about textAbout text about textt"/>
     <RelativeLayout
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="35dp"
         android:layout_marginRight="35dp"
         android:background="@drawable/about_layout_background_social_networks"
@@ -94,7 +97,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:textSize="16sp"
         android:textColor="@color/orange"
