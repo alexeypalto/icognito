@@ -10,7 +10,8 @@
         android:id="@+id/post_image"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@color/md_blue_700"/>
+        android:background="@color/md_blue_700"
+        tools:visibility="visible"/>
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -77,10 +78,12 @@
             android:gravity="center"
             android:text="10"/>
         <ImageView
+            android:id="@+id/icon_comments"
             android:layout_toLeftOf="@+id/postCountComments"
             android:layout_marginRight="5dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@drawable/comment"/>
     </RelativeLayout>
+    <include layout="@layout/fragment_comments" />
 </RelativeLayout>

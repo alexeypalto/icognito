@@ -71,12 +71,17 @@ public class SettingsFragment extends Fragment {
                         shop.setView(R.layout.fragment_shop);
                         shop.show();
                         break;
+                    case 4:
+
                     case 6:
                         AlertDialog.Builder rules = new AlertDialog.Builder(getActivity());
                         rules.setView(R.layout.fragment_rules);
                         rules.show();
                         break;
                     case 7:
+                        AlertDialog.Builder conf = new AlertDialog.Builder(getActivity());
+                        conf.setView(R.layout.fragment_rules);
+                        conf.show();
                         break;
                     case 8:
                         Setting item3 = (Setting)settingsAdapter.getItem(position);
@@ -116,5 +121,6 @@ public class SettingsFragment extends Fragment {
         settingsList.add(new Setting(0, ""));
 
         settingsList.add(new Setting(R.drawable.settings_about, "О нас"));
+        settingsList.add(new Setting(0, ""));
     }
 }
