@@ -1,14 +1,19 @@
 package by.hmarka.alexey.incognito.ui.activities;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.view.View;
+import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 
@@ -40,10 +45,10 @@ public class SplashScreen extends BaseAppCompatActivity {
         setContentView(R.layout.splash_screen);
         SharedPreferenceHelper.setLanguage(Locale.getDefault().getDisplayLanguage());
         SharedPreferenceHelper.setAccessType(getNetworkType());
-        // sendRequest();
+        //sendRequest();
         //   SharedPreferenceHelper.setRadius("100000000");
-        TelephonyManager tm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        SharedPreferenceHelper.setImei(String.valueOf(tm.getDeviceId()));
+//        TelephonyManager tm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+//        SharedPreferenceHelper.setImei(String.valueOf(tm.getDeviceId()));
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -58,7 +63,18 @@ public class SplashScreen extends BaseAppCompatActivity {
     public void onStart() {
         super.onStart();
         IncognitoApplication.bus.register(this);
-        getLocation(Constants.REQUEST_CODE_SPLASH_ACTIVITY_GET_LOCATION);
+        if (ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.READ_PHONE_STATE ) != PackageManager.PERMISSION_GRANTED
+                ||ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+        }
+        else
+        {
+            TelephonyManager tm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+            SharedPreferenceHelper.setImei(String.valueOf(tm.getDeviceId()));
+            getLocation(Constants.REQUEST_CODE_SPLASH_ACTIVITY_GET_LOCATION);
+        }
+
     }
 
     @Override
@@ -87,14 +103,15 @@ public class SplashScreen extends BaseAppCompatActivity {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent mainIntent = new Intent(SplashScreen.this, MainActivity.class);
-                            SplashScreen.this.startActivity(mainIntent);
-                            SplashScreen.this.finish();
-                        }
-                    }, SPLASH_DISPLAY_LENGTH);
+                    Toast.makeText(getApplicationContext(),"fail to register",Toast.LENGTH_LONG).show();
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Intent mainIntent = new Intent(SplashScreen.this, MainActivity.class);
+//                            SplashScreen.this.startActivity(mainIntent);
+//                            SplashScreen.this.finish();
+//                        }
+//                    }, SPLASH_DISPLAY_LENGTH);
                 }
             }
         });
@@ -136,6 +153,23 @@ public class SplashScreen extends BaseAppCompatActivity {
             }
         }
         return network_type;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 0) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                    && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+
+                TelephonyManager tm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+                SharedPreferenceHelper.setImei(String.valueOf(tm.getDeviceId()));
+
+                getLocation(Constants.REQUEST_CODE_SPLASH_ACTIVITY_GET_LOCATION);
+            }
+            else{
+                Toast.makeText(this,"permission not granted",Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
 }

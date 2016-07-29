@@ -25,6 +25,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -103,7 +104,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         commentsRecyclerView.setLayoutManager(linearLayoutManager);
-
+        commentsAdapter = new CommentsAdapter(MainActivity.this,new ArrayList<Comment>());
+        commentsRecyclerView.setAdapter(commentsAdapter);
     }
 
     private void setupViewPager() {
