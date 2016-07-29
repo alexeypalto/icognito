@@ -60,57 +60,60 @@ public class HomeFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setIcon(R.drawable.novoe_active);
         tabLayout.getTabAt(1).setIcon(R.drawable.popular_active);
-        getNewPostsList();
-        getPopularPostsList();
+        //getNewPostsList();
+        //getPopularPostsList();
     }
 
-    private void getNewPostsList() {
-        Call<ResponseBody> call = RestClient.getServiceInstance().getPostsList(helpers.getNewPostsListRequest());
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    String responseString = "";
-                    try {
-                        responseString = response.body().string();
-                        PostsWrapper postsWrapper = new Gson().fromJson(responseString, PostsWrapper.class);
-                        List<Post> posts = postsWrapper.getPosts();
-                        postsFragment.addList((ArrayList<Post>) posts);
-                    } catch (IOException e) {
-                        // TODO handling error
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-            }
-        });
-    }
-    private void getPopularPostsList() {
-        Call<ResponseBody> call = RestClient.getServiceInstance().getPostsList(helpers.getPopularPostsRequest());
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    String responseString = "";
-                    try {
-                        responseString = response.body().string();
-                        PostsWrapper postsWrapper = new Gson().fromJson(responseString, PostsWrapper.class);
-                        List<Post> posts = postsWrapper.getPosts();
-                        popularPostsFragment.addList((ArrayList<Post>) posts);
-                    } catch (IOException e) {
-                        // TODO handling error
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-            }
-        });
-    }
+//    private void getNewPostsList() {
+//        Call<ResponseBody> call = RestClient.getServiceInstance().getPostsList(helpers.getNewPostsListRequest());
+//        call.enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                if (response.isSuccessful()) {
+//                    String responseString = "";
+//                    try {
+//                        responseString = response.body().string();
+//                        PostsWrapper postsWrapper = new Gson().fromJson(responseString, PostsWrapper.class);
+//                        List<Post> posts = postsWrapper.getPosts();
+//                        postsFragment.addList((ArrayList<Post>) posts);
+//                    } catch (IOException e) {
+//                        // TODO handling error
+//                    }
+//                }
+//                postsFragment.stopRefreshing();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                postsFragment.stopRefreshing();
+//            }
+//        });
+//    }
+//    protected void getPopularPostsList() {
+//        Call<ResponseBody> call = RestClient.getServiceInstance().getPostsList(helpers.getPopularPostsRequest());
+//        call.enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                if (response.isSuccessful()) {
+//                    String responseString = "";
+//                    try {
+//                        responseString = response.body().string();
+//                        PostsWrapper postsWrapper = new Gson().fromJson(responseString, PostsWrapper.class);
+//                        List<Post> posts = postsWrapper.getPosts();
+//                        popularPostsFragment.addList((ArrayList<Post>) posts);
+//
+//                    } catch (IOException e) {
+//                        // TODO handling error
+//                    }
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//
+//            }
+//        });
+//    }
 
 }
