@@ -13,17 +13,9 @@ public class AddPostRequest extends RegisterDeviceRequest {
     @SerializedName("post_text")
     private String postText;
 
-    public AddPostRequest(){
-        if(BuildConfig.DEBUG) {
-            setImei("12345");
-            setLanguage("ru_RU");
-            setLocation_lat("53.8916095");
-            setLocation_long("27.5528496");
-            setAccess_type("mobile");
-        }
-        else
-            throw new MaterialDialog.NotImplementedException("AddPostRequest parametrs error");
-    }
+    @SerializedName("threadId")
+    private String threadId;
+
 
     public String getPostText() {
         return postText;
@@ -31,5 +23,13 @@ public class AddPostRequest extends RegisterDeviceRequest {
 
     public void setPostText(String postText) {
         this.postText = postText;
+    }
+
+    public String getThreadId() {
+        return threadId;
+    }
+
+    public void setThreadId(String threadId) {
+        this.threadId = threadId;
     }
 }
