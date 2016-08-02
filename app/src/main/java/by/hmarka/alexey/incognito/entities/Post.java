@@ -11,11 +11,20 @@ public class Post {
     private String post_text;
     private String post_timestamp;
     private String post_image_link;
+    private String shares_count;
     private String like_count;
     private String comment_count;
     private String favorite_count;
     private String isFavorite;
     private List<Comment> comments;
+
+    public String getShares_count() {
+        return shares_count;
+    }
+
+    public void setShares_count(String shares_count) {
+        this.shares_count = shares_count;
+    }
 
     public List<Comment> getComments() {
         return comments;

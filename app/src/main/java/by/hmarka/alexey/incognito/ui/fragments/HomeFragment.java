@@ -34,6 +34,9 @@ import retrofit2.Response;
  */
 public class HomeFragment extends Fragment {
 
+    public  interface ChildFragment{
+        void setToFirstPosition();
+    }
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private HomeFragmentPagerAdapter adapter;
@@ -58,6 +61,24 @@ public class HomeFragment extends Fragment {
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager);
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                ChildFragment childFragment = (ChildFragment)adapter.getItem(tab.getPosition());
+                childFragment.setToFirstPosition();
+            }
+        });
         tabLayout.getTabAt(0).setIcon(R.drawable.novoe_active);
         tabLayout.getTabAt(1).setIcon(R.drawable.popular_active);
         //getNewPostsList();
