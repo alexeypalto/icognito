@@ -9,6 +9,11 @@ public class Setting {
 
     private String name;
     private int image;
+    private int id;
+
+    public int getId(){
+        return id;
+    }
 
     public String getName() {
         return name;
@@ -18,17 +23,20 @@ public class Setting {
         return image;
     }
 
-    public Setting (int image, String name, Class<?> intent) {
-        this(image,name);
+    public Setting (int id, int image, String name, Class<?> intent) {
+        this(id, image,name);
+        this.id = id;
         classToStart= intent;
+
     }
-    public Setting (int image, String name) {
+    public Setting (int id, int image, String name) {
+        this.id = id;
         this.name = name;
         this.image = image;
     }
 
-    public Setting (int image, String name, Fragment intent){
-        this(image, name);
+    public Setting (int id, int image, String name, Fragment intent){
+        this(id, image, name);
         fragmentToStart= intent;
     }
 

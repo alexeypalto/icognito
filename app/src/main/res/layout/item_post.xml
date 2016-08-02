@@ -23,8 +23,8 @@
 
                 <ImageView
                     android:id="@+id/content_photo"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
                     android:layout_marginLeft="15dp"
                     android:src="@drawable/photo"
                     tools:visibility="visible" />
@@ -37,7 +37,7 @@
                     android:layout_toRightOf="@+id/content_photo"
                     android:text="10"
                     android:textColor="@color/lightGrey"
-                    android:textSize="15sp"
+                    android:textSize="16sp"
                     tools:visibility="visible" />
 
 
@@ -79,18 +79,18 @@
                 <TextView
                     android:id="@+id/post_date"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="25dp"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
                     android:text="3 д."
                     android:textColor="@color/lightGrey"
-                    android:textSize="15sp" />
+                    android:textSize="16sp" />
 
                 <ImageView
                     android:id="@+id/post_favorite"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="5dp"
@@ -133,8 +133,8 @@
 
                     <ImageView
                         android:id="@+id/post_comments"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
+                        android:layout_width="19dp"
+                        android:layout_height="19dp"
                         android:layout_alignBottom="@+id/post_date"
                         android:layout_centerVertical="true"
                         android:layout_toLeftOf="@+id/post_comments_count"
@@ -150,7 +150,7 @@
                         android:layout_toLeftOf="@+id/post_share"
                         android:text="10"
                         android:textColor="@color/lightGrey"
-                        android:textSize="15sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
             </RelativeLayout>
         </RelativeLayout>

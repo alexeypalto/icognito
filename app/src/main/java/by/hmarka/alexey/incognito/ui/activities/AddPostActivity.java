@@ -15,10 +15,13 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import by.hmarka.alexey.incognito.R;
 import by.hmarka.alexey.incognito.entities.requests.AddPostRequest;
 import by.hmarka.alexey.incognito.rest.RestClient;
 import by.hmarka.alexey.incognito.ui.fragments.AddFragment;
+import by.hmarka.alexey.incognito.utils.Helpers;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,6 +34,8 @@ public class AddPostActivity extends AppCompatActivity implements AddFragment.Ad
     private Toolbar toolbar;
     private Menu menu;
     private TextView titleView;
+
+    Helpers helper = new Helpers();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,9 +69,8 @@ public class AddPostActivity extends AppCompatActivity implements AddFragment.Ad
     }
     @Override
     public void sendPost(String title) {
-        AddPostRequest request = new AddPostRequest();
-        request.setPostText(title);
-        Call<ResponseBody> call = RestClient.serviceInstance.addNewPost(request);
+        AddPostRequest request = helper.getAddPostRequest(title);
+        Call<ResponseBody> call = RestClient.serviceInstance.addNewPost( request);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

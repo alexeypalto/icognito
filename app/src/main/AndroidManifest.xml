@@ -8,10 +8,11 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     /*Camera*/
-    <uses-feature android:name="android.hardware.camera"
-        android:required="true" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera2"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" android:required="true" />
+         android:required="true" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:required="true"/>
 
@@ -88,6 +89,10 @@
         <service
             android:name=".services.RegistrationIntentService"
             android:exported="false">
-        </service>
+        </service><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 </manifest>

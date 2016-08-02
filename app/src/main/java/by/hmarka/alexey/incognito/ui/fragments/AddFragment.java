@@ -66,7 +66,6 @@ import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.Inflater;
 
 
 import by.hmarka.alexey.incognito.R;
@@ -213,14 +212,7 @@ public class AddFragment extends Fragment {
     }
 
     private void addMediaDialog(){
-
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            //TODO takePictureButton.setDisabled
-            //takePictureButton.setEnabled(false);
-            ActivityCompat.requestPermissions(getActivity(), new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
-        }
 
         List<HashMap<String,String>> aList = new ArrayList<HashMap<String,String>>();
 
@@ -263,11 +255,17 @@ public class AddFragment extends Fragment {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == 0) {
+        if (requestCode == 1) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
                     && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                //TODO takePictureButton.setEnabled
-                //takePictureButton.setEnabled(true);
+
+                startTakePictureIntent();
+            }
+        }
+        if (requestCode == 2) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                startSelectPictureIntent();
             }
         }
     }
@@ -275,11 +273,34 @@ public class AddFragment extends Fragment {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_IMAGE_SELECT = 2;
     private void dispatchTSelectPictureIntent() {
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+            requestPermissions( new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 2);
+        }
+        else{
+            startSelectPictureIntent();
+        }
+    }
+    private void  startSelectPictureIntent(){
         Intent selectPictureIntent =new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(selectPictureIntent , REQUEST_IMAGE_SELECT);
     }
 
     private void dispatchTakePictureIntent() {
+        boolean cameraPerm = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED;
+        boolean sdPerm = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED;
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                ||ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+                requestPermissions( new String[]{ Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
+        else
+        {
+            startTakePictureIntent();
+        }
+    }
+
+     private void startTakePictureIntent(){
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity( getContext().getPackageManager()) != null) {
             File photoFile = null;
@@ -298,6 +319,7 @@ public class AddFragment extends Fragment {
 
         }
     }
+
     String mCurrentPhotoPath;
     private File createImageFile() throws IOException {
         // Create an image file name

@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -46,6 +47,7 @@ public class FavoritesFragment extends Fragment {
     private Helpers helpers = new Helpers();
     private RelativeLayout commentsLayout;
     private LinearLayout commentsList;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Nullable
     @Override
@@ -57,11 +59,20 @@ public class FavoritesFragment extends Fragment {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_favorite);
         }
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         commentsLayout = (RelativeLayout) view.findViewById(R.id.comments_layout);
         commentsList = (LinearLayout) view.findViewById(R.id.comments_list_layout);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
        // recyclerView.setAdapter(new PostsAdapter());
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Refresh items
+                sendRequest();
+            }
+        });
         sendRequest();
         return view;
     }
@@ -84,13 +95,17 @@ public class FavoritesFragment extends Fragment {
                         // TODO handling error
                     }
                 }
+                if(mSwipeRefreshLayout!=null)
+                    mSwipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                if(mSwipeRefreshLayout!=null)
+                    mSwipeRefreshLayout.setRefreshing(false);
             }
         });
+
     }
 
 }

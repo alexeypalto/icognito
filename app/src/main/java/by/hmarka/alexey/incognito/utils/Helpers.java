@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 
+import by.hmarka.alexey.incognito.entities.requests.AddPostRequest;
 import by.hmarka.alexey.incognito.entities.requests.AddPostToFavoriteRequest;
 import by.hmarka.alexey.incognito.entities.requests.GetCommentListRequest;
 import by.hmarka.alexey.incognito.entities.requests.GetFullPostRequest;
@@ -37,8 +38,8 @@ public class Helpers {
         postsListRequest.setLocation_lat(SharedPreferenceHelper.getLocationLattitude());
         postsListRequest.setLocation_long(SharedPreferenceHelper.getLocationLongitude());
         postsListRequest.setSorting("date");
-        postsListRequest.setLastPostId("10");
-        postsListRequest.setPostOnPage("10");
+        postsListRequest.setLastPostId("");
+        postsListRequest.setPostOnPage("100");
         postsListRequest.setPage("0");
         return postsListRequest;
     }
@@ -52,8 +53,8 @@ public class Helpers {
         postsListRequest.setLocation_lat(SharedPreferenceHelper.getLocationLattitude());
         postsListRequest.setLocation_long(SharedPreferenceHelper.getLocationLongitude());
         postsListRequest.setSorting("like");
-        postsListRequest.setLastPostId("10");
-        postsListRequest.setPostOnPage("10");
+        postsListRequest.setLastPostId("");
+        postsListRequest.setPostOnPage("100");
         postsListRequest.setPage("0");
         return postsListRequest;
     }
@@ -123,9 +124,10 @@ public class Helpers {
         leaveCommentRequest.setLocation_long(SharedPreferenceHelper.getLocationLongitude());
         leaveCommentRequest.setLanguage(SharedPreferenceHelper.getLanguage());
         leaveCommentRequest.setPostId(postId);
-        leaveCommentRequest.setPage("2");
+        leaveCommentRequest.setPage("1");
         return leaveCommentRequest;
     }
+
 
     public ShareRequest getShareRequest(String postId, String note) {
         ShareRequest leaveCommentRequest = new ShareRequest();
@@ -139,6 +141,21 @@ public class Helpers {
         leaveCommentRequest.setShareUrl("null");
         leaveCommentRequest.setShareNote(note);
         return leaveCommentRequest;
+    }
+
+    public AddPostRequest getAddPostRequest(String text){
+        return getAddPostRequest(text,null);
+    }
+    public AddPostRequest getAddPostRequest(String text, String threadId) {
+        AddPostRequest addPostRequest = new AddPostRequest();
+        addPostRequest.setAccess_type(SharedPreferenceHelper.getAccessType());
+        addPostRequest.setImei(SharedPreferenceHelper.getImei());
+        addPostRequest.setLanguage(SharedPreferenceHelper.getLanguage());
+        addPostRequest.setLocation_lat(SharedPreferenceHelper.getLocationLattitude());
+        addPostRequest.setLocation_long(SharedPreferenceHelper.getLocationLongitude());
+        addPostRequest.setPostText(text);
+        addPostRequest.setThreadId(threadId);
+        return addPostRequest;
     }
 
     public float convertDpToPixel(float dp, Context context) {
