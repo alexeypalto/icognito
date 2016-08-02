@@ -256,6 +256,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
                 sendIntent.putExtra(Intent.EXTRA_TEXT, post.getPost_text());
                 sendIntent.setType("text/plain");
                 startActivity(sendIntent);
+                addShare();
             case R.id.arrow:
                 commentsLayout.setVisibility(View.GONE);
                 commentsList.setVisibility(View.GONE);
