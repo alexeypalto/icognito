@@ -53,7 +53,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                switch (position) {
+                switch ((int)id) {
                     case 0:
                         Intent sendIntent = new Intent();
                         sendIntent.setAction(Intent.ACTION_SEND);
@@ -61,34 +61,34 @@ public class SettingsFragment extends Fragment {
                         sendIntent.setType("text/plain");
                         startActivity(sendIntent);
                         break;
-                    case 2:
+                    case 1:
                         Setting item = (Setting)settingsAdapter.getItem(position);
                         Intent t =  new Intent(getContext(),NotifyActivity.class);
                         startActivity(t);
                         break;
-                    case 3:
+                    case 2:
                         AlertDialog.Builder shop = new AlertDialog.Builder(getActivity());
                         shop.setView(R.layout.fragment_shop);
                         shop.show();
                         break;
+                    case 3:
+                        break;
                     case 4:
-
-                    case 6:
                         AlertDialog.Builder rules = new AlertDialog.Builder(getActivity());
                         rules.setView(R.layout.fragment_rules);
                         rules.show();
                         break;
-                    case 7:
+                    case 5:
                         AlertDialog.Builder conf = new AlertDialog.Builder(getActivity());
                         conf.setView(R.layout.fragment_rules);
                         conf.show();
                         break;
-                    case 8:
+                    case 6:
                         Setting item3 = (Setting)settingsAdapter.getItem(position);
                         Intent t3 =  new Intent(getContext(),HelpActivity.class);
                         startActivity(t3);
                         break;
-                    case 10:
+                    case 7:
                         Setting item2 = (Setting)settingsAdapter.getItem(position);
                         Intent t2 =  new Intent(getContext(),AboutActivity.class);
                         startActivity(t2);
@@ -104,23 +104,23 @@ public class SettingsFragment extends Fragment {
     }
 
     private void fillSettingsList() {
-        settingsList.add(new Setting(R.drawable.settings_share, "Расскажи друзьям о приложении"));
+        settingsList.add(new Setting(0, R.drawable.settings_share, "Расскажи друзьям о приложении"));
 
-        settingsList.add(new Setting(0, ""));
+        settingsList.add(new Setting(-1, 0, ""));
 
-        settingsList.add(new Setting(R.drawable.settings_notifications, "Уведомления"));
-        settingsList.add(new Setting(R.drawable.settings_shop, "Магазин"));
-        settingsList.add(new Setting(R.drawable.settings_nastroyki, "Настройки"));
+        //settingsList.add(new Setting(1, R.drawable.settings_notifications, "Уведомления"));
+        settingsList.add(new Setting(2, R.drawable.settings_shop, "Магазин"));
+        settingsList.add(new Setting(3, R.drawable.settings_nastroyki, "Настройки"));
 
-        settingsList.add(new Setting(0, ""));
+        settingsList.add(new Setting(-1, 0, ""));
 
-        settingsList.add(new Setting(R.drawable.settings_guide, "Правила"));
-        settingsList.add(new Setting(R.drawable.settings_confidenc, "Конфиденциальность"));
-        settingsList.add(new Setting(R.drawable.settings_help, "Помощь"));
+        settingsList.add(new Setting(4, R.drawable.settings_guide, "Правила"));
+        settingsList.add(new Setting(5, R.drawable.settings_confidenc, "Конфиденциальность"));
+        settingsList.add(new Setting(6, R.drawable.settings_help, "Помощь"));
 
-        settingsList.add(new Setting(0, ""));
+        settingsList.add(new Setting(-1, 0, ""));
 
-        settingsList.add(new Setting(R.drawable.settings_about, "О нас"));
-        settingsList.add(new Setting(0, ""));
+        settingsList.add(new Setting(7, R.drawable.settings_about, "О нас"));
+        settingsList.add(new Setting(-1, 0, ""));
     }
 }

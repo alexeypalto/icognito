@@ -41,7 +41,7 @@ public class SettingsAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return objects.get(position).getId();
     }
 
     @Override
