@@ -15,10 +15,10 @@ import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -63,6 +63,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     private TextView commentCount;
     private Post post;
     private Menu menu;
+    private ImageView share;
 
     private RelativeLayout commentsLayout;
     private LinearLayout commentsList;
@@ -77,6 +78,12 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     private GestureDetector mGestureDetector;
 
     private List<Uri> images;
+    private static final int SWIPE_MIN_DISTANCE = 120;
+    private static final int SWIPE_MAX_OFF_PATH = 250;
+    private static final int SWIPE_THRESHOLD_VELOCITY = 100;
+
+    private int position;
+
     private Helpers helpers = new Helpers();
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -140,6 +147,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         postText.setText(post.getPost_text());
         countLike.setText(post.getLike_count());
         commentCount.setText(post.getComment_count());
+        countShare.setText(post.getShares_count());
         if (post.getIsFavorite().equals("1")) {
             menu.findItem(R.id.add_post_to_favorites).setIcon(R.drawable.favorit_active);
         }
@@ -256,6 +264,22 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    private void addShare() {
+        Call<ResponseBody> call = RestClient.getServiceInstance().addShareToPost(helpers.getShareRequest(post.getPost_id(), post.getPost_text()));
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                int count = Integer.parseInt(countShare.getText().toString());
+                count = count++;
+                countShare.setText(String.valueOf(count));
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -265,9 +289,10 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.icon_share:
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+                sendIntent.putExtra(Intent.EXTRA_TEXT, post.getPost_text());
                 sendIntent.setType("text/plain");
                 startActivity(sendIntent);
+                addShare();
             case R.id.arrow:
                 commentsLayout.setVisibility(View.GONE);
                 commentsList.setVisibility(View.GONE);
@@ -306,6 +331,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
+
                     String responseString = "";
                     try {
                         responseString = response.body().string();
@@ -377,53 +403,42 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
                 .into(postImageView);
     }
 
-
-        private static final int SWIPE_MIN_DISTANCE = 120;
-        private static final int SWIPE_MAX_OFF_PATH = 250;
-        private static final int SWIPE_THRESHOLD_VELOCITY = 100;
-
-        private int position;
-
-
-
-
-
-        public void setPositionNext() {
-            position++;
-            if (position > images.size() - 1) {
-                position = 0;
-            }
+    public void setPositionNext() {
+        position++;
+        if (position > images.size() - 1) {
+            position = 0;
         }
+    }
 
-        public void setPositionPrev() {
-            position--;
-            if (position < 0) {
-                position = images.size() - 1;
-            }
+    public void setPositionPrev() {
+        position--;
+        if (position < 0) {
+            position = images.size() - 1;
         }
+    }
 
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            try {
-                if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
-                    return false;
-                // shift left
-                if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
-                        && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                    setPositionNext();
-                    setPostImage(images.get(position));
-                    //shift right
-                } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
-                        && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                    setPositionPrev();
-                    setPostImage(images.get(position));
-                }
-            } catch (Exception e) {
-                // nothing
-                return true;
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        try {
+            if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
+                return false;
+            // shift left
+            if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
+                    && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                setPositionNext();
+                setPostImage(images.get(position));
+                //shift right
+            } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
+                    && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                setPositionPrev();
+                setPostImage(images.get(position));
             }
+        } catch (Exception e) {
+            // nothing
             return true;
         }
+        return true;
+    }
 
         @Override
         public boolean onDown(MotionEvent motionEvent) {

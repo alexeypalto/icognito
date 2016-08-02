@@ -49,6 +49,9 @@ public interface IncognitoRestService {
     @POST("postCommentsList.xml")
     Call<ResponseBody> getListComments(@Body GetCommentListRequest getCommentListRequest);
 
+    @POST("addShare.xml")
+    Call<ResponseBody> addShareToPost(@Body ShareRequest shareRequest);
+
     @POST("addPostImages.xml")
     Call<ResponseBody>  addImages(@Body AddImagesRequest getCommentListRequest);
 

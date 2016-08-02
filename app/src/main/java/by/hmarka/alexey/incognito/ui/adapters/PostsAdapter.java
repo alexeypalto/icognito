@@ -56,6 +56,32 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         holder.likeCount.setText(post.getLike_count());
         holder.shareCount.setText(post.getLike_count());
         holder.commentsCount.setText(post.getComment_count());
+        holder.shares.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, post.getPost_text());
+                sendIntent.setType("text/plain");
+                context.startActivity(sendIntent);
+                Call<ResponseBody> call = RestClient.getServiceInstance().addShareToPost(helpers.getShareRequest(post.getPost_id(), post.getPost_text()));
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            int count = Integer.parseInt(holder.shareCount.getText().toString());
+                            count = count + 1;
+                            holder.shareCount.setText(String.valueOf(count));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
         if (post.getIsFavorite().equals("1")) {
             holder.addToFavorites.setImageResource(R.drawable.favorit_active);
         }
@@ -109,16 +135,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
                IncognitoApplication.bus.post(new ShowCommentsInFavoriteFragment(post.getPost_id()));
             }
         });
-        holder.share.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
-                sendIntent.setType("text/plain");
-                context.startActivity(sendIntent);
-            }
-        });
     }
 
     @Override
@@ -138,18 +154,18 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         private TextView likeCount;
         private ImageView addToFavorites;
         private LinearLayout comments;
-        private ImageView share;
+        private LinearLayout shares;
 
         public PostsViewHolder(View v) {
             super(v);
             context = v.getContext();
+            shares = (LinearLayout) v.findViewById(R.id.post_share);
             comments = (LinearLayout) v.findViewById(R.id.comments_post_layout);
             postText = (TextView) v.findViewById(R.id.postText);
             commentsCount = (TextView) v.findViewById(R.id.post_comments_count);
             shareCount  = (TextView) v.findViewById(R.id.post_share_count);
             likeCount  = (TextView) v.findViewById(R.id.ratingCount);
             addToFavorites = (ImageView) v.findViewById(R.id.post_favorite);
-            share = (ImageView) v.findViewById(R.id.post_share);
             v.setOnClickListener(this);
         }
 
