@@ -35,7 +35,7 @@ import retrofit2.Response;
 /**
  * Created by lashket on 4.7.16.
  */
-public class NewPostsFragment extends Fragment {
+public class NewPostsFragment extends Fragment implements HomeFragment.ChildFragment{
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -103,5 +103,11 @@ public class NewPostsFragment extends Fragment {
                     mSwipeRefreshLayout.setRefreshing(false);
             }
         });
+    }
+
+    @Override
+    public void setToFirstPosition() {
+        if(recyclerView!=null)
+            recyclerView.scrollToPosition(0);
     }
 }

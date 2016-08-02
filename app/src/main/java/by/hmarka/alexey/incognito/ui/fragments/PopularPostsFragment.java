@@ -29,7 +29,7 @@ import retrofit2.Response;
 /**
  * Created by lashket on 4.7.16.
  */
-public class PopularPostsFragment extends Fragment {
+public class PopularPostsFragment extends Fragment implements HomeFragment.ChildFragment{
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -107,5 +107,11 @@ public class PopularPostsFragment extends Fragment {
                     mSwipeRefreshLayout.setRefreshing(false);
             }
         });
+    }
+
+    @Override
+    public void setToFirstPosition() {
+        if(recyclerView!=null)
+            recyclerView.scrollToPosition(0);
     }
 }
