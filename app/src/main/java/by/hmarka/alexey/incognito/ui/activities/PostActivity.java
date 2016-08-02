@@ -4,16 +4,21 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -23,9 +28,11 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import by.hmarka.alexey.incognito.IncognitoApplication;
 import by.hmarka.alexey.incognito.R;
@@ -35,6 +42,7 @@ import by.hmarka.alexey.incognito.entities.Post;
 import by.hmarka.alexey.incognito.events.ShowCommentsInFavoriteFragment;
 import by.hmarka.alexey.incognito.rest.RestClient;
 import by.hmarka.alexey.incognito.ui.adapters.CommentsAdapter;
+import by.hmarka.alexey.incognito.utils.Constants;
 import by.hmarka.alexey.incognito.utils.Helpers;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -44,11 +52,12 @@ import retrofit2.Response;
 /**
  * Created by lashket on 5.7.16.
  */
-public class PostActivity extends AppCompatActivity implements View.OnClickListener {
+public class PostActivity extends AppCompatActivity implements View.OnClickListener,GestureDetector.OnGestureListener {
 
     private Toolbar toolbar;
     private String postId;
     private TextView postText;
+    private ImageView postImageView;
     private TextView countLike;
     private TextView countShare;
     private TextView commentCount;
@@ -65,7 +74,9 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     private String postCommentId;
     private RecyclerView commentsRecyclerView;
     private CommentsAdapter commentsAdapter;
+    private GestureDetector mGestureDetector;
 
+    private List<Uri> images;
     private Helpers helpers = new Helpers();
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -84,15 +95,19 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
+        mGestureDetector = new GestureDetector(this, this);
     }
+
 
     private void findViews() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         postText = (TextView) findViewById(R.id.postText);
+        postImageView = (ImageView) findViewById(R.id.post_image);
         countLike = (TextView) findViewById(R.id.postLikeCount);
         countShare = (TextView) findViewById(R.id.postShareCount);
         commentCount = (TextView) findViewById(R.id.postCountComments);
         iconComments = (ImageView) findViewById(R.id.icon_comments);
+
         iconComments.setOnClickListener(this);
         iconShare = (ImageView) findViewById(R.id.icon_share);
         iconShare.setOnClickListener(this);
@@ -112,6 +127,13 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         commentsRecyclerView.setLayoutManager(linearLayoutManager);
+
+        postImageView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return mGestureDetector.onTouchEvent(motionEvent);
+            }
+        } );
     }
 
     private void setUi() {
@@ -120,6 +142,15 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         commentCount.setText(post.getComment_count());
         if (post.getIsFavorite().equals("1")) {
             menu.findItem(R.id.add_post_to_favorites).setIcon(R.drawable.favorit_active);
+        }
+
+        images = new ArrayList<>();
+        for(String path : post.getPostImages()) {
+            Uri uri = Uri.parse(Constants.BASE_URL + path.substring(1));
+            images.add(uri);
+        }
+        if(images.size()>0){
+            setPostImage(images.get(0));
         }
     }
 
@@ -336,5 +367,87 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     public void onStop() {
         super.onStop();
         IncognitoApplication.bus.unregister(this);
+    }
+
+    public void setPostImage(Uri path) {
+        Picasso.with(this)
+                .load(path)
+                .resize(postImageView.getWidth(), postImageView.getHeight())
+                .centerCrop()
+                .into(postImageView);
+    }
+
+
+        private static final int SWIPE_MIN_DISTANCE = 120;
+        private static final int SWIPE_MAX_OFF_PATH = 250;
+        private static final int SWIPE_THRESHOLD_VELOCITY = 100;
+
+        private int position;
+
+
+
+
+
+        public void setPositionNext() {
+            position++;
+            if (position > images.size() - 1) {
+                position = 0;
+            }
+        }
+
+        public void setPositionPrev() {
+            position--;
+            if (position < 0) {
+                position = images.size() - 1;
+            }
+        }
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            try {
+                if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
+                    return false;
+                // shift left
+                if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
+                        && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                    setPositionNext();
+                    setPostImage(images.get(position));
+                    //shift right
+                } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
+                        && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                    setPositionPrev();
+                    setPostImage(images.get(position));
+                }
+            } catch (Exception e) {
+                // nothing
+                return true;
+            }
+            return true;
+        }
+
+        @Override
+        public boolean onDown(MotionEvent motionEvent) {
+            return true;
+        }
+
+        @Override
+        public void onShowPress(MotionEvent motionEvent) {
+
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent motionEvent) {
+            return false;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+            return false;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent motionEvent) {
+
+
     }
 }

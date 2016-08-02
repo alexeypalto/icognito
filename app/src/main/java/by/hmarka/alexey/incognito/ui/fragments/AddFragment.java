@@ -80,6 +80,7 @@ public class AddFragment extends Fragment {
     public interface AddActivityInterface{
         void setTitle(String title);
         void sendPost(String title);
+        void sendPost(String title,List<Bitmap> imagesPath);
     }
     private AddActivityInterface parent;
 
@@ -150,7 +151,15 @@ public class AddFragment extends Fragment {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                  parent.sendPost(editText.getText().toString());
+
+                List<Bitmap> images = new ArrayList<Bitmap>();
+                for(String path : imagesCollection.keySet()){
+                    Bitmap bitmap = BitmapFactory.decodeFile(path);//, bmOptions);
+                    images.add(bitmap);
+                }
+
+
+                  parent.sendPost(editText.getText().toString(), images);
             }
         });
 
@@ -246,6 +255,7 @@ public class AddFragment extends Fragment {
                                 dispatchTSelectPictureIntent();
                                 break;
                             case 2:
+                                dispatchSelectVideoLink();
                                 break;
                         }
                     }
@@ -298,6 +308,10 @@ public class AddFragment extends Fragment {
         {
             startTakePictureIntent();
         }
+    }
+
+    private void dispatchSelectVideoLink(){
+
     }
 
      private void startTakePictureIntent(){
