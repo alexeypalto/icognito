@@ -1,5 +1,7 @@
 package by.hmarka.alexey.incognito.entities;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -59,12 +61,12 @@ public class Post {
         this.post_timestamp = post_timestamp;
     }
 
-    public String getPost_image_link() {
-        return post_image_link;
+    public List<String>  getPostImages() {
+        return post_images;
     }
 
-    public void setPost_image_link(String post_image_link) {
-        this.post_image_link = post_image_link;
+    public void setPostImages(List<String>  post_images) {
+        this.post_images = post_images;
     }
 
     public String getLike_count() {
@@ -89,5 +91,13 @@ public class Post {
 
     public void setFavorite_count(String favorite_count) {
         this.favorite_count = favorite_count;
+    }
+
+    public String getShares_count() {
+        return shares_count;
+    }
+
+    public void setShares_count(String shares_count) {
+        this.shares_count = shares_count;
     }
 }
