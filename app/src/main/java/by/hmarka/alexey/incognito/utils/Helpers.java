@@ -10,6 +10,7 @@ import by.hmarka.alexey.incognito.entities.requests.GetFullPostRequest;
 import by.hmarka.alexey.incognito.entities.requests.LeaveCommentRequest;
 import by.hmarka.alexey.incognito.entities.requests.PostsListRequest;
 import by.hmarka.alexey.incognito.entities.requests.RegisterDeviceRequest;
+import by.hmarka.alexey.incognito.entities.requests.ShareRequest;
 import by.hmarka.alexey.incognito.entities.requests.ThreadsListRequest;
 
 /**
@@ -123,6 +124,20 @@ public class Helpers {
         leaveCommentRequest.setLanguage(SharedPreferenceHelper.getLanguage());
         leaveCommentRequest.setPostId(postId);
         leaveCommentRequest.setPage("2");
+        return leaveCommentRequest;
+    }
+
+    public ShareRequest getShareRequest(String postId, String note) {
+        ShareRequest leaveCommentRequest = new ShareRequest();
+        leaveCommentRequest.setAccess_type(SharedPreferenceHelper.getAccessType());
+        leaveCommentRequest.setImei(SharedPreferenceHelper.getImei());
+        leaveCommentRequest.setLocation_lat(SharedPreferenceHelper.getLocationLattitude());
+        leaveCommentRequest.setLocation_long(SharedPreferenceHelper.getLocationLongitude());
+        leaveCommentRequest.setLanguage(SharedPreferenceHelper.getLanguage());
+        leaveCommentRequest.setPostId(postId);
+        leaveCommentRequest.setShareType("null");
+        leaveCommentRequest.setShareUrl("null");
+        leaveCommentRequest.setShareNote(note);
         return leaveCommentRequest;
     }
 

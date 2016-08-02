@@ -7,6 +7,7 @@ import by.hmarka.alexey.incognito.entities.requests.GetFullPostRequest;
 import by.hmarka.alexey.incognito.entities.requests.LeaveCommentRequest;
 import by.hmarka.alexey.incognito.entities.requests.PostsListRequest;
 import by.hmarka.alexey.incognito.entities.requests.RegisterDeviceRequest;
+import by.hmarka.alexey.incognito.entities.requests.ShareRequest;
 import by.hmarka.alexey.incognito.entities.requests.ThreadsListRequest;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -55,5 +56,10 @@ public interface IncognitoRestService {
 
     @POST("postCommentsList.xml")
     Call<ResponseBody> getListComments(@Body GetCommentListRequest getCommentListRequest);
+
+    @POST("addShare.xml")
+    Call<ResponseBody> addShareToPost(@Body ShareRequest shareRequest);
+
+
 
 }

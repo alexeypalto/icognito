@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -37,6 +38,7 @@ public class PostActivity extends AppCompatActivity {
     private TextView commentCount;
     private Post post;
     private Menu menu;
+    private ImageView share;
 
     private Helpers helpers = new Helpers();
 
@@ -62,6 +64,7 @@ public class PostActivity extends AppCompatActivity {
         postText.setText(post.getPost_text());
         countLike.setText(post.getLike_count());
         commentCount.setText(post.getComment_count());
+        countShare.setText(post.getShares_count());
         if (post.getIsFavorite().equals("1")) {
             menu.findItem(R.id.add_post_to_favorites).setIcon(R.drawable.favorit_active);
         }
@@ -166,6 +169,26 @@ public class PostActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void addShare() {
+        Call<ResponseBody> call = RestClient.getServiceInstance().addShareToPost(helpers.getShareRequest(post.getPost_id(), post.getPost_text()));
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    int count = Integer.parseInt(countShare.getText().toString());
+                    count = count++;
+                    countShare.setText(String.valueOf(count));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
     }
 
 }
