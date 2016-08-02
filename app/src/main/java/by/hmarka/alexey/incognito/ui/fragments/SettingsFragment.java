@@ -20,6 +20,7 @@ import by.hmarka.alexey.incognito.entities.Setting;
 import by.hmarka.alexey.incognito.ui.activities.AboutActivity;
 import by.hmarka.alexey.incognito.ui.activities.HelpActivity;
 import by.hmarka.alexey.incognito.ui.activities.NotifyActivity;
+import by.hmarka.alexey.incognito.ui.activities.PropertiesActivity;
 import by.hmarka.alexey.incognito.ui.adapters.SettingsAdapter;
 
 /**
@@ -72,7 +73,10 @@ public class SettingsFragment extends Fragment {
                         shop.show();
                         break;
                     case 4:
-
+                        Setting item4 = (Setting)settingsAdapter.getItem(position);
+                        Intent t4 =  new Intent(getContext(), PropertiesActivity.class);
+                        startActivity(t4);
+                        break;
                     case 6:
                         AlertDialog.Builder rules = new AlertDialog.Builder(getActivity());
                         rules.setView(R.layout.fragment_rules);

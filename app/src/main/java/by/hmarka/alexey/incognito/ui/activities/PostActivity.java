@@ -22,7 +22,6 @@ import android.widget.TextView;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
-import com.squareup.otto.Subscribe;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -229,7 +228,8 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.icon_comments:
-                IncognitoApplication.bus.post(new ShowCommentsInFavoriteFragment(post.getPost_id()));
+                showComments(new ShowCommentsInFavoriteFragment(post.getPost_id()));
+
                 break;
             case R.id.icon_share:
                 Intent sendIntent = new Intent();
@@ -248,7 +248,6 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    @Subscribe
     public void showComments(ShowCommentsInFavoriteFragment event) {
         commentsLayout.setVisibility(View.VISIBLE);
         commentsList.animate()
