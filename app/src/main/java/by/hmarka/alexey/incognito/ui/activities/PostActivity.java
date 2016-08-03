@@ -153,9 +153,11 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         images = new ArrayList<>();
-        for(String path : post.getPostImages()) {
-            Uri uri = Uri.parse(Constants.BASE_URL + path.substring(1));
-            images.add(uri);
+        if(post.getPostImages()!=null) {
+            for (String path : post.getPostImages()) {
+                Uri uri = Uri.parse(Constants.BASE_URL + path.substring(1));
+                images.add(uri);
+            }
         }
         if(images.size()>0){
             setPostImage(images.get(0));
