@@ -34,7 +34,7 @@
         android:layout_marginRight="50dp"
         android:text="Eto opisanie yvedomleniya"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="17sp"
         android:maxLines="1"
         android:lines="1"
         />

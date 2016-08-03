@@ -20,6 +20,7 @@ import by.hmarka.alexey.incognito.entities.Setting;
 import by.hmarka.alexey.incognito.ui.activities.AboutActivity;
 import by.hmarka.alexey.incognito.ui.activities.HelpActivity;
 import by.hmarka.alexey.incognito.ui.activities.NotifyActivity;
+import by.hmarka.alexey.incognito.ui.activities.PropertiesActivity;
 import by.hmarka.alexey.incognito.ui.adapters.SettingsAdapter;
 
 /**
@@ -54,6 +55,12 @@ public class SettingsFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 switch ((int)id) {
+
+//                    case 4:
+//                        Setting item4 = (Setting)settingsAdapter.getItem(position);
+//                        Intent t4 =  new Intent(getContext(), PropertiesActivity.class);
+//                        startActivity(t4);
+//                        break;
                     case 0:
                         Intent sendIntent = new Intent();
                         sendIntent.setAction(Intent.ACTION_SEND);
@@ -72,6 +79,9 @@ public class SettingsFragment extends Fragment {
                         shop.show();
                         break;
                     case 3:
+                        Setting properties = (Setting)settingsAdapter.getItem(position);
+                        Intent prop =  new Intent(getContext(), PropertiesActivity.class);
+                        startActivity(prop);
                         break;
                     case 4:
                         AlertDialog.Builder rules = new AlertDialog.Builder(getActivity());
