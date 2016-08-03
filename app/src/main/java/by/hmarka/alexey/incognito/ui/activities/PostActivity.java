@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.gms.appindexing.AppIndex;
@@ -64,6 +65,10 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     private Post post;
     private Menu menu;
     private ImageView share;
+    private ScrollView mainLayout;
+    private LinearLayout likesLayout;
+    private LinearLayout addLike;
+    private LinearLayout removeLike;
 
     private RelativeLayout commentsLayout;
     private LinearLayout commentsList;
@@ -114,6 +119,16 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         countShare = (TextView) findViewById(R.id.postShareCount);
         commentCount = (TextView) findViewById(R.id.postCountComments);
         iconComments = (ImageView) findViewById(R.id.icon_comments);
+        likesLayout = (LinearLayout) findViewById(R.id.likeLayout);
+        addLike = (LinearLayout) findViewById(R.id.plus);
+        removeLike = (LinearLayout) findViewById(R.id.minus);
+        mainLayout = (ScrollView) findViewById(R.id.mainLayout);
+
+        mainLayout.setOnClickListener(this);
+        removeLike.setOnClickListener(this);
+        addLike.setOnClickListener(this);
+        likesLayout.setOnClickListener(this);
+
 
         iconComments.setOnClickListener(this);
         iconShare = (ImageView) findViewById(R.id.icon_share);
@@ -189,6 +204,18 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
                 return true;
             case R.id.send_button:
                 sendComment();
+                return true;
+            case R.id.plus:
+                addLike(countLike, true, postId);
+                return true;
+            case R.id.minus:
+                addLike(countLike, false, postId);
+                return true;
+            case R.id.mainLayout:
+                likesLayout.setVisibility(View.GONE);
+                return true;
+            case R.id.postLikeCount:
+                likesLayout.setVisibility(View.VISIBLE);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -472,7 +499,26 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         public void onLongPress(MotionEvent motionEvent) {
+    }
 
+    private void addLike(final TextView textView, final boolean isLike, String postId) {
+        Call<ResponseBody> call = RestClient.getServiceInstance().addLike(helpers.getAddLikeRequest(isLike, postId));
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    if (isLike) {
+                        textView.setText(String.valueOf(Integer.parseInt(textView.getText().toString()) + 1));
+                    } else {
+                        textView.setText(String.valueOf(Integer.parseInt(textView.getText().toString()) - 1));
+                    }
+                }
+            }
 
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
 }
