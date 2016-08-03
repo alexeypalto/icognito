@@ -43,10 +43,12 @@
         android:id="@+id/footer"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:gravity="center_vertical"
         android:layout_alignParentBottom="true">
         <TextView
             android:id="@+id/postLikeCount"
-            android:padding="6dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/rectangle_background_gray"
@@ -66,8 +68,9 @@
             android:id="@+id/icon_share"
             android:layout_marginRight="5dp"
             android:layout_toLeftOf="@+id/postShareCount"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:layout_centerVertical="true"
             android:src="@drawable/share"/>
         <TextView
             android:id="@+id/postCountComments"
@@ -81,8 +84,9 @@
             android:id="@+id/icon_comments"
             android:layout_toLeftOf="@+id/postCountComments"
             android:layout_marginRight="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:layout_centerVertical="true"
             android:src="@drawable/comment"/>
     </RelativeLayout>
     <include layout="@layout/fragment_comments" />

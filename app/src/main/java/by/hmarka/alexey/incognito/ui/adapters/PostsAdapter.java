@@ -52,6 +52,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
     public void onBindViewHolder(final PostsViewHolder holder, final int position) {
         final Post post;
         post = posts.get(position);
+        String timesatmap = helpers.getDate(post.getPost_timestamp());
+        holder.postDate.setText(timesatmap);
         holder.postText.setText(post.getPost_text());
         holder.likeCount.setText(post.getLike_count());
         holder.shareCount.setText(post.getLike_count());
@@ -137,6 +139,27 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         });
     }
 
+    private void addLike(final TextView textView, final boolean isLike, String postId) {
+        Call<ResponseBody> call = RestClient.getServiceInstance().addLike(helpers.getAddLikeRequest(isLike, postId));
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    if (isLike) {
+                        textView.setText(String.valueOf(Integer.parseInt(textView.getText().toString()) + 1));
+                    } else {
+                        textView.setText(String.valueOf(Integer.parseInt(textView.getText().toString()) - 1));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+
     @Override
     public int getItemCount() {
         if (posts == null) {
@@ -155,6 +178,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         private ImageView addToFavorites;
         private LinearLayout comments;
         private LinearLayout shares;
+        private TextView postDate;
 
         public PostsViewHolder(View v) {
             super(v);
@@ -166,6 +190,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
             shareCount  = (TextView) v.findViewById(R.id.post_share_count);
             likeCount  = (TextView) v.findViewById(R.id.ratingCount);
             addToFavorites = (ImageView) v.findViewById(R.id.post_favorite);
+            postDate = (TextView) v.findViewById(R.id.post_date);
             v.setOnClickListener(this);
         }
 

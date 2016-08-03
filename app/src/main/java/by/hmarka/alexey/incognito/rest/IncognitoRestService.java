@@ -1,5 +1,6 @@
 package by.hmarka.alexey.incognito.rest;
 
+import by.hmarka.alexey.incognito.entities.requests.AddLikeRequest;
 import by.hmarka.alexey.incognito.entities.requests.AddPostRequest;
 import by.hmarka.alexey.incognito.entities.requests.AddPostToFavoriteRequest;
 import by.hmarka.alexey.incognito.entities.requests.GetCommentListRequest;
@@ -59,6 +60,10 @@ public interface IncognitoRestService {
 
     @POST("addShare.xml")
     Call<ResponseBody> addShareToPost(@Body ShareRequest shareRequest);
+
+    @POST("addLike.xml")
+    Call<ResponseBody> addLike(@Body AddLikeRequest addLikeRequest);
+
 
 
 
