@@ -8,16 +8,15 @@ public class Properties {
     public int type = 0;
     private String simbols_text, switchCompat, simbols_count;
 
-    public Properties() {
-    }
-
     public Properties(String simbols_text, String simbols_count) {
         this.simbols_text = simbols_text;
         this.simbols_count = simbols_count;
+        type = SECOND_TYPE;
     }
 
     public Properties(String switchCompat) {
         this.switchCompat = switchCompat;
+        type = FIRST_TYPE;
     }
 
     public String getSimbols_text() {
