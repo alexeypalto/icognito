@@ -25,10 +25,10 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.MyViewHold
 
 
     private static final int PENDING_REMOVAL_TIMEOUT = 3000;
-    int lastInsertedIndex; // so we can add some more items for testing purposes
-    boolean undoOn; // is undo on, you can turn it on from the toolbar menu
+    int lastInsertedIndex;
+    boolean undoOn;
 
-    HashMap<String, Runnable> pendingRunnables = new HashMap<>(); // map of items to pending runnables, so we can cancel a removal if need be
+    HashMap<String, Runnable> pendingRunnables = new HashMap<>();
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -52,7 +52,7 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.MyViewHold
     public NotifyAdapter(List<Notify> notifyList) {
         this.notifyList = notifyList;
         itemsPendingRemoval = new ArrayList<>();
-        // let's generate some items
+
         lastInsertedIndex = 15;
     }
 
@@ -76,14 +76,14 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.MyViewHold
 
 
         if (itemsPendingRemoval.contains(notify)) {
-            // we need to show the "undo" state of the row
+
         holder.itemView.setBackgroundColor(Color.RED);
         holder.description.setVisibility(View.GONE);
         holder.undoButton.setVisibility(View.VISIBLE);
         holder.undoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // user wants to undo the removal, let's cancel the pending task
+
                 Runnable pendingRemovalRunnable = pendingRunnables.get(notify);
                 pendingRunnables.remove(notify);
                 if (pendingRemovalRunnable != null)
@@ -94,7 +94,7 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.MyViewHold
             }
         });
     } else {
-        // we need to show the "normal" state
+        //"normal" state
         holder.itemView.setBackgroundColor(Color.WHITE);
         holder.description.setVisibility(View.VISIBLE);
         holder.description.setText(notify.getTitle());
@@ -121,9 +121,9 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.MyViewHold
         final Notify notify = notifyList.get(position);
         if (!itemsPendingRemoval.contains(notify)) {
             itemsPendingRemoval.add(notify);
-            // this will redraw row in "undo" state
+
             notifyItemChanged(position);
-            // let's create, store and post a runnable to remove the item
+
             Runnable pendingRemovalRunnable = new Runnable() {
                 @Override
                 public void run() {

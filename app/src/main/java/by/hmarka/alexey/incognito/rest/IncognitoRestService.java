@@ -10,6 +10,7 @@ import by.hmarka.alexey.incognito.entities.requests.PostsListRequest;
 import by.hmarka.alexey.incognito.entities.requests.RegisterDeviceRequest;
 import by.hmarka.alexey.incognito.entities.requests.ShareRequest;
 import by.hmarka.alexey.incognito.entities.requests.ThreadsListRequest;
+import by.hmarka.alexey.incognito.entities.requests.*;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -64,7 +65,8 @@ public interface IncognitoRestService {
     @POST("addLike.xml")
     Call<ResponseBody> addLike(@Body AddLikeRequest addLikeRequest);
 
-
+    @POST("addPostImages.xml")
+    Call<ResponseBody>  addImages(@Body AddImagesRequest getCommentListRequest);
 
 
 }

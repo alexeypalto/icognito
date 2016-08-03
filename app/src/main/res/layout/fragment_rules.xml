@@ -11,8 +11,9 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="wrap_content"
         android:text="Правила"
+        android:padding="5dp"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="18sp"
@@ -26,12 +27,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
-            android:padding="10dp"
+            android:padding="5dp"
             android:textSize="17sp"
-            android:text="Big shout-out to the guys creating libs for all the stuff Google promotes but doesn’t give us code for just yet, but the fact of the matter is I prefer not to use those libs unless I absolutely have to. The lib you include in your project might be doing a lot more than you need it for and with that comes a burden on your precious method limit count, possibly longer builds, another lib you and your coworkers need to keep in your heads…
-
-The other day I had to implement “swipe to delete” feature. I wasn’t very happy about that since I feel that it’s not very discoverable and that those kind of gesture based actions shouldn’t be the only way to access the feature, but that’s another story. Still remembering how difficult this was couple of years back on a ListView I’ve started googling and soon enough there was a simple SO post with a simple solution and the best part – no 3rd party lib needed! However, it wasn’t to be so easy in the end.
-Big shout-out to the guys creating libs for all the stuff Google promotes but doesn’t give us code for just yet, but the fact of the matter is I prefer not to use those libs unless I absolutely have to. The lib you include in your project might be doing a lot more than you need it for and with that comes a burden on your precious method limit count, possibly longer builds, another lib you and your coworkers need to keep in your heads…
+            android:text="Big shout-out to the guys creating lib promotes but doesn’t give us code for just yet, but the fact of the matter is I prefer not to use those libs unless I absolutely have to. The lib you include in your project might be doing a lot more than you need it for and with that comes a burden on your precious method limit count, possibly longer builds, another lib you and your coworkers need to keep in your heads…
 
 The other day I had to implement “swipe to delete” feature. I wasn’t very happy about that since I feel that it’s not very discoverable and that those kind of gesture based actions shouldn’t be the only way to access the feature, but that’s another story. Still remembering how difficult this was couple of years back on a ListView I’ve started googling and soon enough there was a simple SO post with a simple solution and the best part – no 3rd party lib needed! However, it wasn’t to be so easy in the end."/>
 

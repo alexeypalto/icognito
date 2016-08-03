@@ -2,7 +2,10 @@ package by.hmarka.alexey.incognito.utils;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.util.Base64;
 import android.util.DisplayMetrics;
+
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,6 +13,12 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import by.hmarka.alexey.incognito.entities.requests.AddLikeRequest;
+
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import by.hmarka.alexey.incognito.entities.requests.AddImagesRequest;
 import by.hmarka.alexey.incognito.entities.requests.AddPostRequest;
 import by.hmarka.alexey.incognito.entities.requests.AddPostToFavoriteRequest;
 import by.hmarka.alexey.incognito.entities.requests.GetCommentListRequest;
@@ -178,6 +187,27 @@ public class Helpers {
         }
         addPostToFavoriteRequest.setPostId(postId);
         return addPostToFavoriteRequest;
+    }
+    public AddImagesRequest getAddImagesRequest(String id, List<Bitmap> images) {
+        AddImagesRequest addPostRequest = new AddImagesRequest ();
+        addPostRequest.setAccess_type(SharedPreferenceHelper.getAccessType());
+        addPostRequest.setImei(SharedPreferenceHelper.getImei());
+        addPostRequest.setLanguage(SharedPreferenceHelper.getLanguage());
+        addPostRequest.setLocation_lat(SharedPreferenceHelper.getLocationLattitude());
+        addPostRequest.setLocation_long(SharedPreferenceHelper.getLocationLongitude());
+        addPostRequest.setPostId(id);
+
+        List<String> imagesStringsArray = new ArrayList<>();
+        for (Bitmap bm : images) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+            byte[] byteArrayImage = baos.toByteArray();
+            String encodedImage = Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
+            imagesStringsArray.add(encodedImage);
+        }
+        addPostRequest.setImages(imagesStringsArray);
+        return addPostRequest;
+
     }
 
     public float convertDpToPixel(float dp, Context context) {
