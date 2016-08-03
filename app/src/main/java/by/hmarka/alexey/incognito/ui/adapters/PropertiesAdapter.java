@@ -51,12 +51,13 @@ public class PropertiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemViewType(int position) {
-        if (propertiesList.get(position) == propertiesList.get(0)) {
-            return FIRST_TYPE;
-        } else if (propertiesList.get(position) == propertiesList.get(1)| propertiesList.get(position) == propertiesList.get(2)) {
-            return SECOND_TYPE;
-        }
-        return -1;
+        return propertiesList.get(position).type;
+//        if (propertiesList.get(position) == propertiesList.get(0)) {
+//            return FIRST_TYPE;
+//        } else if (propertiesList.get(position) == propertiesList.get(1)| propertiesList.get(position) == propertiesList.get(2)) {
+//            return SECOND_TYPE;
+//        }
+//        return -1;
     }
 
     @Override

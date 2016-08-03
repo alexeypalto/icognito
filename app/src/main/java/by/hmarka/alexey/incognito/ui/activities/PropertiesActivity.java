@@ -6,6 +6,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,6 @@ public class PropertiesActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
 
     private List<Properties> propertiesList = new ArrayList<>();
-
 
 
     @Override
@@ -47,14 +47,29 @@ public class PropertiesActivity extends AppCompatActivity {
         recyclerView.setAdapter(mAdapter);
 
         getSampleArrayList();
-
     }
 
-    private List<Properties> getSampleArrayList() {
-        /*propertiesList.add();
-        propertiesList.add("switchON");
-        propertiesList.add("switchOFF");*/
-        return propertiesList;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void getSampleArrayList() {
+        Properties propertie = new Properties("symbol text", "500");
+        propertiesList.add(propertie);
+
+        propertie = new Properties("on");
+        propertiesList.add(propertie);
+
+        propertie = new Properties("off");
+        propertiesList.add(propertie);
+
+        mAdapter.notifyDataSetChanged();
     }
 
 }
