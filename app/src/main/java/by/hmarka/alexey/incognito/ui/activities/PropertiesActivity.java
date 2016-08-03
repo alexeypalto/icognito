@@ -1,5 +1,6 @@
 package by.hmarka.alexey.incognito.ui.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -7,6 +8,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,12 +42,20 @@ public class PropertiesActivity extends AppCompatActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewProperties);
 
+
         mLayoutManager = new LinearLayoutManager(PropertiesActivity.this);
         recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(this, recyclerView, new ClickListener() {
+            @Override
+            public void OnClick(View view, int position) {
+
+            }
+        }));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         mAdapter = new PropertiesAdapter(propertiesList);
         recyclerView.setAdapter(mAdapter);
+        //setUpItemTouchHelper();
 
         getSampleArrayList();
     }
@@ -59,6 +70,9 @@ public class PropertiesActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+
+
     private void getSampleArrayList() {
         Properties propertie = new Properties("symbol text", "500");
         propertiesList.add(propertie);
@@ -72,4 +86,29 @@ public class PropertiesActivity extends AppCompatActivity {
         mAdapter.notifyDataSetChanged();
     }
 
+    class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
+
+        public RecyclerTouchListener(Context context, RecyclerView recyclerView, ClickListener clickListener){
+
+        }
+
+
+        @Override
+        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+            return true;
+        }
+
+        @Override
+        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+        }
+
+        @Override
+        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+        }
+    }
+        public static interface ClickListener {
+            public void OnClick(View view, int position);
+        }
 }
