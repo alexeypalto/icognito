@@ -60,14 +60,14 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         holder.commentsCount.setText(post.getComment_count());
         if (post.getPostImages() != null && post.getPostImages().size()>0 ){
             holder.photoIcon.setVisibility(View.VISIBLE);
-            holder.photoCount.setText(post.getPostImages().size());
+            holder.photoCount.setText(String.valueOf(post.getPostImages().size()));
         }else{
             holder.photoIcon.setVisibility(View.GONE);
             holder.photoCount.setText("");
         }
-        if(post.getVideoIds()!=null && post.getPostImages().size()>0 ) {
+        if(post.getVideoIds()!=null && post.getVideoIds().size()>0 ) {
             holder.videoIcon.setVisibility(View.VISIBLE);
-            holder.videoCount.setText(post.getVideoIds().size());
+            holder.videoCount.setText(String.valueOf(post.getVideoIds().size()));
         }else{
             holder.videoIcon.setVisibility(View.GONE);
             holder.videoCount.setText("");

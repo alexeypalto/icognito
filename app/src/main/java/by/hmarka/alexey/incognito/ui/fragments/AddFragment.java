@@ -74,6 +74,7 @@ import java.util.regex.Pattern;
 
 
 import by.hmarka.alexey.incognito.R;
+import by.hmarka.alexey.incognito.utils.Constants;
 import by.hmarka.alexey.incognito.utils.SharedPreferenceHelper;
 
 /**
@@ -164,9 +165,33 @@ public class AddFragment extends Fragment {
 
                 List<Bitmap> images = new ArrayList<Bitmap>();
                 for(String key: imagesCollection.keySet()){
-                    Bitmap bitmap = BitmapFactory.decodeFile(key);
+
+                    BitmapFactory.Options currentOptions = new  BitmapFactory.Options();
+                    currentOptions.inJustDecodeBounds = true;
+                    BitmapFactory.decodeFile(key, currentOptions);
+                    BitmapFactory.Options newOptions = new  BitmapFactory.Options();
+                    newOptions.inPurgeable = true;
+                    newOptions.inSampleSize = Math.max(currentOptions.outHeight/Constants.PICTURE_SIZE, currentOptions.outWidth/Constants.PICTURE_SIZE);
+                    Bitmap bitmap =  BitmapFactory.decodeFile(key,newOptions);
+
+                    int newWidth = bitmap.getWidth();
+                    int newHeight =bitmap.getHeight();
+                    if(newWidth > Constants.PICTURE_SIZE || newHeight > Constants.PICTURE_SIZE){
+                        if (newWidth > newHeight){
+                            newWidth  = Constants.PICTURE_SIZE;
+                            newHeight  = (newWidth * bitmap.getHeight())/ bitmap.getWidth();
+                        }else{
+                            newHeight  = Constants.PICTURE_SIZE;
+                            newWidth  = (bitmap.getWidth() * newHeight ) / bitmap.getHeight();
+                        }
+                    }
+                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true);
+                    bitmap.recycle();
+                    bitmap = scaledBitmap;
+
                     images.add(bitmap);
                 }
+                System.gc();
 
                 List<String> videos = new ArrayList<String>();
                 for(String key: videoCollection.keySet()){
