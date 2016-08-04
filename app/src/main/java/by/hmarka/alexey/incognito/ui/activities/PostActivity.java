@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.gms.appindexing.AppIndex;
@@ -64,6 +65,10 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     private Post post;
     private Menu menu;
     private ImageView share;
+    private ScrollView mainLayout;
+    private LinearLayout likesLayout;
+    private LinearLayout addLike;
+    private LinearLayout removeLike;
 
     private RelativeLayout commentsLayout;
     private LinearLayout commentsList;
@@ -114,6 +119,16 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         countShare = (TextView) findViewById(R.id.postShareCount);
         commentCount = (TextView) findViewById(R.id.postCountComments);
         iconComments = (ImageView) findViewById(R.id.icon_comments);
+        likesLayout = (LinearLayout) findViewById(R.id.likeLayout);
+        addLike = (LinearLayout) findViewById(R.id.plus);
+        removeLike = (LinearLayout) findViewById(R.id.minus);
+        mainLayout = (ScrollView) findViewById(R.id.mainLayout);
+
+        mainLayout.setOnClickListener(this);
+        removeLike.setOnClickListener(this);
+        addLike.setOnClickListener(this);
+        likesLayout.setOnClickListener(this);
+
 
         iconComments.setOnClickListener(this);
         iconShare = (ImageView) findViewById(R.id.icon_share);
@@ -146,7 +161,11 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     private void setUi() {
         postText.setText(post.getPost_text());
         countLike.setText(post.getLike_count());
-        commentCount.setText(post.getComment_count());
+        if (post.getComments() != null) {
+            commentCount.setText(String.valueOf(post.getComments().size()));
+        } else {
+            commentCount.setText("0");
+        }
         countShare.setText(post.getShares_count());
         if (post.getIsFavorite().equals("1")) {
             menu.findItem(R.id.add_post_to_favorites).setIcon(R.drawable.favorit_active);
@@ -182,6 +201,21 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     addPostToFavorites(postId);
                 }
+                return true;
+            case R.id.send_button:
+                sendComment();
+                return true;
+            case R.id.plus:
+                addLike(countLike, true, postId);
+                return true;
+            case R.id.minus:
+                addLike(countLike, false, postId);
+                return true;
+            case R.id.mainLayout:
+                likesLayout.setVisibility(View.GONE);
+                return true;
+            case R.id.postLikeCount:
+                likesLayout.setVisibility(View.VISIBLE);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -272,7 +306,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 int count = Integer.parseInt(countShare.getText().toString());
-                count = count++;
+                count = count + 1;
                 countShare.setText(String.valueOf(count));
             }
 
@@ -286,7 +320,8 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.icon_comments:
-                IncognitoApplication.bus.post(new ShowCommentsInFavoriteFragment(post.getPost_id()));
+                showComments();
+//                IncognitoApplication.bus.post(new ShowCommentsInFavoriteFragment(post.getPost_id()));
                 break;
             case R.id.icon_share:
                 Intent sendIntent = new Intent();
@@ -306,8 +341,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    @Subscribe
-    public void showComments(ShowCommentsInFavoriteFragment event) {
+    private void showComments() {
         commentsLayout.setVisibility(View.VISIBLE);
         commentsList.animate()
                 .translationY(0)
@@ -321,8 +355,9 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
 
                     }
                 });
-        postCommentId = event.getPostId();
-        getCommentsList();
+//        getCommentsList();
+        commentsAdapter = new CommentsAdapter(PostActivity.this, (ArrayList<Comment>) post.getComments());
+        commentsRecyclerView.setAdapter(commentsAdapter);
         isShowingComments = true;
 
     }
@@ -366,7 +401,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void sendComment() {
-        Call<ResponseBody> call = RestClient.getServiceInstance().sendComment(helpers.getLeaveReviewRequest(postCommentId, comment.getText().toString()));
+        Call<ResponseBody> call = RestClient.getServiceInstance().sendComment(helpers.getLeaveReviewRequest(post.getPost_id(), comment.getText().toString()));
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -464,7 +499,26 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         public void onLongPress(MotionEvent motionEvent) {
+    }
 
+    private void addLike(final TextView textView, final boolean isLike, String postId) {
+        Call<ResponseBody> call = RestClient.getServiceInstance().addLike(helpers.getAddLikeRequest(isLike, postId));
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    if (isLike) {
+                        textView.setText(String.valueOf(Integer.parseInt(textView.getText().toString()) + 1));
+                    } else {
+                        textView.setText(String.valueOf(Integer.parseInt(textView.getText().toString()) - 1));
+                    }
+                }
+            }
 
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
 }

@@ -43,7 +43,7 @@ public class SplashScreen extends BaseAppCompatActivity {
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.splash_screen);
-        SharedPreferenceHelper.setLanguage(Locale.getDefault().getDisplayLanguage());
+        SharedPreferenceHelper.setLanguage("ru_RU");
         SharedPreferenceHelper.setAccessType(getNetworkType());
         //sendRequest();
         //   SharedPreferenceHelper.setRadius("100000000");

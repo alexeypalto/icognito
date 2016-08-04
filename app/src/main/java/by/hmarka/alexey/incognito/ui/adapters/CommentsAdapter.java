@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import by.hmarka.alexey.incognito.R;
 import by.hmarka.alexey.incognito.entities.Comment;
+import by.hmarka.alexey.incognito.utils.Helpers;
 
 /**
  * Created by lashket on 27.7.16.
@@ -19,6 +20,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     private Context context;
     private ArrayList<Comment> comments = new ArrayList<>();
+    private Helpers helpers = new Helpers();
 
     public CommentsAdapter(Context context, ArrayList<Comment> comments) {
         this.context = context;
@@ -29,6 +31,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     public void onBindViewHolder(CommentsViewHolder holder, int position) {
         Comment comment = comments.get(position);
         holder.commentText.setText(comment.getComment_text());
+        holder.date.setText(helpers.getDate(comment.getComment_timestamp()));
     }
 
     @Override
@@ -58,10 +61,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     public class CommentsViewHolder extends RecyclerView.ViewHolder{
 
         protected TextView commentText;
+        protected TextView date;
 
         public CommentsViewHolder(View v) {
             super(v);
             commentText = (TextView) v.findViewById(R.id.text);
+            date = (TextView) v.findViewById(R.id.date);
         }
 
     }

@@ -1,5 +1,15 @@
 package by.hmarka.alexey.incognito.rest;
 
+import by.hmarka.alexey.incognito.entities.requests.AddLikeRequest;
+import by.hmarka.alexey.incognito.entities.requests.AddPostRequest;
+import by.hmarka.alexey.incognito.entities.requests.AddPostToFavoriteRequest;
+import by.hmarka.alexey.incognito.entities.requests.GetCommentListRequest;
+import by.hmarka.alexey.incognito.entities.requests.GetFullPostRequest;
+import by.hmarka.alexey.incognito.entities.requests.LeaveCommentRequest;
+import by.hmarka.alexey.incognito.entities.requests.PostsListRequest;
+import by.hmarka.alexey.incognito.entities.requests.RegisterDeviceRequest;
+import by.hmarka.alexey.incognito.entities.requests.ShareRequest;
+import by.hmarka.alexey.incognito.entities.requests.ThreadsListRequest;
 import by.hmarka.alexey.incognito.entities.requests.*;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -51,6 +61,9 @@ public interface IncognitoRestService {
 
     @POST("addShare.xml")
     Call<ResponseBody> addShareToPost(@Body ShareRequest shareRequest);
+
+    @POST("addLike.xml")
+    Call<ResponseBody> addLike(@Body AddLikeRequest addLikeRequest);
 
     @POST("addPostImages.xml")
     Call<ResponseBody>  addImages(@Body AddImagesRequest getCommentListRequest);

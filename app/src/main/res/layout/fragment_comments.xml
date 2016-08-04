@@ -32,46 +32,6 @@
                     android:src="@drawable/arrow_up"
                     android:layout_centerHorizontal="true"/>
 
-                <TextView
-                    android:id="@+id/post_share_count"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:textColor="@color/lightGrey"
-                    android:textSize="16sp"
-                    android:text="10"
-                    android:layout_marginRight="20dp"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true" />
-
-                <ImageView
-                    android:id="@+id/post_share"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="bottom|right"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/selector_post_share"
-                    android:layout_alignBottom="@+id/post_favorite"
-                    android:layout_toLeftOf="@+id/post_share_count" />
-
-                <TextView
-                    android:layout_centerVertical="true"
-                    android:id="@+id/post_comments_count"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:textColor="@color/lightGrey"
-                    android:textSize="16sp"
-                    android:text="10"
-                    android:layout_marginRight="20dp"
-                    android:layout_toLeftOf="@+id/post_share" />
-
-                <ImageView
-                    android:layout_centerVertical="true"
-                    android:id="@+id/post_comments"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/comment"
-                    android:layout_alignBottom="@+id/post_date"
-                    android:layout_toLeftOf="@+id/post_comments_count" />
 
             </RelativeLayout>
 
