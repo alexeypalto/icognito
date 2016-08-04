@@ -3,6 +3,7 @@ package by.hmarka.alexey.incognito.entities.requests;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.annotations.SerializedName;
 
+
 import by.hmarka.alexey.incognito.BuildConfig;
 
 /**
@@ -15,7 +16,6 @@ public class AddPostRequest extends RegisterDeviceRequest {
 
     @SerializedName("threadId")
     private String threadId;
-
 
     public String getPostText() {
         return postText;

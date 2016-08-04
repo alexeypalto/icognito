@@ -85,20 +85,22 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
             }
         });
         if (post.getIsFavorite().equals("1")) {
-            holder.addToFavorites.setImageResource(R.drawable.favorit_active);
+            holder.addToFavorites.setImageLevel(1);
+        }else{
+            holder.addToFavorites.setImageLevel(0);
         }
         holder.addToFavorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (post.getIsFavorite().equals("1")) {
-                    holder.addToFavorites.setImageResource(R.drawable.favorit);
+                    holder.addToFavorites.setImageLevel(0);
                     posts.get(position).setIsFavorite("0");
                     Call<ResponseBody> call = RestClient.getServiceInstance().addPostToFavorite(helpers.getRemovePostToFavoriteRequest(posts.get(position).getPost_id()));
                     call.enqueue(new Callback<ResponseBody>() {
                         @Override
                         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                             if (!response.isSuccessful()) {
-                                holder.addToFavorites.setImageResource(R.drawable.favorit_active);
+                                holder.addToFavorites.setImageLevel(1);
                                 posts.get(position).setIsFavorite("1");
                             }
                         }
@@ -111,14 +113,14 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
                     return;
                 }
                 if (post.getIsFavorite().equals("0")) {
-                    holder.addToFavorites.setImageResource(R.drawable.favorit_active);
+                    holder.addToFavorites.setImageLevel(1);
                     posts.get(position).setIsFavorite("1");
                     Call<ResponseBody> call = RestClient.getServiceInstance().addPostToFavorite(helpers.getAddPostToFavoriteRequest(posts.get(position).getPost_id()));
                     call.enqueue(new Callback<ResponseBody>() {
                         @Override
                         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                             if (!response.isSuccessful()) {
-                                holder.addToFavorites.setImageResource(R.drawable.favorit);
+                                holder.addToFavorites.setImageLevel(0);
                                 posts.get(position).setIsFavorite("0");
                             }
                         }

@@ -159,8 +159,9 @@ public class Helpers {
         return leaveCommentRequest;
     }
 
-    public AddPostRequest getAddPostRequest(String text){
-        return getAddPostRequest(text,null);
+    public AddPostRequest getAddPostRequest(String text ){
+        return getAddPostRequest(text, null);
+
     }
     public AddPostRequest getAddPostRequest(String text, String threadId) {
         AddPostRequest addPostRequest = new AddPostRequest();
@@ -189,7 +190,7 @@ public class Helpers {
         addPostToFavoriteRequest.setPostId(postId);
         return addPostToFavoriteRequest;
     }
-    public AddImagesRequest getAddImagesRequest(String id, List<Bitmap> images) {
+    public AddImagesRequest getAddImagesRequest(String id, List<Bitmap> images, List<String> videoIds) {
         AddImagesRequest addPostRequest = new AddImagesRequest ();
         addPostRequest.setAccess_type(SharedPreferenceHelper.getAccessType());
         addPostRequest.setImei(SharedPreferenceHelper.getImei());
@@ -197,14 +198,16 @@ public class Helpers {
         addPostRequest.setLocation_lat(SharedPreferenceHelper.getLocationLattitude());
         addPostRequest.setLocation_long(SharedPreferenceHelper.getLocationLongitude());
         addPostRequest.setPostId(id);
-
+        addPostRequest.setVideoIds(videoIds);
         List<String> imagesStringsArray = new ArrayList<>();
-        for (Bitmap bm : images) {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
-            byte[] byteArrayImage = baos.toByteArray();
-            String encodedImage = Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
-            imagesStringsArray.add(encodedImage);
+        if(images!=null) {
+            for (Bitmap bm : images) {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+                byte[] byteArrayImage = baos.toByteArray();
+                String encodedImage = Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
+                imagesStringsArray.add(encodedImage);
+            }
         }
         addPostRequest.setImages(imagesStringsArray);
         return addPostRequest;
@@ -232,7 +235,6 @@ public class Helpers {
         String returnString = "";
         SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US);
         try {
-            format.setTimeZone(TimeZone.getTimeZone("GMT+0"));
             Date incomingDate = format.parse(date);
             incomingDateInMillis = incomingDate.getTime();
             differenceOfTime = currentDateInMillis - incomingDateInMillis;

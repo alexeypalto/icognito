@@ -14,6 +14,9 @@ public class AddImagesRequest extends RegisterDeviceRequest {
     @SerializedName("images")
     private List<String>  images;
 
+    @SerializedName("youtubes")
+    private List<String> videoIds;
+
     public String getPostId() {
         return postId;
     }
@@ -28,5 +31,13 @@ public class AddImagesRequest extends RegisterDeviceRequest {
 
     public void setImages(List<String>  threadId) {
         this.images = threadId;
+    }
+
+    public List<String> getVideoIds() {
+        return videoIds;
+    }
+
+    public void setVideoIds(List<String> videoIds) {
+        this.videoIds = videoIds;
     }
 }

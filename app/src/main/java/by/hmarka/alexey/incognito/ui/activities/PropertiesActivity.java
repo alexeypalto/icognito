@@ -39,11 +39,10 @@ public class PropertiesActivity extends AppCompatActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewProperties);
 
+        mAdapter = new PropertiesAdapter(propertiesList);
         mLayoutManager = new LinearLayoutManager(PropertiesActivity.this);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        mAdapter = new PropertiesAdapter(propertiesList);
         recyclerView.setAdapter(mAdapter);
 
         getSampleArrayList();
@@ -71,5 +70,4 @@ public class PropertiesActivity extends AppCompatActivity {
 
         mAdapter.notifyDataSetChanged();
     }
-
 }

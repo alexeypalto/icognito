@@ -20,7 +20,7 @@ import by.hmarka.alexey.incognito.entities.Setting;
 import by.hmarka.alexey.incognito.ui.activities.AboutActivity;
 import by.hmarka.alexey.incognito.ui.activities.HelpActivity;
 import by.hmarka.alexey.incognito.ui.activities.NotifyActivity;
-import by.hmarka.alexey.incognito.ui.activities.PropertiesActivity;
+import by.hmarka.alexey.incognito.ui.activities.PropActivity;
 import by.hmarka.alexey.incognito.ui.adapters.SettingsAdapter;
 
 /**
@@ -80,7 +80,7 @@ public class SettingsFragment extends Fragment {
                         break;
                     case 3:
                         Setting properties = (Setting)settingsAdapter.getItem(position);
-                        Intent prop =  new Intent(getContext(), PropertiesActivity.class);
+                        Intent prop =  new Intent(getContext(), PropActivity.class);
                         startActivity(prop);
                         break;
                     case 4:
