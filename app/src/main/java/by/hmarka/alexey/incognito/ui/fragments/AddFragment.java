@@ -186,7 +186,7 @@ public class AddFragment extends Fragment {
                         }
                     }
                     Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true);
-                    bitmap.recycle();
+                    //bitmap.recycle();
                     bitmap = scaledBitmap;
 
                     images.add(bitmap);

@@ -3,6 +3,7 @@ package by.hmarka.alexey.incognito.ui.activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -90,12 +91,16 @@ public class AddPostActivity extends AppCompatActivity implements AddFragment.Ad
         sendPost(title,null, null);
     }
 
+    private boolean sendPostRequestInProgress = false;
     @Override
     public void sendPost(String title,List<String> videoIds, List<Bitmap> images) {
         AddPostRequest request = helper.getAddPostRequest(title);
 
-        Call<ResponseBody> call = RestClient.serviceInstance.addNewPost(request);
-        call.enqueue(new AddPostCallback(images, videoIds));
+        if(!sendPostRequestInProgress) {
+            sendPostRequestInProgress = true;
+            Call<ResponseBody> call = RestClient.serviceInstance.addNewPost(request);
+            call.enqueue(new AddPostCallback(images, videoIds));
+        }
     }
 
     public class AddPostCallback implements Callback<ResponseBody>{
@@ -111,34 +116,37 @@ public class AddPostActivity extends AppCompatActivity implements AddFragment.Ad
 
         @Override
         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
             if(response.isSuccessful()) {
                 AddPostResponse postResponse = null;
                 String responseString = "";
                 try {
                     responseString = response.body().string();
                     postResponse = new Gson().fromJson(responseString, AddPostResponse.class);
-
                 } catch (IOException e) {
-                // TODO handling error
+                    // TODO handling error
                 }
-                if(postResponse !=null && !postResponse.getPostId().equals(null) )
-                    if( mImages!=null && mImages.size()>0
-                            ||mVideo!=null && mVideo.size()>0){
-                        sendImages(postResponse.getPostId(),mImages, mVideo);
-                }else{
-                    Toast.makeText(getBaseContext(), "ok", Toast.LENGTH_SHORT).show();
-                    onBackPressed();
+                if (postResponse != null && !postResponse.getPostId().equals(null)){
+                    if (mImages != null && mImages.size() > 0 || mVideo != null && mVideo.size() > 0) {
+                        sendImages(postResponse.getPostId(), mImages, mVideo);
+                    } else {
+                        Toast.makeText(getBaseContext(), "ok", Toast.LENGTH_SHORT).show();
+                        if(isRuning)
+                            onBackPressed();
+                        sendPostRequestInProgress = false;
+                    }
+                }else {
+                    sendPostRequestInProgress = false;
                 }
-            }
-            else{
+            }else{
                 Toast.makeText(getBaseContext(), "add post error", Toast.LENGTH_SHORT).show();
+                sendPostRequestInProgress =false;
             }
         }
 
         @Override
         public void onFailure(Call<okhttp3.ResponseBody> call, Throwable t) {
             Toast.makeText(getBaseContext(), "error", Toast.LENGTH_SHORT).show();
+            sendPostRequestInProgress =false;
         }
     }
 
@@ -154,17 +162,33 @@ public class AddPostActivity extends AppCompatActivity implements AddFragment.Ad
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()) {
                     Toast.makeText(getBaseContext(), "ok", Toast.LENGTH_SHORT).show();
-                    onBackPressed();
+                    if(isRuning)
+                        onBackPressed();
                 }
                 else{
                     Toast.makeText(getBaseContext(), "add image error", Toast.LENGTH_SHORT).show();
                 }
+                sendPostRequestInProgress =false;
             }
 
             @Override
             public void onFailure(Call<okhttp3.ResponseBody> call, Throwable t) {
                 Toast.makeText(getBaseContext(), "error", Toast.LENGTH_SHORT).show();
+                sendPostRequestInProgress =false;
             }
         });
     }
+
+    private boolean isRuning;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isRuning = true;
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isRuning = false;
+    }
+
 }
