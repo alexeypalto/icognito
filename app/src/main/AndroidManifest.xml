@@ -55,6 +55,9 @@
             android:name=".ui.activities.PropertiesActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.activities.PropActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.activities.NotifyActivity"
             android:screenOrientation="portrait" />
         <activity
