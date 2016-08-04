@@ -65,7 +65,6 @@ public class HomeFragment extends Fragment {
         });
         tabLayout.getTabAt(0).setIcon(R.drawable.novoe_active);
         tabLayout.getTabAt(1).setIcon(R.drawable.popular_active);
-        //getNewPostsList();
-        //getPopularPostsList();
+
     }
 }

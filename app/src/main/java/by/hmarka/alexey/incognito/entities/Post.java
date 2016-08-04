@@ -14,6 +14,8 @@ public class Post {
     private String post_timestamp;
     @SerializedName("post_picture")
     private List<String> post_images;
+    @SerializedName("post_youtube")
+    private List<String> videoIds;
     private String shares_count;
     private String like_count;
     private String comment_count;
@@ -99,5 +101,13 @@ public class Post {
 
     public void setShares_count(String shares_count) {
         this.shares_count = shares_count;
+    }
+
+    public List<String> getVideoIds() {
+        return videoIds;
+    }
+
+    public void setVideoIds(List<String> videoIds) {
+        this.videoIds = videoIds;
     }
 }

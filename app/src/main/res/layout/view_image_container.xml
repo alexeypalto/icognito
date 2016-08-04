@@ -10,6 +10,14 @@
         android:adjustViewBounds="true"
         android:padding="7dp"/>
     <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/play_img"
+        android:adjustViewBounds="true"
+        android:layout_centerInParent="true"
+        android:src="@drawable/video_player"
+        android:visibility="invisible"/>
+    <ImageView
         android:layout_alignTop="@id/content_img"
         android:layout_alignRight="@id/content_img"
         android:layout_width="15dp"

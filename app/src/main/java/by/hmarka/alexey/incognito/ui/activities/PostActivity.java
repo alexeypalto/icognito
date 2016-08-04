@@ -2,6 +2,7 @@ package by.hmarka.alexey.incognito.ui.activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -59,6 +60,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     private String postId;
     private TextView postText;
     private ImageView postImageView;
+    private ImageView iconPlay;
     private TextView countLike;
     private TextView countShare;
     private TextView commentCount;
@@ -82,7 +84,8 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     private CommentsAdapter commentsAdapter;
     private GestureDetector mGestureDetector;
 
-    private List<Uri> images;
+
+    private List<Media> visualContent;
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 250;
     private static final int SWIPE_THRESHOLD_VELOCITY = 100;
@@ -115,6 +118,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         postText = (TextView) findViewById(R.id.postText);
         postImageView = (ImageView) findViewById(R.id.post_image);
+        iconPlay = (ImageView) findViewById(R.id.play_img);
         countLike = (TextView) findViewById(R.id.postLikeCount);
         countShare = (TextView) findViewById(R.id.postShareCount);
         commentCount = (TextView) findViewById(R.id.postCountComments);
@@ -171,15 +175,23 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
             menu.findItem(R.id.add_post_to_favorites).setIcon(R.drawable.favorit_active);
         }
 
-        images = new ArrayList<>();
+        visualContent = new ArrayList<>();
+        if(post.getVideoIds()!=null) {
+            for (String videoId : post.getVideoIds()) {
+                String imgUrl = "http://img.youtube.com/vi/"+ videoId + "/0.jpg";
+                Uri uri = Uri.parse(imgUrl);
+                visualContent.add(new Media( uri, videoId,Media.VIDEO));
+            }
+        }
         if(post.getPostImages()!=null) {
             for (String path : post.getPostImages()) {
                 Uri uri = Uri.parse(Constants.BASE_URL + path.substring(1));
-                images.add(uri);
+                visualContent.add(new Media( uri,Media.IMAGE));
             }
         }
-        if(images.size()>0){
-            setPostImage(images.get(0));
+
+        if(visualContent.size()>0){
+            setPostImage(visualContent.get(0));
         }
     }
 
@@ -432,17 +444,31 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         IncognitoApplication.bus.unregister(this);
     }
 
-    public void setPostImage(Uri path) {
+    public void setPostImage(final Media media) {
         Picasso.with(this)
-                .load(path)
+                .load(media.path)
                 .resize(postImageView.getWidth(), postImageView.getHeight())
                 .centerCrop()
-                .into(postImageView);
+                .into(postImageView, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+                        if(media.type == Media.VIDEO) {
+                            iconPlay.setVisibility(View.VISIBLE);
+                        }else {
+                            iconPlay.setVisibility(View.INVISIBLE);
+                        }
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
     }
 
     public void setPositionNext() {
         position++;
-        if (position > images.size() - 1) {
+        if (position > visualContent.size() - 1) {
             position = 0;
         }
     }
@@ -450,7 +476,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     public void setPositionPrev() {
         position--;
         if (position < 0) {
-            position = images.size() - 1;
+            position = visualContent.size() - 1;
         }
     }
 
@@ -463,12 +489,12 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
             if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
                     && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                 setPositionNext();
-                setPostImage(images.get(position));
+                setPostImage(visualContent.get(position));
                 //shift right
             } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
                     && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                 setPositionPrev();
-                setPostImage(images.get(position));
+                setPostImage(visualContent.get(position));
             }
         } catch (Exception e) {
             // nothing
@@ -477,28 +503,41 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
-        @Override
-        public boolean onDown(MotionEvent motionEvent) {
-            return true;
+    @Override
+    public boolean onDown(MotionEvent motionEvent) {
+        return true;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent motionEvent) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent motionEvent) {
+        Media currentContent = visualContent.get(position);
+        if(currentContent.type==Media.VIDEO) {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + currentContent.videoId));
+                startActivity(intent);
+            } catch (ActivityNotFoundException ex) {
+                Intent intent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("http://www.youtube.com/watch?v=" + currentContent.videoId));
+                startActivity(intent);
+            }
+        }else{
+            //show full screen image
         }
+        return true;
+    }
 
-        @Override
-        public void onShowPress(MotionEvent motionEvent) {
+    @Override
+    public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+        return false;
+    }
 
-        }
-
-        @Override
-        public boolean onSingleTapUp(MotionEvent motionEvent) {
-            return false;
-        }
-
-        @Override
-        public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
-            return false;
-        }
-
-        @Override
-        public void onLongPress(MotionEvent motionEvent) {
+    @Override
+    public void onLongPress(MotionEvent motionEvent) {
     }
 
     private void addLike(final TextView textView, final boolean isLike, String postId) {
@@ -520,5 +559,23 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
+    }
+    class Media{
+        public Media(Uri path, int type){
+            this.path = path;
+            this.type = type;
+
+        }
+        public Media(Uri path,String videoId, int type){
+            this.path = path;
+            this.type = type;
+            this.videoId= videoId;
+        }
+
+        public static final int IMAGE = 0;
+        public static final int VIDEO = 1;
+        public Uri path;
+        public int type = 0;
+        public String videoId;
     }
 }

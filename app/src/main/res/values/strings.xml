@@ -25,11 +25,11 @@
     <string name="take_picture">Сделать снимок</string>
     <string name="select_photo">Выбрать фото</string>
     <string name="link_to_video">Ссылка на видео</string>
+    <string name="link_to_video_message">Вставьте ссылка на видео с youtube</string>
 
     <string name="hours_short"> ч.</string>
     <string name="days_short"> д.</string>
     <string name="month_short"> м.</string>
-
 
 
 

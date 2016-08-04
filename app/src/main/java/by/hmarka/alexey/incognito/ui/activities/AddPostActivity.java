@@ -1,5 +1,6 @@
 package by.hmarka.alexey.incognito.ui.activities;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -56,6 +57,17 @@ public class AddPostActivity extends AppCompatActivity implements AddFragment.Ad
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("");
 
+//        Intent intent = getIntent();
+//        String action = intent.getAction();
+//        String dataType = intent.getType();
+//        Bundle extras = intent.getExtras();
+//        if (Intent.ACTION_SEND.equals(action)) {
+//            if (extras.containsKey(Intent.EXTRA_TEXT)) {
+//                String imgUri =  intent.getParcelableExtra(Intent.EXTRA_TEXT);
+//                getYoutubeThumbnailUrlFromVideoUrl(imgUri);
+//                // Do job here
+//            }
+//        }
     }
 
     @Override
@@ -75,27 +87,26 @@ public class AddPostActivity extends AppCompatActivity implements AddFragment.Ad
     }
     @Override
     public void sendPost(String title) {
-        sendPost(title, null);
+        sendPost(title,null, null);
     }
 
     @Override
-    public void sendPost(String title, List<Bitmap> images) {
-
-        //sendImages("b4fdd198-6f10-4150-9cde-1a1c3ec538e9",images);
-
+    public void sendPost(String title,List<String> videoIds, List<Bitmap> images) {
         AddPostRequest request = helper.getAddPostRequest(title);
-        Call<ResponseBody> call = RestClient.serviceInstance.addNewPost(request);
-        call.enqueue(new AddPostCallback(images));
-    }
 
+        Call<ResponseBody> call = RestClient.serviceInstance.addNewPost(request);
+        call.enqueue(new AddPostCallback(images, videoIds));
+    }
 
     public class AddPostCallback implements Callback<ResponseBody>{
 
         List<Bitmap> mImages;
+        List<String> mVideo;
 
-        public AddPostCallback(List<Bitmap> images){
+        public AddPostCallback(List<Bitmap> images, List<String> video){
             super();
             mImages = images;
+            mVideo = video;
         }
 
         @Override
@@ -111,8 +122,10 @@ public class AddPostActivity extends AppCompatActivity implements AddFragment.Ad
                 } catch (IOException e) {
                 // TODO handling error
                 }
-                if(postResponse !=null && !postResponse.getPostId().equals(null) && mImages!=null && mImages.size()>0){
-                    sendImages(postResponse.getPostId(),mImages);
+                if(postResponse !=null && !postResponse.getPostId().equals(null) )
+                    if( mImages!=null && mImages.size()>0
+                            ||mVideo!=null && mVideo.size()>0){
+                        sendImages(postResponse.getPostId(),mImages, mVideo);
                 }else{
                     Toast.makeText(getBaseContext(), "ok", Toast.LENGTH_SHORT).show();
                     onBackPressed();
@@ -129,8 +142,8 @@ public class AddPostActivity extends AppCompatActivity implements AddFragment.Ad
         }
     }
 
-    private void sendImages(String postId, List<Bitmap> images){
-        AddImagesRequest request = helper.getAddImagesRequest(postId, images);
+    private void sendImages(String postId, List<Bitmap> images, List<String> video){
+        AddImagesRequest request = helper.getAddImagesRequest(postId, images, video);
 
         //for debug
         String r = new Gson().toJson(request);

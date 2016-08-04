@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -57,6 +58,8 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.SimpleAdapter;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -66,6 +69,8 @@ import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 import by.hmarka.alexey.incognito.R;
@@ -76,11 +81,14 @@ import by.hmarka.alexey.incognito.utils.SharedPreferenceHelper;
  */
 public class AddFragment extends Fragment {
 
-    private static final String KEY_MAX_POST_LENGHT = "POSTLENGHT";
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int REQUEST_IMAGE_SELECT = 2;
+    //private static final String KEY_MAX_POST_LENGHT = "POSTLENGHT";
     public interface AddActivityInterface{
         void setTitle(String title);
         void sendPost(String title);
-        void sendPost(String title,List<Bitmap> imagesPath);
+        void sendPost(String title,List<String> videoIds, List<Bitmap> imagesPath);
+
     }
     private AddActivityInterface parent;
 
@@ -90,6 +98,8 @@ public class AddFragment extends Fragment {
     int mMaxLenght = 500;
 
     HashMap<String,Bitmap> imagesCollection = new HashMap<>() ;
+    HashMap<String,String> videoCollection = new HashMap<>() ;
+    String mCurrentPhotoPath;
 
     @Override
     public void onAttach(Context context) {
@@ -153,13 +163,19 @@ public class AddFragment extends Fragment {
             public void onClick(View view) {
 
                 List<Bitmap> images = new ArrayList<Bitmap>();
-                for(String path : imagesCollection.keySet()){
-                    Bitmap bitmap = BitmapFactory.decodeFile(path);//, bmOptions);
+                for(String key: imagesCollection.keySet()){
+                    Bitmap bitmap = BitmapFactory.decodeFile(key);
                     images.add(bitmap);
                 }
 
+                List<String> videos = new ArrayList<String>();
+                for(String key: videoCollection.keySet()){
+                    //String videoUrl = "http://youtu.be/"+ key + "";
+                    videos.add(key);
+                }
 
-                  parent.sendPost(editText.getText().toString(), images);
+
+                parent.sendPost(editText.getText().toString(), videos, images);
             }
         });
 
@@ -234,10 +250,10 @@ public class AddFragment extends Fragment {
         hm2.put("icon", Integer.toString(R.drawable.choose_photo_popup) );
         aList.add(hm2);
         //video link
-//        HashMap<String, String> hm3 = new HashMap<String,String>();
-//        hm3.put("txt", getResources().getString(R.string.link_to_video));
-//        hm3.put("icon", Integer.toString(R.drawable.link_popup) );
-//        aList.add(hm3);
+        HashMap<String, String> hm3 = new HashMap<String,String>();
+        hm3.put("txt", getResources().getString(R.string.link_to_video));
+        hm3.put("icon", Integer.toString(R.drawable.link_popup) );
+        aList.add(hm3);
 
         String[] from = { "txt","icon" };
         int[] to = { R.id.txt,R.id.icon};
@@ -280,8 +296,7 @@ public class AddFragment extends Fragment {
         }
     }
 
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    static final int REQUEST_IMAGE_SELECT = 2;
+
     private void dispatchTSelectPictureIntent() {
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
@@ -310,11 +325,7 @@ public class AddFragment extends Fragment {
         }
     }
 
-    private void dispatchSelectVideoLink(){
-
-    }
-
-     private void startTakePictureIntent(){
+    private void startTakePictureIntent(){
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity( getContext().getPackageManager()) != null) {
             File photoFile = null;
@@ -334,7 +345,51 @@ public class AddFragment extends Fragment {
         }
     }
 
-    String mCurrentPhotoPath;
+    private void dispatchSelectVideoLink(){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+        final EditText edittext = new EditText(getContext());
+        dialogBuilder.setView(edittext);
+        dialogBuilder.setTitle(R.string.link_to_video_message);
+        //dialogBuilder.setMessage("Enter Your Message");
+
+        dialogBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String editTextValue = edittext.getText().toString();
+                addYoutubeVideoFromVideoUrl(editTextValue);
+            }
+        });
+
+        dialogBuilder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+            }
+        });
+
+        dialogBuilder.show();
+    }
+
+    public void addYoutubeVideoFromVideoUrl(String videoLink) {
+        String videoId = getYoutubeVideoIdFromUrl(videoLink);
+        String imgUrl = "http://img.youtube.com/vi/"+ videoId + "/0.jpg";
+        //String videoUrl = "http://youtu.be/"+videoId + "";
+
+        videoCollection.put(videoId,imgUrl);
+        updateMedia();
+    }
+
+    private static String getYoutubeVideoIdFromUrl(String inUrl) {
+        if (inUrl.toLowerCase().contains("youtu.be")) {
+            return inUrl.substring(inUrl.lastIndexOf("/") + 1);
+        }
+        String pattern = "(?<=watch\\?v=|/videos/|embed\\/)[^#\\&\\?]*";
+        Pattern compiledPattern = Pattern.compile(pattern);
+        Matcher matcher = compiledPattern.matcher(inUrl);
+        if (matcher.find()) {
+            return matcher.group();
+        }
+        return null;
+    }
+
+
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -357,7 +412,7 @@ public class AddFragment extends Fragment {
             switch (requestCode) {
                 case REQUEST_IMAGE_CAPTURE :
                     Bitmap cThumbnail = getScaledPic(mCurrentPhotoPath);
-                    imagesCollection.put(mCurrentPhotoPath,cThumbnail);
+                    imagesCollection.put(mCurrentPhotoPath ,cThumbnail);
                     updateMedia();
                     break;
                 case REQUEST_IMAGE_SELECT:
@@ -369,7 +424,7 @@ public class AddFragment extends Fragment {
                     String picturePath = c.getString(columnIndex);
                     c.close();
                     Bitmap pThumbnail = getScaledPic(picturePath);
-                    imagesCollection.put(picturePath,pThumbnail);
+                    imagesCollection.put(picturePath, pThumbnail);
                     updateMedia();
                     break;
             }
@@ -403,15 +458,78 @@ public class AddFragment extends Fragment {
     }
 
     private void updateMedia() {
-        updatePreview();
+        imageContainer.removeAllViews();
+        updateVideoPreview();
+        updateImagePreview();
         getActivity().invalidateOptionsMenu();
     }
+    private void updateVideoPreview() {
+        List<Map.Entry<String,String>> imageList =  new ArrayList<>(videoCollection.entrySet());
 
-    private void updatePreview() {
-        imageContainer.removeAllViews();
+        Context context = getContext();
+
+        for(int i = 0;i<imageList.size(); i++){
+            Map.Entry set1 = imageList.get(i);
+
+            View imageView1 = getVideoPreview(context, set1.getKey(),(String) set1.getValue());
+
+            LinearLayout container = new LinearLayout(context);
+            container.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            container.setOrientation(LinearLayout.HORIZONTAL);
+            container.setGravity(Gravity.CENTER_HORIZONTAL);
+            container.addView(imageView1);
+
+            imageContainer.addView(container);
+        }
+    }
+    private View getVideoPreview(Context context,Object key, String imageUrl){
+        View container;
+        LinearLayout.LayoutParams params;
+        ImageView imageView;
+        LayoutInflater inflater = getLayoutInflater(null);
+
+        params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.weight =1;
+
+        container = inflater.inflate(R.layout.view_image_container,null,false);
+        container.setLayoutParams(params);
+
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels;
+
+        imageView = (ImageView)container.findViewById(R.id.content_img);
+        Picasso.with(getContext())
+                .load(imageUrl)
+                .resize(Math.round(dpWidth), Math.round(dpWidth))
+                .centerCrop()
+                .into(imageView);
+
+        ImageView play_img = (ImageView)container.findViewById(R.id.play_img);
+        play_img.setVisibility(View.VISIBLE);
+
+        container.setTag(key);
+        container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                videoCollection.remove(view.getTag());
+                updateMedia();
+
+//                try {
+//                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + view.getTag()));
+//                    startActivity(intent);
+//                } catch (ActivityNotFoundException ex) {
+//                    Intent intent = new Intent(Intent.ACTION_VIEW,
+//                            Uri.parse("http://www.youtube.com/watch?v=" + view.getTag()));
+//                    startActivity(intent);
+//                }
+            }
+        });
+        return container;
+    }
+
+
+    private void updateImagePreview() {
         List<Map.Entry<String,Bitmap>> imageList =  new ArrayList<>(imagesCollection.entrySet());
-        //List<Bitmap> imageList = new ArrayList<>(imagesCollection.values());
-
 
         Context context = getContext();
 
@@ -449,7 +567,7 @@ public class AddFragment extends Fragment {
         }
     }
 
-    private View getImagePreview(Context context,Object key, Bitmap binmap){
+    private View getImagePreview(Context context,Object key, Bitmap bitmap){
         View container;
         LinearLayout.LayoutParams params;
         ImageView imageView;
@@ -462,7 +580,7 @@ public class AddFragment extends Fragment {
         container.setLayoutParams(params);
 
         imageView = (ImageView)container.findViewById(R.id.content_img);
-        imageView.setImageBitmap(binmap);
+        imageView.setImageBitmap(bitmap);
 
         container.setTag(key);
         container.setOnClickListener(new View.OnClickListener() {
