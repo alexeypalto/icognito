@@ -2,6 +2,7 @@ package by.hmarka.alexey.incognito.ui.activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,8 +10,10 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +23,9 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -29,6 +35,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.server.converter.StringToIntConverter;
 import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
 
@@ -77,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RecyclerView commentsRecyclerView;
     private CommentsAdapter commentsAdapter;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
+    private boolean isShowingFullScreenComments= false;
+    private static final String DEBUG_TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,9 +147,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.arrow:
-                commentsLayout.setVisibility(View.GONE);
-                commentsList.setVisibility(View.GONE);
-                isShowingComments = false;
+                if (!isShowingFullScreenComments) {
+//                commentsLayout.setVisibility(View.GONE);
+//                commentsList.setVisibility(View.GONE);
+//                isShowingComments = false;
+                  //  commentsList.setY(0);
+                    ValueAnimator arrowRotationAnimator = ValueAnimator.ofFloat(0f, -180f);
+                    arrowRotationAnimator.setDuration(300);
+                    arrowRotationAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                            arrowUpComments.setRotation((Float) valueAnimator.getAnimatedValue());
+                        }
+                    });
+                    arrowRotationAnimator.setInterpolator(new AccelerateInterpolator());
+                    arrowRotationAnimator.start();
+//                    commentsList.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                    isShowingFullScreenComments = true;
+                } else {
+//                    commentsList.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Math.round(helpers.convertDpToPixel(350, this))));
+//                    commentsList.setY(commentsLayout.getHeight() - helpers.convertDpToPixel(350, this));
+                    ValueAnimator arrowRotationAnimator = ValueAnimator.ofFloat(-180f, 0f);
+                    arrowRotationAnimator.setDuration(300);
+                    arrowRotationAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                            arrowUpComments.setRotation((Float) valueAnimator.getAnimatedValue());
+                        }
+                    });
+                    arrowRotationAnimator.setInterpolator(new AccelerateInterpolator());
+                    arrowRotationAnimator.start();
+//                    commentsList.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Math.round(helpers.convertDpToPixel(350, this))));
+//                    commentsList.setY(commentsLayout.getHeight() - helpers.convertDpToPixel(350, this));
+//                   RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//                    commentsLayout.setLayoutParams(layoutParams);
+                    isShowingFullScreenComments = false;
+                }
                 break;
             case R.id.send_button:
                 sendComment();
@@ -225,7 +267,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void showComments(ShowCommentsInFavoriteFragment event) {
         commentsLayout.setVisibility(View.VISIBLE);
         commentsList.animate()
-                .translationY(0)
                 .alpha(1.0f)
                 .setDuration(3000)
                 .setListener(new AnimatorListenerAdapter() {
@@ -325,6 +366,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
+        isShowingFullScreenComments = false;
         if (isShowingComments) {
             commentsLayout.setVisibility(View.GONE);
             commentsList.setVisibility(View.GONE);
