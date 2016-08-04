@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import by.hmarka.alexey.incognito.entities.requests.AddLikeRequest;
@@ -229,7 +230,7 @@ public class Helpers {
         int hourSeconds = 3600;
         int minuteSeconds = 60;
         String returnString = "";
-        SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US);
         try {
             format.setTimeZone(TimeZone.getTimeZone("GMT+0"));
             Date incomingDate = format.parse(date);
