@@ -58,6 +58,27 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         holder.likeCount.setText(post.getLike_count());
         holder.shareCount.setText(post.getLike_count());
         holder.commentsCount.setText(post.getComment_count());
+        if (post.getPostImages() != null && post.getPostImages().size()>0 ){
+            holder.photoIcon.setVisibility(View.VISIBLE);
+            holder.photoCount.setText(post.getPostImages().size());
+        }else{
+            holder.photoIcon.setVisibility(View.GONE);
+            holder.photoCount.setText("");
+        }
+        if(post.getVideoIds()!=null && post.getPostImages().size()>0 ) {
+            holder.videoIcon.setVisibility(View.VISIBLE);
+            holder.videoCount.setText(post.getVideoIds().size());
+        }else{
+            holder.videoIcon.setVisibility(View.GONE);
+            holder.videoCount.setText("");
+        }
+
+        if (post.getIsFavorite().equals("1")) {
+            holder.addToFavorites.setImageLevel(1);
+        }else{
+            holder.addToFavorites.setImageLevel(0);
+        }
+
         holder.shares.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,11 +105,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
                 });
             }
         });
-        if (post.getIsFavorite().equals("1")) {
-            holder.addToFavorites.setImageLevel(1);
-        }else{
-            holder.addToFavorites.setImageLevel(0);
-        }
         holder.addToFavorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -181,6 +197,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         private LinearLayout comments;
         private LinearLayout shares;
         private TextView postDate;
+        private TextView photoCount;
+        private TextView videoCount;
+        private ImageView videoIcon;
+        private ImageView photoIcon;
 
         public PostsViewHolder(View v) {
             super(v);
@@ -193,6 +213,11 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
             likeCount  = (TextView) v.findViewById(R.id.ratingCount);
             addToFavorites = (ImageView) v.findViewById(R.id.post_favorite);
             postDate = (TextView) v.findViewById(R.id.post_date);
+            photoCount = (TextView) v.findViewById(R.id.photo_count);
+            videoCount = (TextView) v.findViewById(R.id.video_count);
+            photoIcon = (ImageView) v.findViewById(R.id.content_photo);
+            videoIcon = (ImageView) v.findViewById(R.id.content_video);
+
             v.setOnClickListener(this);
         }
 
