@@ -31,7 +31,11 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     public void onBindViewHolder(CommentsViewHolder holder, int position) {
         Comment comment = comments.get(position);
         holder.commentText.setText(comment.getComment_text());
-        holder.date.setText(helpers.getDate(comment.getComment_timestamp()));
+        if (!comment.getComment_timestamp().equals(context.getString(R.string.just_now))) {
+            holder.date.setText(helpers.getDate(comment.getComment_timestamp()));
+        } else {
+            holder.date.setText(comment.getComment_timestamp());
+        }
     }
 
     @Override

@@ -425,6 +425,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
                 if (response.isSuccessful()) {
                     Comment commentResponse = new Comment();
                     commentResponse.setComment_text(comment.getText().toString());
+                    commentResponse.setComment_timestamp(getString(R.string.just_now));
                     commentsAdapter.add(commentResponse);
                     comment.setText("");
                 }

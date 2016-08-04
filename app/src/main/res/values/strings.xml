@@ -39,5 +39,6 @@
 
     <string name="pic_type">синяя</string>
     <string name="dialog_rules">dialog_rules</string>
+    <string name="just_now">Только что</string>
 
 </resources>
