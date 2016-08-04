@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -43,6 +44,8 @@ public class SplashScreen extends BaseAppCompatActivity {
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.splash_screen);
+        String language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+        Log.i("Language", language);
         SharedPreferenceHelper.setLanguage("ru_RU");
         SharedPreferenceHelper.setAccessType(getNetworkType());
         //sendRequest();

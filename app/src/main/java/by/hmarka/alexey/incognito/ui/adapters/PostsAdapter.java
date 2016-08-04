@@ -155,6 +155,30 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
                IncognitoApplication.bus.post(new ShowCommentsInFavoriteFragment(post.getPost_id()));
             }
         });
+        holder.likeCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.likesLayout.getVisibility() == View.VISIBLE) {
+                    holder.likesLayout.setVisibility(View.GONE);
+                } else {
+                    holder.likesLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        holder.addLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addLike(holder.likeCount, true, post.getPost_id());
+                holder.likesLayout.setVisibility(View.GONE);
+            }
+        });
+        holder.removeLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addLike(holder.likeCount, false, post.getPost_id());
+                holder.likesLayout.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void addLike(final TextView textView, final boolean isLike, String postId) {
@@ -197,6 +221,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         private LinearLayout comments;
         private LinearLayout shares;
         private TextView postDate;
+        private LinearLayout likesLayout;
+        private LinearLayout addLike;
+        private LinearLayout removeLike;
         private TextView photoCount;
         private TextView videoCount;
         private ImageView videoIcon;
@@ -213,6 +240,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
             likeCount  = (TextView) v.findViewById(R.id.ratingCount);
             addToFavorites = (ImageView) v.findViewById(R.id.post_favorite);
             postDate = (TextView) v.findViewById(R.id.post_date);
+            likesLayout = (LinearLayout) v.findViewById(R.id.likeLayout);
+            addLike = (LinearLayout) v.findViewById(R.id.plus);
+            removeLike = (LinearLayout) v.findViewById(R.id.minus);
             photoCount = (TextView) v.findViewById(R.id.photo_count);
             videoCount = (TextView) v.findViewById(R.id.video_count);
             photoIcon = (ImageView) v.findViewById(R.id.content_photo);

@@ -235,6 +235,7 @@ public class Helpers {
         String returnString = "";
         SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US);
         try {
+            format.setTimeZone(TimeZone.getTimeZone("GMT+0"));
             Date incomingDate = format.parse(date);
             incomingDateInMillis = incomingDate.getTime();
             differenceOfTime = currentDateInMillis - incomingDateInMillis;

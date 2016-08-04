@@ -132,6 +132,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         removeLike.setOnClickListener(this);
         addLike.setOnClickListener(this);
         likesLayout.setOnClickListener(this);
+        countLike.setOnClickListener(this);
 
 
         iconComments.setOnClickListener(this);
@@ -217,18 +218,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.send_button:
                 sendComment();
                 return true;
-            case R.id.plus:
-                addLike(countLike, true, postId);
-                return true;
-            case R.id.minus:
-                addLike(countLike, false, postId);
-                return true;
-            case R.id.mainLayout:
-                likesLayout.setVisibility(View.GONE);
-                return true;
-            case R.id.postLikeCount:
-                likesLayout.setVisibility(View.VISIBLE);
-                return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -350,6 +340,21 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.send_button:
                 sendComment();
                 break;
+            case R.id.plus:
+                addLike(countLike, true, postId);
+                likesLayout.setVisibility(View.GONE);
+                break;
+            case R.id.minus:
+                addLike(countLike, false, postId);
+                likesLayout.setVisibility(View.GONE);
+                break;
+            case R.id.postLikeCount:
+                if (likesLayout.getVisibility() == View.VISIBLE) {
+                    likesLayout.setVisibility(View.GONE);
+                } else {
+                    likesLayout.setVisibility(View.VISIBLE);
+                }
+                break;
         }
     }
 
@@ -420,6 +425,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
                 if (response.isSuccessful()) {
                     Comment commentResponse = new Comment();
                     commentResponse.setComment_text(comment.getText().toString());
+                    commentResponse.setComment_timestamp(getString(R.string.just_now));
                     commentsAdapter.add(commentResponse);
                     comment.setText("");
                 }

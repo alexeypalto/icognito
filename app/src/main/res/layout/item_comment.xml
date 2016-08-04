@@ -1,36 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:gravity="center_vertical"
     android:background="@android:color/white"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:gravity="center_vertical">
+
     <RelativeLayout
         android:id="@+id/top"
-        android:padding="10dp"
         android:layout_width="match_parent"
-        android:layout_height="79dp">
-    <TextView
-        android:id="@+id/text"
-        tools:text="23123123123"
-        android:layout_centerVertical="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="79dp"
+        android:padding="10dp">
 
         <TextView
-        android:id="@+id/date"
-        tools:text="3 д."
-        android:layout_centerVertical="true"
-            android:textColor="@color/orange"
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            tools:text="23123123123\n dsa" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+            android:layout_centerVertical="true"
+            android:textColor="@color/orange"
+            android:textSize="12sp"
+            tools:text="3 д." />
     </RelativeLayout>
+
     <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
         android:layout_below="@+id/top"
         android:layout_centerVertical="true"
-        android:layout_width="match_parent"
-        android:background="#80858585"
-        android:layout_height="1dp" />
+        android:background="#80858585" />
 </RelativeLayout>
