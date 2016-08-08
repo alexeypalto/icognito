@@ -46,6 +46,7 @@ public class ThemesListAdapter extends RecyclerView.Adapter<ThemesListAdapter.Th
     @Override
     public void onBindViewHolder(ThemesListViewHolder holder, int position) {
         holder.textView.setText(threads.get(position).getThreadName());
+        holder.postsCount.setText(threads.get(position).getPostsInThread());
         String url = Constants.BASE_URL + threads.get(position).getThreadImage();
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels;
@@ -65,12 +66,14 @@ public class ThemesListAdapter extends RecyclerView.Adapter<ThemesListAdapter.Th
 
         public ImageView imageView;
         public TextView textView;
+        public TextView postsCount;
 
         public ThemesListViewHolder(View v) {
             super(v);
             v.setOnClickListener(this);
             imageView = (ImageView) v.findViewById(R.id.threadImage);
             textView = (TextView) v.findViewById(R.id.threadName);
+            postsCount = (TextView) v.findViewById(R.id.threadCount);
         }
 
         @Override

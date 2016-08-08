@@ -8,6 +8,15 @@ public class Thread {
     private String threadId;
     private String threadPicture;
     private String threadName;
+    private String postsInThread;
+
+    public String getPostsInThread() {
+        return postsInThread;
+    }
+
+    public void setPostsInThread(String postsInThread) {
+        this.postsInThread = postsInThread;
+    }
 
     public String getThreadId() {
         return threadId;
