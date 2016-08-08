@@ -83,6 +83,8 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     private RecyclerView commentsRecyclerView;
     private CommentsAdapter commentsAdapter;
     private GestureDetector mGestureDetector;
+    private RelativeLayout photosCountLayout;
+    private TextView photosCount;
 
 
     private List<Media> visualContent;
@@ -127,6 +129,8 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         addLike = (LinearLayout) findViewById(R.id.plus);
         removeLike = (LinearLayout) findViewById(R.id.minus);
         mainLayout = (ScrollView) findViewById(R.id.mainLayout);
+        photosCount = (TextView) findViewById(R.id.photo_count);
+        photosCountLayout = (RelativeLayout) findViewById(R.id.photosLayout);
 
         mainLayout.setOnClickListener(this);
         removeLike.setOnClickListener(this);
@@ -192,7 +196,9 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if(visualContent.size()>0){
+            photosCountLayout.setVisibility(View.VISIBLE);
             setPostImage(visualContent.get(0));
+            photosCount.setText(String.valueOf(visualContent.size()));
         }
     }
 
