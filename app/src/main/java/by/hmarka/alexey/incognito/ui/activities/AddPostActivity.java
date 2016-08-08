@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -42,7 +43,7 @@ public class AddPostActivity extends AppCompatActivity implements AddFragment.Ad
     private Toolbar toolbar;
     private Menu menu;
     private TextView titleView;
-
+    private MaterialDialog materialDialog;
     Helpers helper = new Helpers();
 
     @Override
@@ -52,6 +53,7 @@ public class AddPostActivity extends AppCompatActivity implements AddFragment.Ad
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         titleView = (TextView) findViewById(R.id.custom_toolbar_title);
+        materialDialog = helper.getMaterialDialog(this);
         titleView.setVisibility(View.VISIBLE);
 
         setSupportActionBar(toolbar);
@@ -97,6 +99,7 @@ public class AddPostActivity extends AppCompatActivity implements AddFragment.Ad
         AddPostRequest request = helper.getAddPostRequest(title);
 
         if(!sendPostRequestInProgress) {
+            materialDialog.show();
             sendPostRequestInProgress = true;
             Call<ResponseBody> call = RestClient.serviceInstance.addNewPost(request);
             call.enqueue(new AddPostCallback(images, videoIds));
@@ -129,12 +132,14 @@ public class AddPostActivity extends AppCompatActivity implements AddFragment.Ad
                     if (mImages != null && mImages.size() > 0 || mVideo != null && mVideo.size() > 0) {
                         sendImages(postResponse.getPostId(), mImages, mVideo);
                     } else {
+                        materialDialog.dismiss();
                         Toast.makeText(getBaseContext(), "ok", Toast.LENGTH_SHORT).show();
                         if(isRuning)
                             onBackPressed();
                         sendPostRequestInProgress = false;
                     }
                 }else {
+                    materialDialog.dismiss();
                     sendPostRequestInProgress = false;
                 }
             }else{
@@ -161,11 +166,13 @@ public class AddPostActivity extends AppCompatActivity implements AddFragment.Ad
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()) {
+                    materialDialog.dismiss();
                     Toast.makeText(getBaseContext(), "ok", Toast.LENGTH_SHORT).show();
                     if(isRuning)
                         onBackPressed();
                 }
                 else{
+                    materialDialog.dismiss();
                     Toast.makeText(getBaseContext(), "add image error", Toast.LENGTH_SHORT).show();
                 }
                 sendPostRequestInProgress =false;

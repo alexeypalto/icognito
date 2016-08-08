@@ -7,12 +7,15 @@ import android.util.Base64;
 import android.util.DisplayMetrics;
 
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import by.hmarka.alexey.incognito.R;
 import by.hmarka.alexey.incognito.entities.requests.AddLikeRequest;
 
 import java.io.ByteArrayOutputStream;
@@ -265,6 +268,16 @@ public class Helpers {
             return "";
         }
         return returnString;
+    }
+
+    public MaterialDialog getMaterialDialog(Context context) {
+        MaterialDialog materialDialog;
+        materialDialog = new MaterialDialog.Builder(context)
+                .cancelable(false)
+                .content("Пожалуйста подождите...").progress(true, 0)
+                .contentColor(context.getResources().getColor(R.color.black))
+                .widgetColor(context.getResources().getColor(R.color.orange)).build();
+        return materialDialog;
     }
 
 }
