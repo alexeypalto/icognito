@@ -57,6 +57,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -437,10 +438,18 @@ public class AddFragment extends Fragment {
             switch (requestCode) {
                 case REQUEST_IMAGE_CAPTURE :
                     Bitmap cThumbnail = getScaledPic(mCurrentPhotoPath);
+                    if (imagesCollection.size() > 9) {
+                        Toast.makeText(getContext(), "Максимальное количество фото - 10", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     imagesCollection.put(mCurrentPhotoPath ,cThumbnail);
                     updateMedia();
                     break;
                 case REQUEST_IMAGE_SELECT:
+                    if (imagesCollection.size() > 9) {
+                        Toast.makeText(getContext(), "Максимальное количество фото - 10", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     Uri selectedImage = data.getData();
                     String[] filePath = {MediaStore.Images.Media.DATA};
                     Cursor c = getContext().getContentResolver().query(selectedImage, filePath, null, null, null);
