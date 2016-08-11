@@ -66,7 +66,7 @@ public class SettingsFragment extends Fragment {
                         sendIntent.setAction(Intent.ACTION_SEND);
                         sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
                         sendIntent.setType("text/plain");
-                        startActivity(sendIntent);
+                        startActivity(Intent.createChooser(sendIntent, "Отправить в..."));
                         break;
                     case 1:
                         Setting item = (Setting)settingsAdapter.getItem(position);
