@@ -33,6 +33,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.WindowCompat;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -56,7 +57,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -245,17 +248,48 @@ public class AddFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.add_post_menu, menu);
-//        MenuItem item = menu.findItem(R.id.add_fragment_menu_item);
-//        if(item != null){
-//            item.setTitle(String.valueOf( imagesCollection.values().size()));
-//        }
+
+        final MenuItem item_photo = menu.findItem(R.id.add_fragment_menu_item_photo);
+        View itemViewPhoto = MenuItemCompat.getActionView(item_photo);
+        if(itemViewPhoto != null){
+            ((TextView)itemViewPhoto.findViewById(R.id.counter))
+                .setText(String.valueOf(imagesCollection.values().size()));
+            itemViewPhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onOptionsItemSelected(item_photo);
+                }
+            });
+        }
+
+        final MenuItem itemVideo = menu.findItem(R.id.add_fragment_menu_item_video);
+        if(videoCollection.values()!=null && videoCollection.values().size()>0) {
+            itemVideo.setVisible(true);
+            View itemViewVideo = MenuItemCompat.getActionView(itemVideo);
+            if (itemViewVideo != null) {
+                ((TextView) itemViewVideo.findViewById(R.id.counter))
+                        .setText(String.valueOf(videoCollection.values().size()));
+                itemViewVideo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onOptionsItemSelected(itemVideo);
+                    }
+                });
+            }
+        }
+        else
+        {
+            itemVideo.setVisible(false);
+        }
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.add_fragment_menu_item:
+            case R.id.add_fragment_menu_item_video:
+            case R.id.add_fragment_menu_item_photo:
                 addMediaDialog();
                 return true;
         }
@@ -395,6 +429,8 @@ public class AddFragment extends Fragment {
 
     public void addYoutubeVideoFromVideoUrl(String videoLink) {
         String videoId = getYoutubeVideoIdFromUrl(videoLink);
+//        if(videoId==null)
+//            return;
         String imgUrl = "http://img.youtube.com/vi/"+ videoId + "/0.jpg";
         //String videoUrl = "http://youtu.be/"+videoId + "";
 
