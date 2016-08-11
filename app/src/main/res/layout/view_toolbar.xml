@@ -27,7 +27,7 @@
             android:padding="5dp"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:background="@drawable/rectangle_background_gray"
+            android:background="@drawable/rectangle_background_white"
             android:visibility="gone"/>
     </android.support.v7.widget.Toolbar>
 

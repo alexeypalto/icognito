@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/comments_layout"
+<RelativeLayout android:id="@+id/comments_layout"
     android:visibility="gone"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#B3000000">
+    android:background="#B3000000"
+    xmlns:emojicon="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:id="@+id/comments_list_layout"
@@ -58,7 +58,6 @@
                     android:layout_height="25dp"
                     android:src="@drawable/smile"
                     android:layout_marginLeft="5dp"/>
-
                 <EditText
                     android:layout_marginLeft="5dp"
                     android:id="@+id/comment_editor"

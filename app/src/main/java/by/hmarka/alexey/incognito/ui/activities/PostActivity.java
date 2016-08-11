@@ -334,9 +334,9 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.icon_share:
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, post.getPost_text());
+                sendIntent.putExtra(Intent.EXTRA_TEXT, post.getPost_text() + "\n Этот пост отправлен из приложения Inkognito.");
                 sendIntent.setType("text/plain");
-                startActivity(sendIntent);
+                startActivity(Intent.createChooser(sendIntent, "Поделиться в..."));
                 addShare();
             case R.id.arrow:
                 commentsLayout.setVisibility(View.GONE);
