@@ -46,6 +46,8 @@ import by.hmarka.alexey.incognito.rest.RestClient;
 import by.hmarka.alexey.incognito.ui.adapters.CommentsAdapter;
 import by.hmarka.alexey.incognito.utils.Constants;
 import by.hmarka.alexey.incognito.utils.Helpers;
+import hani.momanii.supernova_emoji_library.Actions.EmojIconActions;
+import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -64,6 +66,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     private TextView countLike;
     private TextView countShare;
     private TextView commentCount;
+    private ImageView smile;
     private Post post;
     private Menu menu;
     private ImageView share;
@@ -77,7 +80,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView arrowUpComments;
     private ImageView iconComments, iconShare;
     private boolean isShowingComments = false;
-    private EditText comment;
+    private EmojiconEditText comment;
     private ImageView sendCommentButton;
     private String postCommentId;
     private RecyclerView commentsRecyclerView;
@@ -85,6 +88,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     private GestureDetector mGestureDetector;
     private RelativeLayout photosCountLayout;
     private TextView photosCount;
+    private EmojIconActions  emojIcon;
 
 
     private List<Media> visualContent;
@@ -131,6 +135,8 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         mainLayout = (ScrollView) findViewById(R.id.mainLayout);
         photosCount = (TextView) findViewById(R.id.photo_count);
         photosCountLayout = (RelativeLayout) findViewById(R.id.photosLayout);
+        smile = (ImageView) findViewById(R.id.smile_button) ;
+        smile.setOnClickListener(this);
 
         mainLayout.setOnClickListener(this);
         removeLike.setOnClickListener(this);
@@ -149,12 +155,13 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         commentsLayout.setOnClickListener(this);
 
         commentsList = (LinearLayout) findViewById(R.id.comments_list_layout);
-        comment = (EditText) findViewById(R.id.comment_editor);
+        comment = (EmojiconEditText) findViewById(R.id.comment_editor);
         sendCommentButton = (ImageView) findViewById(R.id.send_button);
         commentsRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         arrowUpComments = (ImageView) findViewById(R.id.arrow);
         sendCommentButton.setOnClickListener(this);
         arrowUpComments.setOnClickListener(this);
+        emojIcon = new EmojIconActions(this,commentsList,comment,smile,"#495C66","#DCE1E2","#E6EBEF");
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         commentsRecyclerView.setLayoutManager(linearLayoutManager);
@@ -360,6 +367,9 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     likesLayout.setVisibility(View.VISIBLE);
                 }
+                break;
+            case R.id.smile_button:
+                emojIcon.ShowEmojIcon();
                 break;
         }
     }

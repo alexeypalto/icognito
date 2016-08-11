@@ -58,7 +58,7 @@
                     android:layout_height="25dp"
                     android:src="@drawable/smile"
                     android:layout_marginLeft="5dp"/>
-                <EditText
+                <hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
                     android:layout_marginLeft="5dp"
                     android:id="@+id/comment_editor"
                     android:layout_width="match_parent"
@@ -68,7 +68,19 @@
                     android:layout_toLeftOf="@+id/send_button"
                     android:layout_toRightOf="@+id/smile_button"
                     android:layout_marginRight="40dp"
-                    android:layout_toEndOf="@+id/smile_button" />
+                    android:layout_toEndOf="@+id/smile_button"
+                    emojicon:emojiconSize="16sp"/>
+                <!--<EditText-->
+                    <!--android:layout_marginLeft="5dp"-->
+                    <!--android:id="@+id/comment_editor"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_alignParentTop="true"-->
+                    <!--android:maxLines="1"-->
+                    <!--android:layout_toLeftOf="@+id/send_button"-->
+                    <!--android:layout_toRightOf="@+id/smile_button"-->
+                    <!--android:layout_marginRight="40dp"-->
+                    <!--android:layout_toEndOf="@+id/smile_button" />-->
 
                 <ImageView
                     android:layout_centerVertical="true"
