@@ -15,11 +15,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Adelson Ventures"
+        android:text="Adelson Ventures \n 2016"
         android:gravity="center"
         android:maxLines="2"
         android:id="@+id/textView"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
