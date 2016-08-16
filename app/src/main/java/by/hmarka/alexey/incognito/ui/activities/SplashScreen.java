@@ -44,6 +44,7 @@ public class SplashScreen extends BaseAppCompatActivity {
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.splash_screen);
+
         String language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
         Log.i("Language", language);
         SharedPreferenceHelper.setLanguage("ru_RU");
@@ -107,14 +108,15 @@ public class SplashScreen extends BaseAppCompatActivity {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 {
                     Toast.makeText(getApplicationContext(),"fail to register",Toast.LENGTH_LONG).show();
-//                    new Handler().postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            Intent mainIntent = new Intent(SplashScreen.this, MainActivity.class);
-//                            SplashScreen.this.startActivity(mainIntent);
-//                            SplashScreen.this.finish();
-//                        }
-//                    }, SPLASH_DISPLAY_LENGTH);
+                    //startResolutionForResult(this, 1000);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent mainIntent = new Intent(SplashScreen.this, MainActivity.class);
+                            SplashScreen.this.startActivity(mainIntent);
+                            SplashScreen.this.finish();
+                        }
+                    }, SPLASH_DISPLAY_LENGTH);
                 }
             }
         });
