@@ -58,6 +58,8 @@ import by.hmarka.alexey.incognito.ui.fragments.NewsFragment;
 import by.hmarka.alexey.incognito.ui.fragments.SettingsFragment;
 import by.hmarka.alexey.incognito.utils.Constants;
 import by.hmarka.alexey.incognito.utils.Helpers;
+import hani.momanii.supernova_emoji_library.Actions.EmojIconActions;
+import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -77,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout commentsList;
     private ImageView arrowUpComments;
     private boolean isShowingComments = false;
-    private EditText comment;
+    private EmojiconEditText comment;
     private ImageView sendCommentButton;
     private String postCommentId;
     private Helpers helpers = new Helpers();
@@ -85,6 +87,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private CommentsAdapter commentsAdapter;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     private boolean isShowingFullScreenComments= false;
+    private ImageView smile;
+    private EmojIconActions  emojIcon;
     private static final String DEBUG_TAG = MainActivity.class.getSimpleName();
 
     @Override
@@ -103,12 +107,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         commentsLayout = (RelativeLayout) findViewById(R.id.comments_layout);
         commentsLayout.setOnClickListener(this);
         commentsList = (LinearLayout) findViewById(R.id.comments_list_layout);
-        comment = (EditText) findViewById(R.id.comment_editor);
+        comment = (EmojiconEditText) findViewById(R.id.comment_editor);
         sendCommentButton = (ImageView) findViewById(R.id.send_button);
         commentsRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         arrowUpComments = (ImageView) findViewById(R.id.arrow);
         sendCommentButton.setOnClickListener(this);
         arrowUpComments.setOnClickListener(this);
+        smile = (ImageView) findViewById(R.id.smile_button) ;
+        smile.setOnClickListener(this);
         setupViewPager();
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -140,12 +146,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         tabLayout.addCentralTab(but);
-
+        emojIcon = new EmojIconActions(this,commentsList,comment,smile,"#495C66","#DCE1E2","#E6EBEF");
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.smile_button:
+                emojIcon.ShowEmojIcon();
+                break;
             case R.id.arrow:
                 if (!isShowingFullScreenComments) {
 //                commentsLayout.setVisibility(View.GONE);

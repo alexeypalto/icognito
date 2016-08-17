@@ -63,8 +63,8 @@ public class HomeFragment extends Fragment {
                 childFragment.setToFirstPosition();
             }
         });
-        tabLayout.getTabAt(0).setIcon(R.drawable.novoe_active);
-        tabLayout.getTabAt(1).setIcon(R.drawable.popular_active);
+        tabLayout.getTabAt(0).setIcon(R.drawable.selector_novoe);
+        tabLayout.getTabAt(1).setIcon(R.drawable.selector_popular);
 
     }
 }

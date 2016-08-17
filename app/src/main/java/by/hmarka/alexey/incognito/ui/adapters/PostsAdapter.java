@@ -84,9 +84,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
             public void onClick(View v) {
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, post.getPost_text());
+                sendIntent.putExtra(Intent.EXTRA_TEXT, post.getPost_text() + "\n Этот пост отправлен из приложения Inkognito.");
                 sendIntent.setType("text/plain");
-                context.startActivity(sendIntent);
+                context.startActivity(Intent.createChooser(sendIntent, "Поделиться в..."));
                 Call<ResponseBody> call = RestClient.getServiceInstance().addShareToPost(helpers.getShareRequest(post.getPost_id(), post.getPost_text()));
                 call.enqueue(new Callback<ResponseBody>() {
                     @Override
