@@ -429,8 +429,8 @@ public class AddFragment extends Fragment {
 
     public void addYoutubeVideoFromVideoUrl(String videoLink) {
         String videoId = getYoutubeVideoIdFromUrl(videoLink);
-//        if(videoId==null)
-//            return;
+        if(videoId==null)
+            return;
         String imgUrl = "http://img.youtube.com/vi/"+ videoId + "/0.jpg";
         //String videoUrl = "http://youtu.be/"+videoId + "";
 
