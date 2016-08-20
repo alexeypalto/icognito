@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/add_fragment_menu_item"
-        android:icon="@drawable/photo"
-        app:showAsAction="ifRoom"
+        android:id="@+id/add_fragment_menu_item_photo"
+        app:actionLayout="@layout/photo_menu_icon"
+        app:showAsAction="always"
         android:title="@string/take_picture">
     </item>
+    <item
+        android:id="@+id/add_fragment_menu_item_video"
+        app:actionLayout="@layout/video_menu_icon"
+        app:showAsAction="always"
+        android:title="@string/take_picture"
+        android:visible="false">
+    </item>
 </menu>
+    <!--android:icon="@drawable/photo"-->
+    <!--android:showAsAction="always|withText"-->
