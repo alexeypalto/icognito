@@ -47,8 +47,8 @@ public class BaseAppCompatActivity extends AppCompatActivity {
             requestCodes.clear();
         } catch (LocationHelper.LocationProvidersNotAvailableException e) {
             builder = new MaterialDialog.Builder(this)
-                    .title("Error")
-                    .content("location permission not granted. starting LocationPermissionNotGrantedActivity")
+                    .title("Ошибка")
+                    .content("Для дальнейшей работы с приложением включите определение местоположения в настройках устройства")
                     .cancelable(false)
                     .positiveText("OK")
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -80,7 +80,7 @@ public class BaseAppCompatActivity extends AppCompatActivity {
                     materialDialog.dismiss();
                     getLocation(-1);
                 } else {
-
+                    materialDialog.show();
                 }
                 break;
         }
